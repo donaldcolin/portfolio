@@ -1,0 +1,138 @@
+.footer-container {
+  padding: 5rem 2rem;
+  background-color: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4rem;
+}
+
+.footer-logo-section {
+  max-width: 500px;
+}
+
+.footer-logo {
+  margin-bottom: 4rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  overflow: hidden;
+}
+
+.footer-logo h2 {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  font-family: 'Times New Roman', serif;
+}
+
+.footer-info {
+  margin-bottom: 3rem;
+}
+
+.footer-location {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-time {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  margin-top: 1rem;
+}
+
+.time-label {
+  color: #777;
+  font-weight: 400;
+}
+
+/* Contact Section Styles */
+.footer-contact-section {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contact-heading {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.contact-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.contact-email-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  margin-bottom: 2.5rem;
+}
+
+.contact-email-link:hover {
+  background-color: #333;
+}
+
+.contact-socials {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-link {
+  color: #777;
+  transition: color 0.2s ease;
+}
+
+.social-link:hover {
+  color: black;
+}
+
+.footer-copyright {
+  margin-top: 5rem;
+  font-size: 0.75rem;
+  color: #777;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 3rem; /* Increased gap */
+  }
+  
+  .footer-contact-section {
+    max-width: none;
+    width: 100%;
+    align-items: center; /* Center align on mobile */
+    text-align: center;
+  }
+
+  .footer-logo {
+    margin-bottom: 2rem;
+  }
+  
+  .footer-copyright {
+    margin-top: 3rem;
+  }
+} 

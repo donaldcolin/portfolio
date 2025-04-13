@@ -1,0 +1,60 @@
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-75%); } /* Adjust based on new repetition (100% / 4 repeats) */
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite; /* Slightly slower animation */
+  will-change: transform;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 35px 35px; /* Slightly larger grid */
+  background-position: center;
+}
+
+.hero-text-container {
+  /* Container needs to hide overflow for the marquee */
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-text {
+  font-family: 'Brush Script MT', cursive; /* Example: Another cursive font */
+  font-weight: normal;
+  letter-spacing: 0.05em; /* Increase spacing slightly for some cursive fonts */
+  color: rgba(0, 0, 0, 0.3); /* Slightly lighter for better contrast with image */
+  line-height: 1; /* Adjusted line height for better centering */
+  user-select: none;
+  text-transform: capitalize;
+}
+
+.profile-image-container {
+  /* Add a subtle inner shadow to lift the image */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.profile-image {
+  /* Remove filters for a cleaner look */
+}
+
+.scroll-down-btn {
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Add transform transition */
+}
+.scroll-down-btn:hover {
+  opacity: 1 !important;
+  transform: scale(1.05); /* Slight scale on hover */
+}
+
+/* Remove the float animation for a more stable look */
+/*
+.float-animation { 
+  animation: float 6s ease-in-out infinite;
+}
+*/ 
