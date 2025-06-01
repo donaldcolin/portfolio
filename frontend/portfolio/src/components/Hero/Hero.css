@@ -110,6 +110,7 @@
   overflow: visible;
   transform-origin: center;
   width: min(45vw, 380px) !important;
+  aspect-ratio: 3/4;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   border-radius: 16px;
 }
@@ -280,23 +281,142 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .profile-image-container {
-    width: 65vw !important;
-    max-width: 280px !important;
+    width: min(85vw, 380px) !important;
+    aspect-ratio: 3/4;
+    margin: 2rem auto;
+    padding: 0 1rem;
   }
   
   .hero-text {
-    font-size: clamp(15vw, 20vw, 25vw);
+    font-size: clamp(12vw, 15vw, 18vw);
+    opacity: 0.4;
   }
-  
+
   .glass-card {
     backdrop-filter: blur(8px);
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Adjust top info cards */
+  .absolute.top-6.left-6 {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .absolute.top-6.right-6 {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  /* Adjust bottom info cards */
+  .absolute.bottom-6.right-6 {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .absolute.bottom-6.left-6 {
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  /* Make social links more compact */
+  .social-link {
+    padding: 0.5rem;
+  }
+
+  /* Adjust scroll button position */
+  .scroll-down-btn {
+    bottom: 1.5rem;
+  }
+
+  /* Reduce text sizes */
+  .text-xs {
+    font-size: 0.7rem;
+  }
+
+  .text-sm {
+    font-size: 0.8rem;
+  }
+
+  /* Adjust spacing between elements */
+  .space-y-3 {
+    gap: 0.5rem;
+  }
+
+  .space-y-2 {
+    gap: 0.4rem;
   }
 }
 
 @media (max-width: 480px) {
   .profile-image-container {
-    width: 75vw !important;
-    max-width: 250px !important;
+    width: min(90vw, 340px) !important;
+    aspect-ratio: 3/4;
+    margin: 2.5rem auto;
+    padding: 0 0.75rem;
+  }
+
+  /* Further reduce text sizes */
+  .text-xs {
+    font-size: 0.65rem;
+  }
+
+  /* Make cards more compact */
+  .glass-card {
+    padding: 0.4rem 0.6rem;
+  }
+
+  /* Adjust icon sizes */
+  .w-4.h-4 {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  /* Reduce spacing */
+  .gap-2 {
+    gap: 0.5rem;
+  }
+
+  /* Adjust scroll button */
+  .scroll-down-btn .glass-card {
+    padding: 0.5rem;
+  }
+
+  .scroll-down-btn .w-8.h-8 {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  /* Hide some decorative elements on very small screens */
+  .floating-element {
+    display: none;
+  }
+
+  /* Adjust status indicator */
+  .status-indicator {
+    padding: 0.3rem 0.5rem;
+  }
+}
+
+/* Add smooth transitions for responsive changes */
+.profile-image-container,
+.glass-card,
+.social-link,
+.scroll-down-btn {
+  transition: all 0.3s ease;
+}
+
+/* Improve touch targets for mobile */
+@media (hover: none) {
+  .social-link,
+  .scroll-down-btn,
+  .glass-card {
+    cursor: default;
+  }
+
+  .social-link:active,
+  .scroll-down-btn:active {
+    transform: scale(0.95);
   }
 }
 

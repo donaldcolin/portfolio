@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './life.css';
 import '../about/about.css';
 
 const Life = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const photoViewerRef = useRef(null);
 
   const lifeUpdates = [
     {
@@ -41,16 +45,57 @@ const Life = () => {
     }
   ];
 
+  useEffect(() => {
+    // Simulate loading time for images
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
   const handlePrevious = () => {
+    setIsLoading(true);
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? lifeUpdates.length - 1 : prevIndex - 1
     );
   };
 
   const handleNext = () => {
+    setIsLoading(true);
     setCurrentIndex((prevIndex) => 
       prevIndex === lifeUpdates.length - 1 ? 0 : prevIndex + 1
     );
+  };
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  // Touch handlers for swipe gestures
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrevious();
+    }
+
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
   return (
@@ -61,11 +106,19 @@ const Life = () => {
         </div>
 
         <div className="life-gallery-column">
-          <div className="photo-viewer">
+          <div 
+            className={`photo-viewer ${isLoading ? 'loading' : ''}`}
+            ref={photoViewerRef}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div className="photo-viewer-image">
               <img 
                 src={lifeUpdates[currentIndex].image} 
-                alt={lifeUpdates[currentIndex].title} 
+                alt={lifeUpdates[currentIndex].title}
+                onLoad={handleImageLoad}
+                style={{ opacity: isLoading ? 0 : 1 }}
               />
               <div className="photo-caption">
                 <span className="photo-category">{lifeUpdates[currentIndex].category}</span>
@@ -75,11 +128,23 @@ const Life = () => {
               </div>
             </div>
             <div className="photo-navigation">
-              <button className="nav-btn prev" onClick={handlePrevious}>←</button>
+              <button 
+                className="nav-btn prev" 
+                onClick={handlePrevious}
+                aria-label="Previous photo"
+              >
+                ←
+              </button>
               <div className="photo-counter">
                 {currentIndex + 1} / {lifeUpdates.length}
               </div>
-              <button className="nav-btn next" onClick={handleNext}>→</button>
+              <button 
+                className="nav-btn next" 
+                onClick={handleNext}
+                aria-label="Next photo"
+              >
+                →
+              </button>
             </div>
           </div>
         </div>
