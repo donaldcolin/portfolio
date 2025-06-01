@@ -13,16 +13,16 @@ const About = () => {
     {
       company: "Kalvium",
       logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFMvwlVTDLpEavp_RY959zJjT77ZLa8r7A_Q&s",
-      role: "Bussiness developer",
+      role: "Business developer",
       duration: "2024 - Present",
-      description: "Basically did B.tech admissions from lead generation to closing the deal."
+      description: "Basically did B.tech admissions from lead handling to closing the deal."
     },
     {
       company: "Layla.Pets",
       logo: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749558/furspace_logo_yrsc42.jpg",
       role: "Co-Founder",
 
-      description: "Developed technical strategies and mentored junior developers in mobile and web technologies."
+      description: "Building a safe, joyful space where pets and their people connect, share, and thrive together."
     }
   ];
 
@@ -42,10 +42,13 @@ const About = () => {
         <div className="about-text-column">
           <div className="about-bio">
             <p>
-              Donald <span className="pronouns">(HE/HIM)</span> is a mobile developer and business strategist creating exceptional digital experiences. With Swift, Flutter, and React in his toolkit, he builds products that merge technical excellence with market relevance.
+              Donald <span className="pronouns">(HE/HIM)</span> is a versatile full-stack developer and product strategist crafting innovative digital experiences. Specializing in mobile development with Swift and Flutter, while also mastering web technologies like React, he bridges the gap between elegant code and impactful business solutions.
             </p>
             <p>
-              Working remotely from anywhere with a good internet connection, Donald brings global perspective to local challenges. His unique ability to navigate both development and business landscapes allows him to create solutions that resonate with users while delivering measurable impact for companies.
+              With a unique blend of technical expertise and business acumen, Donald transforms complex challenges into intuitive, user-centric applications. His work spans from sleek iOS apps to cross-platform mobile solutions, each project reflecting his commitment to performance, accessibility, and modern design principles.
+            </p>
+            <p>
+              As a remote-first developer, Donald thrives in global collaborations, bringing diverse perspectives to every project. His approach combines technical excellence with strategic thinking, ensuring that each solution not only meets technical requirements but also delivers measurable business value and exceptional user experiences.
             </p>
           </div>
           

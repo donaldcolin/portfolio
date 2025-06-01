@@ -11,7 +11,7 @@ const Life = () => {
       id: 1,
       date: "November 2024",
       title: "Moved to Bengaluru",
-      description: "Moved to B'Luru for Better a Full Time.",
+      description: "Moved to B'Luru for a  Better Full Time.",
       image: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748806487/bangalore_hkxd2j.jpg",
       category: "Career"
     },
