@@ -3,9 +3,9 @@ import { X } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
-  DialogClose
+  DialogTrigger
 } from '../ui/dialog';
-import MobileCase from './mobliehover';
+import MobileCase from './mobliecase';
 import './projects.css';
 
 const Projects = () => {
@@ -18,31 +18,31 @@ const Projects = () => {
       title: 'Layla.pets',
       description: 'Pet care and tracking application for pet owners. Helps users monitor health, activities, and schedule care for their pets.',
       thumbnail: '', 
-      icon: 'https://placehold.co/200x200/5271ff/white?text=L',
-      video: '/path/to/fitness-app-video.mp4',
+      icon: 'https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749558/furspace_logo_yrsc42.jpg',
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4',
       tech: ['Swift', 'SwiftUI', 'CoreData'],
       type: 'mobile',
       year: '2023'
     },
     {
       id: 3,
-      title: 'Weather App',
-      description: 'Real-time weather application with location-based forecasts, interactive maps, and customizable alerts for changing weather conditions.',
+      title: 'Wave',
+      description: 'Minimal and elegant productivity application for organizing tasks, projects, and deadlines with customizable workflows.',
       thumbnail: '',
-      icon: 'https://placehold.co/200x200/ff7a50/white?text=W',
-      video: '/path/to/weather-app-video.mp4',
-      tech: ['Swift', 'UIKit', 'CoreLocation'],
+      icon: 'https://cdn-icons-png.flaticon.com/512/5832/5832887.png',
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-mother-with-her-little-daughter-eating-a-marshmallow-in-nature-39764-large.mp4',
+      tech: ['Swift', 'SwiftUI'],
       type: 'mobile',
       year: '2022'
     },
     {
       id: 4,
-      title: 'Task Manager',
+      title: 'Weather App',
       description: 'Minimal and elegant productivity application for organizing tasks, projects, and deadlines with customizable workflows.',
       thumbnail: '',
-      icon: 'https://placehold.co/200x200/50c878/white?text=T',
-      video: '/path/to/task-manager-video.mp4',
-      tech: ['React Native', 'Expo', 'Firebase'],
+      icon: 'https://cdn-icons-png.flaticon.com/512/7133/7133364.png',
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
+      tech: ['Flutter', 'Dart', 'Firebase'],
       type: 'mobile',
       year: '2021'
     }
@@ -50,29 +50,18 @@ const Projects = () => {
   
   const webProjects = [
     {
-      id: 2,
-      title: 'Portfolio Website',
-      description: 'Personal portfolio website showcasing projects and experience. Built with modern web technologies for optimal performance.',
+      id: 5,
+      title: 'Travellicious',
+      description: 'A website for a travel agency that allows users to book flights, hotels, and cars.',
       thumbnail: '',
-      video: '/path/to/web-project-video.mp4',
-      tech: ['React', 'Tailwind CSS', 'Vite'],
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
+      tech: ['React', 'Node.js', 'MongoDB','Tailwind CSS','Express',],
       type: 'web',
       year: '2023',
-      image: 'https://placehold.co/800x500/1a1a1a/ffffff?text=Portfolio'
-    },
-    {
-      id: 5,
-      title: 'E-Commerce Platform',
-      description: 'Full-featured online shopping platform with product catalog, user accounts, and secure checkout process.',
-      thumbnail: '',
-      video: '/path/to/ecommerce-video.mp4',
-      tech: ['React', 'Node.js', 'MongoDB'],
-      type: 'web',
-      year: '2022',
-      image: 'https://placehold.co/800x500/1a1a1a/ffffff?text=E-Commerce'
+      image: 'https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749303/Screenshot_2025-06-01_at_9.10.43_AM_xwatsv.png'
     }
   ];
-
+  
   const handleProjectClick = (project) => {
     setActiveProject(project);
     setOpen(true);
@@ -99,10 +88,9 @@ const Projects = () => {
                 <div 
                   key={project.id} 
                   className="project-item mobile-project"
-                  onClick={() => handleProjectClick(project)}
                 >
                   <div className="project-item-content">
-                    <MobileCase project={project} onClick={() => {}} />
+                    <MobileCase project={project} onClick={() => handleProjectClick(project)} />
                     <div className="project-info">
                       <div className="project-year">{project.year}</div>
                       <h3 className="project-title">{project.title}</h3>
@@ -146,13 +134,55 @@ const Projects = () => {
       
       {/* Project Detail Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="project-dialog">
+        <DialogContent className="project-dialog" hideClose>
+          <button 
+            className="dialog-close-btn"
+            onClick={() => setOpen(false)}
+          >
+            <X className="h-6 w-6" />
+          </button>
+          
           <div className="project-dialog-content">
-            <div className="project-dialog-header">
-              <h2>{activeProject?.title}</h2>
-              <p className="project-dialog-description">{activeProject?.description}</p>
+            <div className="project-dialog-left">
+              <div className="project-dialog-header">
+                <div className="project-year-tag">{activeProject?.year}</div>
+                <h2>{activeProject?.title}</h2>
+                <p className="project-dialog-description">{activeProject?.description}</p>
+              </div>
+              
+              <div className="project-dialog-footer">
+                <div className="project-tech-list">
+                  {activeProject?.tech.map((tech, index) => (
+                    <span key={index} className="tech-tag">{tech}</span>
+                  ))}
+                </div>
+                {activeProject?.type === 'web' && (
+                  <a 
+                    href="https://travellicious.co.in" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="visit-button"
+                  >
+                    Visit Website
+                    <svg 
+                      className="visit-arrow" 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    >
+                      <path d="M7 7h10v10" />
+                      <path d="M7 17 17 7" />
+                    </svg>
+                  </a>
+                )}
+              </div>
             </div>
-            
+
             <div className="project-dialog-media">
               {activeProject?.type === 'mobile' ? (
                 <div className="iphone-frame">
@@ -163,6 +193,7 @@ const Projects = () => {
                     autoPlay 
                     muted 
                     loop
+                    playsInline
                   />
                   <div className="iphone-home-indicator"></div>
                 </div>
@@ -184,25 +215,12 @@ const Projects = () => {
                     autoPlay 
                     muted 
                     loop
+                    playsInline
                   />
                 </div>
               )}
             </div>
-            
-            <div className="project-dialog-footer">
-              <div className="project-tech-list">
-                {activeProject?.tech.map((tech, index) => (
-                  <span key={index} className="tech-tag">{tech}</span>
-                ))}
-              </div>
-              <div className="project-year-tag">{activeProject?.year}</div>
-            </div>
           </div>
-          
-          <DialogClose className="dialog-close-btn">
-            <X className="h-6 w-6" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
         </DialogContent>
       </Dialog>
     </div>

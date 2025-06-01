@@ -5,6 +5,7 @@ import About from './components/about/about'
 import Projects from './components/projects/projects'
 import Footer from './components/Footer/Footer'
 import SeparatorAlt from './components/seperator/seprator-alt'
+import Life from './components/life/life'
 
 const App = () => {
   return (
@@ -14,6 +15,9 @@ const App = () => {
       <About/>
       <SeparatorAlt/>
       <Projects/>
+      <SeparatorAlt/>
+      <Life/>
+      <SeparatorAlt/>
       <Footer/>
     </div>
   )
