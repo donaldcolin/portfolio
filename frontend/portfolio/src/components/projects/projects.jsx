@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import {
   Dialog,
@@ -11,18 +11,22 @@ import './projects.css';
 const Projects = () => {
   const [open, setOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [isMobileVideoLoading, setIsMobileVideoLoading] = useState(true);
+  const videoRef = useRef(null);
+  const mobileVideoRef = useRef(null);
   
   const mobileProjects = [
     {
       id: 1,
-      title: 'Layla.pets',
+      title: 'FurSpace',
       description: 'Pet care and tracking application for pet owners. Helps users monitor health, activities, and schedule care for their pets.',
       thumbnail: '', 
       icon: 'https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749558/furspace_logo_yrsc42.jpg',
       video: 'https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4',
-      tech: ['Swift', 'SwiftUI', 'CoreData'],
-      type: 'mobile',
-      year: '2023'
+      tech: ['Swift', 'SwiftUI', 'CoreData','Firebase'],
+      type: 'Mobile',
+      year: '2024'
     },
     {
       id: 3,
@@ -32,8 +36,8 @@ const Projects = () => {
       icon: 'https://cdn-icons-png.flaticon.com/512/5832/5832887.png',
       video: 'https://assets.mixkit.co/videos/preview/mixkit-mother-with-her-little-daughter-eating-a-marshmallow-in-nature-39764-large.mp4',
       tech: ['Swift', 'SwiftUI'],
-      type: 'mobile',
-      year: '2022'
+      type: 'Mobile',
+      year: '2023'
     },
     {
       id: 4,
@@ -43,8 +47,8 @@ const Projects = () => {
       icon: 'https://cdn-icons-png.flaticon.com/512/7133/7133364.png',
       video: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
       tech: ['Flutter', 'Dart', 'Firebase'],
-      type: 'mobile',
-      year: '2021'
+      type: 'Mobile',
+      year: '2023'
     }
   ];
   
@@ -52,9 +56,9 @@ const Projects = () => {
     {
       id: 5,
       title: 'Travellicious',
-      description: 'A website for a travel agency that allows users to book flights, hotels, and cars.',
+      description: 'A website for a travel agency that allows users to Tours and Treks in and around Bengaluru.',
       thumbnail: '',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
+      video: 'https://res.cloudinary.com/dt9apeyvy/video/upload/v1748806790/Screen_Recording_2025-06-02_at_1.07.53_AM_ce40fa.mov',
       tech: ['React', 'Node.js', 'MongoDB','Tailwind CSS','Express',],
       type: 'web',
       year: '2023',
@@ -65,7 +69,26 @@ const Projects = () => {
   const handleProjectClick = (project) => {
     setActiveProject(project);
     setOpen(true);
+    setIsVideoLoading(true);
+    setIsMobileVideoLoading(true);
   };
+
+  const handleVideoLoad = () => {
+    setIsVideoLoading(false);
+  };
+
+  const handleMobileVideoLoad = () => {
+    setIsMobileVideoLoading(false);
+  };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+    if (mobileVideoRef.current) {
+      mobileVideoRef.current.load();
+    }
+  }, [activeProject]);
 
   return (
     <div id="projects" className="projects-container">
@@ -88,9 +111,10 @@ const Projects = () => {
                 <div 
                   key={project.id} 
                   className="project-item mobile-project"
+                  onClick={() => handleProjectClick(project)}
                 >
                   <div className="project-item-content">
-                    <MobileCase project={project} onClick={() => handleProjectClick(project)} />
+                    <MobileCase project={project} />
                     <div className="project-info">
                       <div className="project-year">{project.year}</div>
                       <h3 className="project-title">{project.title}</h3>
@@ -184,16 +208,24 @@ const Projects = () => {
             </div>
 
             <div className="project-dialog-media">
-              {activeProject?.type === 'mobile' ? (
+              {activeProject?.type === 'Mobile' ? (
                 <div className="iphone-frame">
                   <div className="iphone-notch"></div>
+                  {isMobileVideoLoading && (
+                    <div className="video-preloader">
+                      <div className="preloader-spinner"></div>
+                      <span>Loading preview...</span>
+                    </div>
+                  )}
                   <video 
+                    ref={mobileVideoRef}
                     className="app-video" 
                     src={activeProject?.video} 
                     autoPlay 
                     muted 
                     loop
                     playsInline
+                    onLoadedData={handleMobileVideoLoad}
                   />
                   <div className="iphone-home-indicator"></div>
                 </div>
@@ -209,14 +241,24 @@ const Projects = () => {
                       <span>https://myproject.com</span>
                     </div>
                   </div>
-                  <video 
-                    className="browser-video" 
-                    src={activeProject?.video} 
-                    autoPlay 
-                    muted 
-                    loop
-                    playsInline
-                  />
+                  <div className="browser-content">
+                    {isVideoLoading && (
+                      <div className="video-preloader">
+                        <div className="preloader-spinner"></div>
+                        <span>Loading preview...</span>
+                      </div>
+                    )}
+                    <video 
+                      ref={videoRef}
+                      className="browser-video" 
+                      src={activeProject?.video} 
+                      autoPlay 
+                      muted 
+                      loop
+                      playsInline
+                      onLoadedData={handleVideoLoad}
+                    />
+                  </div>
                 </div>
               )}
             </div>

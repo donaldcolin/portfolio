@@ -9,10 +9,10 @@ const Life = () => {
   const lifeUpdates = [
     {
       id: 1,
-      date: "March 2024",
-      title: "Tech Conference Speaker",
-      description: "Shared insights on mobile development at the annual tech summit in Bangalore.",
-      image: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748705872/WhatsApp_Image_2025-05-31_at_21.05.41_a2nd4q.jpg",
+      date: "November 2024",
+      title: "Moved to Bengaluru",
+      description: "Moved to B'Luru for Better a Full Time.",
+      image: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748806487/bangalore_hkxd2j.jpg",
       category: "Career"
     },
     {
@@ -20,21 +20,21 @@ const Life = () => {
       date: "February 2024",
       title: "Kerala Road Trip",
       description: "Went to kerela on a road trip with a friend.",
-      image: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748790162/YTD0lAdjeXLvEzNN-WhatsApp_20Image_202024-08-13_20at_2019.51.59_qnaatx.jpg",
+      image: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748806074/WhatsApp_Image_2025-06-01_at_22.08.29_hc09rt.jpg",
       category: "Adventure"
     },
     {
       id: 3,
-      date: "January 2024",
+      date: "January 2025",
       title: "New Project Launch",
-      description: "Successfully launched a new mobile app that helps travelers plan their trips.",
+      description: "Successfully launched a website that helps travelers plan their trips.",
       image: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748789992/WhatsApp_Image_2025-06-01_at_20.29.22_catotm.jpg",
       category: "Work"
     },
     {
       id: 4,
       date: "March 2025",
-      title: "Got a onsite oppurtunity in Yenepoya university",
+      title: "Got a Onsite Oppurtunity In Yenepoya University",
       description: "",
       image: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748789719/WhatsApp_Image_2025-06-01_at_20.24.34_rhbih7.jpg",
       category: "Business"
@@ -54,7 +54,7 @@ const Life = () => {
   };
 
   return (
-    <div id="about" className="about-container">
+    <div id="life" className="about-container">
       <div className="about-content">
         <div className="about-title-column">
           <h1>Life</h1>

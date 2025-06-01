@@ -17,7 +17,6 @@ const App = () => {
       <Projects/>
       <SeparatorAlt/>
       <Life/>
-      <SeparatorAlt/>
       <Footer/>
     </div>
   )

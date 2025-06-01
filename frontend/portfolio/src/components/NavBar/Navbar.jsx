@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Rocket, Layout, User, Mail, Instagram, Linkedin } from 'lucide-react';
+import { Home, Rocket, User, Heart } from 'lucide-react';
 
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState('hero');
@@ -7,9 +7,12 @@ const Navbar = () => {
   const handleScrollTo = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      const offsetTop = element.offsetTop; 
+      const headerOffset = 0;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
       window.scrollTo({
-        top: offsetTop,
+        top: offsetPosition,
         behavior: 'smooth'
       });
       setActiveTab(id);
@@ -17,47 +20,40 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const sections = navItems
-      .filter(item => !item.href.startsWith('http'))
-      .map(item => document.getElementById(item.id));
+    const handleScroll = () => {
+      const sections = navItems
+        .filter(item => !item.href.startsWith('http'))
+        .map(item => ({
+          id: item.id,
+          element: document.getElementById(item.id)
+        }));
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '-40% 0px -60% 0px',
-      threshold: 0
-    };
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveTab(entry.target.id);
-        }
+      // Find the section that's currently in view
+      const currentSection = sections.find(({ element }) => {
+        if (!element) return false;
+        const rect = element.getBoundingClientRect();
+        // Consider a section "active" when it's in the middle of the viewport
+        return rect.top <= window.innerHeight * 0.3 && rect.bottom >= window.innerHeight * 0.3;
       });
-    }, observerOptions);
 
-    sections.forEach(section => {
-      if (section) {
-        observer.observe(section);
+      if (currentSection) {
+        setActiveTab(currentSection.id);
       }
-    });
-
-    return () => {
-      sections.forEach(section => {
-        if (section) {
-          observer.unobserve(section);
-        }
-      });
     };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial check
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
   const navItems = [
     { id: 'hero', icon: Home, href: '#hero' },
     { id: 'about', icon: User, href: '#about' },
     { id: 'projects', icon: Rocket, href: '#projects' },
-  
-    { id: 'contact', icon: Mail, href: '#contact' },
-    { id: 'linkedin', icon: Linkedin, href: 'https://www.linkedin.com/in/donaldcolin/' },
-    { id: 'instagram', icon: Instagram, href: 'https://www.instagram.com/aldified/' }
+    { id: 'life', icon: Heart, href: '#life' }
   ];
 
   return (

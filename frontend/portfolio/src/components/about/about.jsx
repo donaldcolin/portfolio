@@ -4,10 +4,10 @@ import './about.css';
 const About = () => {
   const experiences = [
     {
-      company: "TravelTriangle",
-      logo: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748705872/WhatsApp_Image_2025-05-31_at_21.05.41_a2nd4q.jpg",
+      company: "Travellcious",
+      logo: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748803918/IMG_0068-removebg-preview_ynkqzh.png",
       role: "Software Developement Engineer",
-      duration: "2023 - Present",
+      duration: "2024 - Present",
       description: "Deveoloped the Website of travellcious as a solo developer and maintaned the website."
     },
     {
@@ -19,7 +19,7 @@ const About = () => {
     },
     {
       company: "Layla.Pets",
-      logo: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748705872/WhatsApp_Image_2025-05-31_at_21.05.41_a2nd4q.jpg",
+      logo: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749558/furspace_logo_yrsc42.jpg",
       role: "Co-Founder",
 
       description: "Developed technical strategies and mentored junior developers in mobile and web technologies."
