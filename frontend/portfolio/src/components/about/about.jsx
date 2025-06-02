@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './about.css';
 
 const About = () => {
+  const [activeTab, setActiveTab] = useState('tech');
+
   const experiences = [
     {
       company: "Travellcious",
@@ -21,15 +23,37 @@ const About = () => {
       company: "Layla.Pets",
       logo: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749558/furspace_logo_yrsc42.jpg",
       role: "Co-Founder",
-
       description: "Building a safe, joyful space where pets and their people connect, share, and thrive together."
     }
   ];
 
-  const tools = {
+  const technicalSkills = {
     languages: ["Swift", "Dart", "JavaScript", "Python"],
-    frameworks: ["SwiftUI","Flutter", "React", "Node.js", "Express"],
+    frameworks: ["SwiftUI", "Flutter", "React", "Node.js", "Express"],
     tools: ["Git", "Docker", "Firebase", "MongoDB", "PostgreSQL"]
+  };
+
+  const businessSkills = {
+    sales: [
+      "Lead Generation",
+      "Sales Pipeline Management",
+      "Client Relationship Management",
+      "Sales Strategy",
+      "Revenue Growth"
+    ],
+    marketing: [
+
+      "Content Strategy",
+      "Growth Hacking",
+      "Brand Development",
+      "Market Analysis"
+    ],
+    business: [
+      "Business Development",
+      "Strategic Planning",
+      "Project Management",
+      "Performance Analytics"
+    ]
   };
 
   return (
@@ -72,7 +96,7 @@ const About = () => {
                         <div>
                           <h3>{exp.role}</h3>
                           <span className="experience-company">{exp.company}</span>
-                          <span className="experience-duration">{exp.duration}</span>
+                          {exp.duration && <span className="experience-duration">{exp.duration}</span>}
                         </div>
                       </div>
                     </div>
@@ -84,40 +108,80 @@ const About = () => {
             </div>
           </div>
 
-          {/* Tools Section */}
+          {/* Skills Section */}
           <div className="tools-section">
-            <h2 className="section-title">Tech Stack</h2>
-            <div className="tools-grid">
-              <div className="tools-category">
-                <h3>Languages</h3>
-                <div className="tools-list">
-                  {tools.languages.map((tool, index) => (
-                    <span key={index} className="tool-badge">{tool}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="tools-category">
-                <h3>Frameworks & Libraries</h3>
-                <div className="tools-list">
-                  {tools.frameworks.map((tool, index) => (
-                    <span key={index} className="tool-badge">{tool}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="tools-category">
-                <h3>DevOps & Databases</h3>
-                <div className="tools-list">
-                  {tools.tools.map((tool, index) => (
-                    <span key={index} className="tool-badge">{tool}</span>
-                  ))}
-                </div>
-              </div>
+            <h2 className="section-title">Skills</h2>
+            <div className="skills-toggle">
+              <button 
+                className={`toggle-btn ${activeTab === 'tech' ? 'active' : ''}`}
+                onClick={() => setActiveTab('tech')}
+              >
+                Technical
+              </button>
+              <button 
+                className={`toggle-btn ${activeTab === 'business' ? 'active' : ''}`}
+                onClick={() => setActiveTab('business')}
+              >
+                Business
+              </button>
             </div>
-          </div>
-          
-          <div className="about-position">
-          
-           
+            <div className="tools-grid">
+              {activeTab === 'tech' ? (
+                <>
+                  <div className="tools-category">
+                    <h3>Languages</h3>
+                    <div className="tools-list">
+                      {technicalSkills.languages.map((skill, index) => (
+                        <span key={index} className="tool-badge">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="tools-category">
+                    <h3>Frameworks & Libraries</h3>
+                    <div className="tools-list">
+                      {technicalSkills.frameworks.map((skill, index) => (
+                        <span key={index} className="tool-badge">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="tools-category">
+                    <h3>DevOps & Databases</h3>
+                    <div className="tools-list">
+                      {technicalSkills.tools.map((skill, index) => (
+                        <span key={index} className="tool-badge">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="tools-category">
+                    <h3>Sales Expertise</h3>
+                    <div className="tools-list">
+                      {businessSkills.sales.map((skill, index) => (
+                        <span key={index} className="tool-badge">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="tools-category">
+                    <h3>Marketing</h3>
+                    <div className="tools-list">
+                      {businessSkills.marketing.map((skill, index) => (
+                        <span key={index} className="tool-badge">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="tools-category">
+                    <h3>Business Development</h3>
+                    <div className="tools-list">
+                      {businessSkills.business.map((skill, index) => (
+                        <span key={index} className="tool-badge">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
