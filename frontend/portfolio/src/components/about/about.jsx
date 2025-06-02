@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import './about.css';
+import { Mail } from 'lucide-react'; // Assuming Mail icon is still needed or similar icons might be used
 
 const About = () => {
   const [activeTab, setActiveTab] = useState('tech');
 
   const experiences = [
     {
-      company: "Travellcious",
+      company: "Travellicious",
       logo: "https://res.cloudinary.com/dt9apeyvy/image/upload/v1748803918/IMG_0068-removebg-preview_ynkqzh.png",
       role: "Software Developement Engineer",
       duration: "2024 - Present",
-      description: "Deveoloped the Website of travellcious as a solo developer and maintaned the website."
+      description: "Developed the Website of travellicious as a solo developer and maintaned the website."
     },
     {
       company: "Kalvium",
@@ -42,7 +43,6 @@ const About = () => {
       "Revenue Growth"
     ],
     marketing: [
-
       "Content Strategy",
       "Growth Hacking",
       "Brand Development",
@@ -57,9 +57,9 @@ const About = () => {
   };
 
   return (
-    <div id="about" className="about-container">
-      <div className="about-content">
-        <div className="about-title-column">
+    <div id="about" className="projects-container">
+      <div className="projects-content">
+        <div className="projects-title-column">
           <h1>About</h1>
         </div>
         
@@ -86,9 +86,7 @@ const About = () => {
             <div className="timeline">
               {experiences.map((exp, index) => (
                 <div key={index} className="experience-item">
-                  <div className="timeline-dot">
-                    <div className="dot-pulse"></div>
-                  </div>
+                  <div className="timeline-dot"></div>
                   <div className="experience-content">
                     <div className="experience-header">
                       <div className="experience-company-info">
@@ -101,7 +99,6 @@ const About = () => {
                       </div>
                     </div>
                     <p>{exp.description}</p>
-                    <div className="experience-arrow">→</div>
                   </div>
                 </div>
               ))}
@@ -125,7 +122,7 @@ const About = () => {
                 Business
               </button>
             </div>
-            <div className="tools-grid">
+            <div className="tools-grid" key={activeTab}>
               {activeTab === 'tech' ? (
                 <>
                   <div className="tools-category">
@@ -189,4 +186,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default About; 

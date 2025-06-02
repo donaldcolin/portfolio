@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {Linkedin, Instagram, Mail, Github } from 'lucide-react';
+import { Linkedin, Instagram, Mail, Github } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {

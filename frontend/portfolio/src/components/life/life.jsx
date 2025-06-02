@@ -99,9 +99,9 @@ const Life = () => {
   };
 
   return (
-    <div id="life" className="about-container">
-      <div className="about-content">
-        <div className="about-title-column">
+    <div id="life" className="projects-container">
+      <div className="projects-content">
+        <div className="projects-title-column">
           <h1>Life</h1>
         </div>
 
