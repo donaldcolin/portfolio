@@ -1,0 +1,114 @@
+.separator-container {
+  width: 100%;
+  background-color: #000;
+  padding: 8rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.separator-container::before {
+  content: '';
+  position: absolute;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.separator-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.separator-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(255,255,255,0.1) 30%, 
+    rgba(255,255,255,0.1) 70%, 
+    rgba(255,255,255,0) 100%
+  );
+}
+
+.separator-elements {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.separator-dot {
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: pulse 4s infinite alternate;
+}
+
+.separator-text {
+  font-size: 0.9rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+.separator-circle {
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 12s linear infinite;
+}
+
+.separator-circle::before {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  top: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; transform: scale(1); }
+  100% { opacity: 0.8; transform: scale(1.2); }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .separator-container {
+    padding: 6rem 0;
+  }
+  
+  .separator-elements {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .separator-text {
+    font-size: 0.75rem;
+  }
+} 
