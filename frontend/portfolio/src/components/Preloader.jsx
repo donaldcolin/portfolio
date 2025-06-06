@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './Preloader.css';
 
 const greetings = [
-  'Hello',        // English
+  'Hola',        // English
   'வணக்கம்',      // Tamil
-  'Hola',         // Spanish
+  'Hello',       // Spanish
   'Bonjour',      // French
   'Hallo',        // German
   'こんにちは',     // Japanese
