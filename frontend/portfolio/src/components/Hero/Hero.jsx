@@ -197,13 +197,8 @@ const Hero = () => {
           className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-20 space-y-2 fade-in-up-delay-3"
           style={{ opacity: heroOpacity }}
         >
-          <div className="glass-card rounded-xl py-2 px-4 text-right">
-            <p className="text-xs font-semibold text-slate-700">{formatTime()}</p>
-            <p className="text-xs text-slate-500">IST • Bengaluru</p>
-          </div>
-          <div className="glass-card rounded-lg py-1 px-3">
-            <p className="text-xs font-medium text-slate-500">©{new Date().getFullYear()}</p>
-          </div>
+         
+       
         </div>
 
         {/* Professional Scroll Indicator */}

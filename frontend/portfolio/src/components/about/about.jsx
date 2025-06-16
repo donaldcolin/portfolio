@@ -65,16 +65,19 @@ const About = () => {
         
         <div className="about-text-column">
           <div className="about-bio">
-            <p>
-              Donald <span className="pronouns">(HE/HIM)</span> is a versatile full-stack developer and product strategist crafting innovative digital experiences. Specializing in mobile development with Swift and Flutter, while also mastering web technologies like React, he bridges the gap between elegant code and impactful business solutions.
-            </p>
-            <p>
-              With a unique blend of technical expertise and business acumen, Donald transforms complex challenges into intuitive, user-centric applications. His work spans from sleek iOS apps to cross-platform mobile solutions, each project reflecting his commitment to performance, accessibility, and modern design principles.
-            </p>
-            <p>
-              As a remote-first developer, Donald thrives in global collaborations, bringing diverse perspectives to every project. His approach combines technical excellence with strategic thinking, ensuring that each solution not only meets technical requirements but also delivers measurable business value and exceptional user experiences.
-            </p>
-          </div>
+  <p>
+    Donald <span className="pronouns">(HE/HIM)</span> is a full-stack developer and digital product strategist who bridges technology and business to build scalable, impact-driven applications. Skilled in Swift, Flutter, and React, he delivers high-performance mobile and web experiences tailored to both users and markets.
+  </p>
+
+  <p>
+    With a sharp focus on product-market fit and business growth, Donald turns technical builds into strategic assets. He has experience leading end-to-end product developmentdefining roadmaps, shaping user flows, and aligning features with KPIs that matter. His solutions prioritize speed, usability, and measurable business outcomes.
+  </p>
+
+  <p>
+    On the business front, Donald drives go-to-market strategies, optimizes conversion funnels, and leverages data to refine product decisions. As a remote-first collaborator, he excels in fast-paced environments, balancing hands-on coding with strategic input to create digital products that scale and sell.
+  </p>
+</div>
+
           
           <div className="about-tagline">
             BUILDING PRODUCTS AT THE CROSSROADS OF MOBILE — WEB — BUSINESS.
