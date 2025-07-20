@@ -4,17 +4,23 @@ import './Footer.css';
 
 const Footer = () => {
   const [currentTime, setCurrentTime] = useState('');
+  const [mounted, setMounted] = useState(false);
   
   const updateTime = useCallback(() => {
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    setCurrentTime(`${hours}:${minutes}`);
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    setCurrentTime(now.toLocaleTimeString('en-US', options));
   }, []);
   
   useEffect(() => {
+    setMounted(true);
     updateTime();
-    const timer = setInterval(updateTime, 60000);
+    const timer = setInterval(updateTime, 1000); // Update every second for smoother experience
     return () => clearInterval(timer);
   }, [updateTime]);
 
@@ -23,26 +29,36 @@ const Footer = () => {
       name: 'Instagram', 
       url: 'https://www.instagram.com/aldified/', 
       icon: Instagram,
-      ariaLabel: 'Follow me on Instagram'
+      ariaLabel: 'Follow Donald Colin on Instagram',
+      color: '#E4405F'
     },
     { 
       name: 'LinkedIn', 
       url: 'https://linkedin.com/in/donaldcolin/', 
       icon: Linkedin,
-      ariaLabel: 'Connect with me on LinkedIn'
+      ariaLabel: 'Connect with Donald Colin on LinkedIn',
+      color: '#0077B5'
     },
     { 
       name: 'GitHub', 
       url: 'https://github.com/donaldcolin', 
       icon: Github,
-      ariaLabel: 'Check out my GitHub profile'
+      ariaLabel: 'Check out Donald Colin\'s GitHub profile',
+      color: '#333'
     }
   ];
 
   const handleEmailClick = (e) => {
     e.preventDefault();
-    window.location.href = 'mailto:your.email@example.com';
+    // Replace with actual email
+    const email = 'donald.colin@example.com';
+    const subject = encodeURIComponent('Hello from your website!');
+    window.location.href = `mailto:${email}?subject=${subject}`;
   };
+
+  if (!mounted) {
+    return null; // Prevent hydration mismatch
+  }
 
   return (
     <footer className="footer-container" role="contentinfo">
@@ -59,7 +75,9 @@ const Footer = () => {
             
             <div className="footer-time">
               <span className="time-label">Local time —</span> 
-              <time dateTime={new Date().toISOString()}>{currentTime}</time>
+              <time dateTime={new Date().toISOString()} suppressHydrationWarning>
+                {currentTime}
+              </time>
             </div>
           </div>
         </div>
@@ -69,18 +87,17 @@ const Footer = () => {
           <p className="contact-text">
             Interested in working together or just want to say hi? Send me a message.
           </p>
-          <a 
-            href="mailto:your.email@example.com"
-            className="contact-email-link"
+          <button 
             onClick={handleEmailClick}
-            aria-label="Send me an email"
+            className="contact-email-link"
+            aria-label="Send Donald Colin an email"
           >
             Get In Touch
             <Mail size={18} style={{ marginLeft: '8px' }} aria-hidden="true" />
-          </a>
+          </button>
           
-          <div className="contact-socials" role="list">
-            {socialLinks.map((link, index) => (
+          <div className="contact-socials" role="list" aria-label="Social media links">
+            {socialLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.url} 
@@ -89,6 +106,7 @@ const Footer = () => {
                 className="social-link"
                 aria-label={link.ariaLabel}
                 role="listitem"
+                style={{ '--hover-color': link.color }}
               >
                 <link.icon size={20} aria-hidden="true" />
               </a>

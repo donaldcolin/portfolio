@@ -19,7 +19,6 @@ const MobileCase = ({ project, onClick }) => {
             />
           </AspectRatio>
         </div>
-        <p className="app-icon-title">{project.title}</p>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-/* Professional Hero Component Styles */
+/* Hero Component Styles - Optimized for Performance */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 
@@ -12,58 +12,83 @@
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
+  will-change: transform;
 }
 
-/* Keyframe Animations - Subtle and Professional */
+/* Enhanced Keyframe Animations */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-25%); }
 }
 
 @keyframes gentleFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(1deg); }
+  50% { transform: translateY(-8px) rotate(0deg); }
+  75% { transform: translateY(-4px) rotate(-1deg); }
 }
 
 @keyframes fadeInUp {
   0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes scrollPulse {
   0%, 100% { 
     transform: translateY(0) scale(1); 
-    opacity: 0.8; 
   }
   50% { 
-    transform: translateY(-4px) scale(1.02); 
-    opacity: 1; 
+    transform: translateY(-6px) scale(1.05); 
   }
 }
 
 @keyframes subtleGlow {
   0%, 100% { 
-    box-shadow: 0 0 20px rgba(71, 85, 105, 0.1); 
+    box-shadow: 0 0 20px rgba(71, 85, 105, 0.1), 0 4px 16px rgba(0, 0, 0, 0.05); 
   }
   50% { 
-    box-shadow: 0 0 30px rgba(71, 85, 105, 0.2); 
+    box-shadow: 0 0 30px rgba(71, 85, 105, 0.2), 0 8px 24px rgba(0, 0, 0, 0.1); 
   }
 }
 
-/* Grid Background - Lighter Grid Lines */
+@keyframes socialHover {
+  0% { transform: translateY(0) scale(1) rotate(0deg); }
+  50% { transform: translateY(-3px) scale(1.1) rotate(5deg); }
+  100% { transform: translateY(-2px) scale(1.05) rotate(0deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% { 
+    opacity: 0.8;
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Enhanced Grid Background */
+.hero-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
 .grid-bg {
   background-image: 
-    linear-gradient(to right, rgba(71, 85, 105, 0.03) 2px, transparent 2px),
-    linear-gradient(to bottom, rgba(71, 85, 105, 0.03) 2px, transparent 2px);
-  background-size: 40px 40px;
+    linear-gradient(to right, rgba(71, 85, 105, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(71, 85, 105, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
   background-position: center;
   position: relative;
+  transition: background-size 0.5s ease;
 }
 
 .grid-bg::before {
@@ -71,19 +96,23 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at center,
+    ellipse at center,
     transparent 0%,
-    rgba(248, 250, 252, 0.4) 70%,
-    rgba(248, 250, 252, 0.8) 100%
+    rgba(248, 250, 252, 0.3) 60%,
+    rgba(248, 250, 252, 0.7) 100%
   );
   pointer-events: none;
 }
 
-/* Typography - Professional Marquee Text */
+.grid-bg:hover {
+  background-size: 40px 40px;
+}
+
+/* Enhanced Typography */
 .hero-text-container {
   overflow: hidden;
   width: 100%;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
 }
 
@@ -91,50 +120,32 @@
   font-family: 'Playfair Display', serif;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: rgba(0, 0, 0, 0.55);
+  color: rgba(0, 0, 0, 0.5);
   line-height: 0.85;
   user-select: none;
   text-transform: none;
+  transition: color 0.3s ease;
 }
 
 .animate-marquee {
-  animation: marquee 40s linear infinite;
+  animation: marquee 45s linear infinite;
   will-change: transform;
   display: inline-block;
   white-space: nowrap;
 }
 
-/* Profile Image - Clean and Professional */
+/* Profile Image Container - HOVER EFFECTS REMOVED */
 .profile-image-container {
   position: relative;
   overflow: visible;
   transform-origin: center;
   width: min(45vw, 380px) !important;
   aspect-ratio: 3/4;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  border-radius: 16px;
-}
-
-.profile-image-container::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  background: linear-gradient(
-    135deg,
-    rgba(71, 85, 105, 0.1) 0%,
-    rgba(100, 116, 139, 0.15) 50%,
-    rgba(71, 85, 105, 0.1) 100%
-  );
-  border-radius: inherit;
-  z-index: -1;
-  opacity: 0;
-  transition: all 0.6s ease;
-  transform: scale(0.98);
-}
-
-.profile-image-container:hover::before {
-  opacity: 1;
-  transform: scale(1.02);
+  transition: transform 0.3s ease; /* Simplified transition */
+  border-radius: 24px;
+  border: 3px solid transparent;
+  background: linear-gradient(135deg, #64748b, #94a3b8) border-box;
+  /* Removed cursor pointer and complex hover effects */
 }
 
 .profile-image-wrapper {
@@ -142,11 +153,9 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: inherit;
-  transition: all 0.6s ease;
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.1),
-    0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 21px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+  /* Removed transition for better performance */
 }
 
 .profile-image {
@@ -155,287 +164,346 @@
   object-fit: cover;
   object-position: center 15%;
   transform: scale(1.05);
-  transition: all 0.8s ease;
-  filter: brightness(1.02) contrast(1.05);
+  /* Removed all hover effects and complex transitions */
+  filter: brightness(1.02) contrast(1.05) saturate(1.1);
 }
 
-.profile-image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(71, 85, 105, 0.02) 30%,
-    rgba(71, 85, 105, 0.08) 100%
-  );
-  opacity: 0;
-  transition: all 0.6s ease;
-}
+/* Removed all profile image hover effects for better performance */
 
-.profile-image-container:hover {
-  transform: translateY(-8px) scale(1.02);
-  filter: drop-shadow(0 20px 40px rgba(71, 85, 105, 0.15));
-}
-
-.profile-image-container:hover .profile-image {
-  transform: scale(1.08);
-  filter: brightness(1.05) contrast(1.08);
-}
-
-.profile-image-container:hover .profile-image-overlay {
-  opacity: 1;
-}
-
-.profile-image-container:hover .profile-image-wrapper {
-  box-shadow: 
-    0 15px 35px rgba(0, 0, 0, 0.15),
-    0 6px 15px rgba(0, 0, 0, 0.08);
-}
-
-/* Glass Card - Refined */
+/* Enhanced Glass Card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 
     0 4px 16px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  transition: all 0.3s ease;
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-card:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 
-    0 6px 20px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* Social Links - Clean Hover Effects */
+/* Enhanced Social Links */
 .social-link {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  transform-origin: center;
 }
 
 .social-link::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(45deg, transparent, rgba(71, 85, 105, 0.05), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
+  background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transform: translateX(-100%) rotate(10deg);
+  transition: transform 0.6s ease;
+  z-index: 0;
 }
 
 .social-link:hover::before {
-  transform: translateX(100%);
+  transform: translateX(100%) rotate(10deg);
 }
 
 .social-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(71, 85, 105, 0.15);
+  animation: socialHover 0.6s ease-out;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
 }
 
-/* Scroll Indicator */
-.scroll-animation {
-  animation: scrollPulse 3s ease-in-out infinite;
-}
-
-.scroll-down-btn {
-  transition: all 0.4s ease;
-}
-
-.scroll-down-btn:hover {
-  transform: translateY(-2px) scale(1.02);
-}
-
-/* Floating Elements - Minimal */
-.floating-element {
-  position: absolute;
-  animation: gentleFloat 6s ease-in-out infinite;
-  opacity: 0.3;
-  border-radius: 50%;
-}
-
-.floating-element:nth-child(2) { animation-delay: -1.5s; }
-.floating-element:nth-child(3) { animation-delay: -3s; }
-.floating-element:nth-child(4) { animation-delay: -4.5s; }
-
-/* Status Indicator */
-.status-indicator {
-  animation: subtleGlow 4s ease-in-out infinite;
-}
-
-/* Hover Info Overlay */
-.hover-info-overlay {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.4s ease;
-}
-
-.profile-image-container:hover .hover-info-overlay {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .profile-image-container {
-    width: min(85vw, 380px) !important;
-    aspect-ratio: 3/4;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  
-  .hero-text {
-    font-size: clamp(12vw, 15vw, 18vw);
-    opacity: 0.4;
-  }
-
-  .glass-card {
-    backdrop-filter: blur(8px);
-    padding: 0.5rem 0.75rem;
-  }
-
-  /* Adjust top info cards */
-  .absolute.top-6.left-6 {
-    top: 1rem;
-    left: 1rem;
-  }
-
-  .absolute.top-6.right-6 {
-    top: 1rem;
-    right: 1rem;
-  }
-
-  /* Adjust bottom info cards */
-  .absolute.bottom-6.right-6 {
-    bottom: 1rem;
-    right: 1rem;
-  }
-
-  .absolute.bottom-6.left-6 {
-    bottom: 1rem;
-    left: 1rem;
-  }
-
-  /* Make social links more compact */
-  .social-link {
-    padding: 0.5rem;
-  }
-
-  /* Adjust scroll button position */
-  .scroll-down-btn {
-    bottom: 1.5rem;
-  }
-
-  /* Reduce text sizes */
-  .text-xs {
-    font-size: 0.7rem;
-  }
-
-  .text-sm {
-    font-size: 0.8rem;
-  }
-
-  /* Adjust spacing between elements */
-  .space-y-3 {
-    gap: 0.5rem;
-  }
-
-  .space-y-2 {
-    gap: 0.4rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .profile-image-container {
-    width: min(90vw, 340px) !important;
-    aspect-ratio: 3/4;
-    margin: 2.5rem auto;
-    padding: 0 0.75rem;
-  }
-
-  /* Further reduce text sizes */
-  .text-xs {
-    font-size: 0.65rem;
-  }
-
-  /* Make cards more compact */
-  .glass-card {
-    padding: 0.4rem 0.6rem;
-  }
-
-  /* Adjust icon sizes */
-  .w-4.h-4 {
-    width: 0.875rem;
-    height: 0.875rem;
-  }
-
-  /* Reduce spacing */
-  .gap-2 {
-    gap: 0.5rem;
-  }
-
-  /* Adjust scroll button */
-  .scroll-down-btn .glass-card {
-    padding: 0.5rem;
-  }
-
-  .scroll-down-btn .w-8.h-8 {
-    width: 1.75rem;
-    height: 1.75rem;
-  }
-
-  /* Hide some decorative elements on very small screens */
-  .floating-element {
-    display: none;
-  }
-
-  /* Adjust status indicator */
-  .status-indicator {
-    padding: 0.3rem 0.5rem;
-  }
-}
-
-/* Add smooth transitions for responsive changes */
-.profile-image-container,
-.glass-card,
-.social-link,
-.scroll-down-btn {
+.social-link svg {
+  position: relative;
+  z-index: 1;
   transition: all 0.3s ease;
 }
 
-/* Improve touch targets for mobile */
-@media (hover: none) {
-  .social-link,
-  .scroll-down-btn,
-  .glass-card {
-    cursor: default;
-  }
-
-  .social-link:active,
-  .scroll-down-btn:active {
-    transform: scale(0.95);
-  }
+.social-link:hover svg {
+  transform: scale(1.2) rotate(-5deg);
+  color: #3b82f6;
 }
 
-/* Animation Delays for Smooth Loading */
+/* Enhanced Scroll Indicator */
+.scroll-animation {
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+.scroll-down-btn {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.scroll-down-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.scroll-down-btn:hover .glass-card {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Enhanced Floating Elements */
+.floating-element {
+  position: absolute;
+  animation: gentleFloat 8s ease-in-out infinite;
+  opacity: 0.4;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.floating-element:hover {
+  opacity: 0.8;
+  transform: scale(1.5);
+  box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
+}
+
+.floating-element:nth-child(2) { animation-delay: -2s; }
+.floating-element:nth-child(3) { animation-delay: -4s; }
+.floating-element:nth-child(4) { animation-delay: -6s; }
+
+/* Enhanced Status Indicator */
+.status-indicator {
+  animation: subtleGlow 4s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.status-indicator:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(45deg, #10b981, #34d399);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Tooltip Enhancement */
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  background: linear-gradient(135deg, #1f2937, #374151);
+  color: #f9fafb;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 6px 12px;
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #374151;
+}
+
+.social-link:hover .tooltip,
+.social-link:focus .tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Animation Delays */
 .fade-in-up {
-  animation: fadeInUp 0.8s ease forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .fade-in-up-delay-1 {
-  animation: fadeInUp 0.8s ease 0.2s forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
   opacity: 0;
 }
 
 .fade-in-up-delay-2 {
-  animation: fadeInUp 0.8s ease 0.4s forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
   opacity: 0;
 }
 
 .fade-in-up-delay-3 {
-  animation: fadeInUp 0.8s ease 0.6s forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
   opacity: 0;
+}
+
+/* Enhanced Responsive Design */
+@container (max-width: 768px) {
+  .profile-image-container {
+    width: min(80vw, 320px) !important;
+  }
+  
+  .hero-text {
+    font-size: clamp(8vw, 12vw, 16vw);
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-image-container {
+    width: min(85vw, 300px) !important;
+    margin: 1rem auto;
+  }
+
+  .glass-card {
+    backdrop-filter: blur(8px);
+    padding: 0.4rem 0.6rem;
+  }
+
+  .social-link {
+    padding: 0.4rem;
+  }
+
+  .floating-element {
+    display: none;
+  }
+}
+
+/* Performance Optimizations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .floating-element,
+  .scroll-animation,
+  .status-indicator {
+    animation: none;
+  }
+  
+  .glass-card:hover,
+  .social-link:hover,
+  .scroll-down-btn:hover {
+    transform: none;
+  }
+  
+  /* Keep profile image static when reduced motion is preferred */
+  .profile-image-container {
+    transform: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #000;
+  }
+  
+  .social-link svg {
+    color: #000;
+  }
+}
+
+/* Floating Scroll Button (Bottom Left) */
+.floating-scroll-btn {
+  left: 2rem;
+  bottom: 2rem;
+  z-index: 30;
+}
+
+.scroll-btn-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: default;
+  box-shadow: none;
+}
+
+.scroll-btn-circle svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  margin: 0 auto;
+  color: #374151;
+  transition: color 0.2s;
+}
+
+.scroll-btn-tooltip {
+  background: #222;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 6px;
+  padding: 4px 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  bottom: -28px;
+  transform: translateX(-50%) translateY(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: none;
+  z-index: 100;
+}
+.scroll-btn-circle:hover .scroll-btn-tooltip,
+.scroll-btn-circle:focus .scroll-btn-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 640px) {
+  .floating-scroll-btn {
+    left: 1rem;
+    bottom: 1rem;
+  }
+  .scroll-btn-circle {
+    width: 36px;
+    height: 36px;
+    border-width: 2px;
+  }
+  .scroll-btn-circle svg {
+    width: 16px;
+    height: 16px;
+  }
+  .scroll-down-label {
+    font-size: 0.9rem;
+    margin-left: 0.4rem;
+  }
+}
+
+.scroll-down-label {
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-left: 0.75rem;
+  text-shadow: none;
+  transition: none;
+  user-select: none;
+  white-space: nowrap;
+  opacity: 1;
+  animation: none;
+  text-transform: lowercase;
+}
+
+@media (max-width: 640px) {
+  .scroll-down-label {
+    font-size: 0.95rem;
+    margin-left: 0.3rem;
+  }
 }
