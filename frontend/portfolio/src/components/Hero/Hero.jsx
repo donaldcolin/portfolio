@@ -10,6 +10,7 @@ const Hero = () => {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const heroRef = useRef(null);
+  const imageRef = useRef(null); // Add this line
 
   // Check for reduced motion preference
   useEffect(() => {
@@ -163,15 +164,15 @@ const Hero = () => {
         <div 
           className="absolute inset-0 flex items-center justify-center z-10 gpu-accelerated fade-in-up"
           style={{ 
-            transform: `translateY(${imageTranslateY}px) scale(${imageScale}) translateX(${-parallaxOffset}px)`,
-            opacity: heroOpacity
+            transform: `translateY(${animations.imageTranslateY}px) scale(${animations.imageScale}) translateX(${-animations.parallaxOffset}px)`,
+            opacity: animations.heroOpacity
           }}
         >
           <div className="profile-image-container aspect-[3/4] relative">
             <div className="profile-image-wrapper">
               <img 
                 ref={imageRef}
-                src="https://res.cloudinary.com/dt9apeyvy/image/upload/v1748705872/WhatsApp_Image_2025-05-31_at_21.05.41_a2nd4q.jpg" 
+                src="https://res.cloudinary.com/dt9apeyvy/image/upload/v1753035999/WhatsApp_Image_2025-07-20_at_23.55.34_c2ekb9.jpg" 
                 alt="Donald Colin - Full Stack Developer & Strategist" 
                 className="profile-image gpu-accelerated"
                 loading="eager"
