@@ -136,7 +136,7 @@ const Hero = () => {
             <div className="profile-image-wrapper">
               <img 
                 ref={imageRef}
-                src="https://res.cloudinary.com/dt9apeyvy/image/upload/v1752495748/WhatsApp_Image_2025-07-14_at_17.44.04_nxrq1g.jpg" 
+                src="https://res.cloudinary.com/dt9apeyvy/image/upload/v1753035999/WhatsApp_Image_2025-07-20_at_23.55.34_c2ekb9.jpg" 
                 alt="Donald Colin - Full Stack Developer & Strategist" 
                 className="profile-image gpu-accelerated"
                 loading="eager"
