@@ -121,7 +121,7 @@ const SeparatorAlt = ({ text = "Life Updates" }) => {
         }} />
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes gentlePulse {
           0%, 100% { 
             transform: translate(-50%, -50%) scale(1);
