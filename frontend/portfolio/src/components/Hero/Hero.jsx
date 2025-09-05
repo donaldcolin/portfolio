@@ -100,7 +100,7 @@ const Hero = () => {
     const parallaxOffset = mousePosition.x * 0.001;
 
     return {
-      nameText: "     Donald Colin • Software Developer • Business Developer •",
+      nameText: "     Donald Colin • Software Developerwjindfnbqiwnsciqnciqnchuqwbuchsbfscn • Business Developer •",
       heroOpacity,
       imageScale,
       textTranslateY,
