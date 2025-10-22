@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { Github, Linkedin, Mail, Code, ArrowDown } from 'lucide-react';
+import { gsap } from 'gsap';
 import './Hero.css';
 
 const Hero = () => {
@@ -11,41 +12,34 @@ const Hero = () => {
 
   const heroRef = useRef(null);
   const imageRef = useRef(null);
-  
-
-  // Minimal setup only
 
   // Check for reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
-    
+
     const handleChange = () => setPrefersReducedMotion(mediaQuery.matches);
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Optimized event handlers with debouncing and throttling
+  // Optimized event handlers
   useEffect(() => {
     setWindowHeight(window.innerHeight);
     setIsVisible(true);
 
-    // Throttled scroll handler - less frequent updates
     let scrollTimeout;
     const handleScroll = () => {
       if (prefersReducedMotion) return;
-      
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         setScrollY(window.scrollY);
-      }, 16); // ~60fps max
+      }, 16);
     };
 
-    // Mouse move handler with reduced frequency
     let mouseMoveTimeout;
     const handleMouseMove = (e) => {
       if (prefersReducedMotion) return;
-      
       clearTimeout(mouseMoveTimeout);
       mouseMoveTimeout = setTimeout(() => {
         setMousePosition({ x: e.clientX, y: e.clientY });
@@ -56,7 +50,6 @@ const Hero = () => {
       setWindowHeight(window.innerHeight);
     };
 
-    // Add event listeners
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
@@ -71,15 +64,11 @@ const Hero = () => {
   }, [prefersReducedMotion]);
 
   const handleScrollDown = useCallback(() => {
-    const aboutSection = document.getElementById('about');
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollBy({ top: windowHeight, left: 0, behavior: 'smooth' });
-    }
+    const target = document.getElementById('about');
+    const scrollTarget = target ? '#about' : windowHeight;
+    gsap.to(window, { duration: 1, scrollTo: { y: scrollTarget, offsetY: 0 }, ease: 'power2.out' });
   }, [windowHeight]);
 
-  // Simplified calculations for better performance
   const animations = useMemo(() => {
     if (prefersReducedMotion) {
       return {
@@ -88,11 +77,9 @@ const Hero = () => {
         textTranslateY: 0,
         imageTranslateY: 0,
         parallaxOffset: 0,
-        nameText: "Donald Colin • Software Developer • Business Developer •"
       };
     }
 
-    // Reduced calculations
     const heroOpacity = Math.max(0, 1 - scrollY / (windowHeight * 0.8));
     const imageScale = Math.max(0.98, 1 - scrollY / (windowHeight * 12));
     const textTranslateY = scrollY * 0.15;
@@ -100,12 +87,11 @@ const Hero = () => {
     const parallaxOffset = mousePosition.x * 0.001;
 
     return {
-      nameText: "     Donald Colin • Software Developerwjindfnbqiwnsciqnciqnchuqwbuchsbfscn • Business Developer •",
       heroOpacity,
       imageScale,
       textTranslateY,
       imageTranslateY,
-      parallaxOffset
+      parallaxOffset,
     };
   }, [scrollY, mousePosition.x, windowHeight, prefersReducedMotion]);
 
@@ -113,11 +99,10 @@ const Hero = () => {
     const urls = {
       github: 'https://github.com/donaldcolin',
       linkedin: 'https://linkedin.com/in/donaldcolin',
-      email: 'dcolin207@gmail.com'
+      email: 'mailto:dcolin207@gmail.com' // Using mailto: for email clients
     };
-    
     if (platform === 'email') {
-      window.location.href = urls[platform];
+      window.location.href = urls.email;
     } else {
       window.open(urls[platform], '_blank', 'noopener,noreferrer');
     }
@@ -129,9 +114,6 @@ const Hero = () => {
     { platform: 'email', icon: Mail, label: 'Email' }
   ], []);
 
-  // Unicorn removed; minimal hero below
-
-  // Early return with minimal markup for better performance
   if (!isVisible) {
     return <div className="w-full h-screen bg-gradient-to-br from-slate-50 to-gray-100" />;
   }
@@ -139,16 +121,15 @@ const Hero = () => {
   return (
     <div className="relative w-full">
       <div id="hero" className="w-full relative overflow-hidden">
-        <div 
+        <div
           ref={heroRef}
           className="relative h-screen w-full overflow-hidden"
-          style={{ 
+          style={{
             background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%)'
           }}
         >
-          
-          {/* Minimal CSS Background */}
-          <div 
+          {/* Background Gradients */}
+          <div
             className="absolute inset-0 w-full h-full"
             style={{
               zIndex: 2,
@@ -159,9 +140,9 @@ const Hero = () => {
               `
             }}
           />
-          
+
           {/* Subtle grid */}
-          <div 
+          <div
             className="absolute inset-0 opacity-15"
             style={{
               zIndex: 3,
@@ -172,45 +153,28 @@ const Hero = () => {
               backgroundSize: '140px 140px'
             }}
           />
-          
-          {/* Minimal floating accents (none) */}
 
-          {/* Simplified Background Text */}
-          <div 
-            className="absolute w-full top-1/2 left-0 pointer-events-none select-none"
-            style={{ 
-              zIndex: 5,
-              transform: `translateY(-50%) translateY(${animations.textTranslateY}px)`,
-              opacity: animations.heroOpacity * 0.5,
-              willChange: 'transform, opacity'
-            }}
-          >
-            <div className="whitespace-nowrap bg-text animate-marquee">
-              {animations.nameText.repeat(2)}
-            </div>
-          </div>
-
-          {/* Main Content - Optimized */}
-          <div 
+          {/* Main Content */}
+          <div
             className="absolute inset-0 flex items-center justify-center"
             style={{ zIndex: 10 }}
           >
-            <div 
+            <div
               className="relative"
-              style={{ 
+              style={{
                 transform: `translateY(${animations.imageTranslateY}px) scale(${animations.imageScale})`,
                 opacity: animations.heroOpacity,
                 willChange: 'transform, opacity'
               }}
             >
               <div className="relative w-80 h-106 md:w-96 md:h-[28rem]">
-                <div 
+                <div
                   className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl border border-white/50 bg-white/90"
                 >
-                  <img 
+                  <img
                     ref={imageRef}
-                    src="https://res.cloudinary.com/dt9apeyvy/image/upload/v1753035999/WhatsApp_Image_2025-07-20_at_23.55.34_c2ekb9.jpg" 
-                    alt="Donald Colin - Full Stack Developer & Strategist" 
+                    src="https://res.cloudinary.com/dt9apeyvy/image/upload/v1759164079/WhatsApp_Image_2025-09-29_at_22.03.21_ragkdn.jpg"
+                    alt="Donald Colin - Full Stack Developer & Strategist"
                     className="w-full h-full object-cover"
                     loading="eager"
                   />
@@ -219,28 +183,28 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* UI Elements - Simplified */}
+          {/* UI Elements */}
           <div style={{ zIndex: 20 }}>
             {/* Top Left Info */}
-            <div 
+            <div
               className="absolute top-6 left-6 md:top-8 md:left-8"
               style={{ opacity: animations.heroOpacity }}
             >
               <div className="py-2 px-4 rounded-xl shadow-lg bg-white/90">
                 <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <Code className="w-4 h-4 text-slate-600" />
-                  Software & Business Developer
+                  <Code className="w-8 h-8 text-slate-600" />
+                  Donald colin
                 </p>
               </div>
             </div>
 
             {/* Social Links */}
-            <div 
+            <div
               className="absolute top-6 right-6 md:top-8 md:right-8 flex gap-2"
               style={{ opacity: animations.heroOpacity }}
             >
               {socialLinks.map(({ platform, icon: Icon, label }) => (
-                <button 
+                <button
                   key={platform}
                   onClick={() => handleSocialClick(platform)}
                   className="relative group p-2.5 rounded-lg shadow-lg transition-all duration-200 hover:scale-105 bg-white/90"
@@ -266,8 +230,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-
-      {/* Inline styled-jsx removed for Vite compatibility */}
     </div>
   );
 };

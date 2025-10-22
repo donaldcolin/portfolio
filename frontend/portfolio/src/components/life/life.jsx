@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './life.css';
-import '../about/about.css';
+
 
 const Life = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -99,7 +99,7 @@ const Life = () => {
   };
 
   return (
-    <div id="life" className="projects-container">
+    <div id="life" className="projects-container overlap-life">
       <div className="projects-content">
         <div className="projects-title-column">
           <h1>Life</h1>

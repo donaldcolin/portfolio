@@ -172,7 +172,7 @@ const Projects = () => {
   }, [activeProject]);
 
   return (
-    <div id="projects" className="projects-container">
+    <div id="projects" className="projects-container" style={{ marginTop: '-12vh', paddingTop: '12vh' }}>
       <div className="projects-content">
         <div className="projects-title-column">
           <h1>Work</h1>

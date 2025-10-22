@@ -1,151 +1,158 @@
 /* General Styles */
 .about-container {
-  min-height: 100vh; /* Match projects-container */
+  min-height: 100vh;
   width: 100%;
   background-color: #000;
   color: #fff;
-  padding: 0; /* Reset padding, will be handled by about-content */
-  margin: 0;
-  position: relative;
+  padding: 12vh 1rem 5vh; /* Add padding for spacing */
   display: flex;
-  align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
 }
 
 .about-content {
   width: 100%;
-  max-width: 1400px; /* Match projects-content max-width */
-  padding: 4rem 2rem; /* Default padding for larger screens */
-  display: grid;
-  grid-template-columns: 1fr 2fr; /* Two columns for larger screens */
-  gap: 4rem; /* Space between columns */
+  max-width: 800px; /* Optimal width for a single column */
+  display: flex;
+  flex-direction: column; /* Stack all content vertically */
+  align-items: center;     /* Center content horizontally */
+  text-align: center;      /* Center text by default */
+  gap: 4rem;
 }
 
-/* Title Column */
-.about-title-column {
-  position: relative;
-}
-
-.about-title-column h1 {
-  font-size: 7rem; /* Match projects-title-column h1 */
+/* Title */
+.about-content h1 {
+  font-size: 12rem;
   font-weight: 600;
   line-height: 1;
   margin: 0;
-  position: sticky;
-  top: 4rem; /* Sticky position */
   background: linear-gradient(45deg, #fff, #888);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Text Column */
-.about-text-column {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem; /* Match projects-grid-column gap */
+/* Ensure gradient applies to per-character spans created for the title animation */
+.about-content h1 .about-char {
+  display: inline-block;
+  background: inherit;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  will-change: transform, filter, opacity;
 }
 
-.about-bio p {
-  font-size: 1.25rem; /* Match projects-intro p */
-  line-height: 1.5;
+/* --- Bio Section Styles (FIXED ALIGNMENT) --- */
+
+/* Bio section full width with borders */
+.about-bio {
+  /* FIX 1: Set to 100vw for borders to span the screen */
+  width: 90vw; 
+  position: relative;
+  /* FIX 2: Use negative margins to pull the 100vw element out from the centered content */
+
+  margin-left: -50vw;
+  margin-right: -50vw;
+
+  padding: 4rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  /* FIX 3: Change display property for modern layout */
+  display: flex; 
+  /* Push all content inside to the far left */
+  justify-content: flex-start; 
+}
+
+/* The actual paragraph container */
+.about-bio p.bio-paragraph {
+  font-size: 2.25rem;
+  line-height: 1.6;
   opacity: 0.9;
-  margin-bottom: 2rem; /* Match projects-intro p */
   font-weight: 400;
-  word-wrap: break-word; /* Ensure long words break */
-  overflow-wrap: break-word; /* Ensure text wrapping */
-  color: #fff; /* Ensure text color is white */
-  /* Animations for paragraphs */
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-.about-bio p:nth-child(2) {
-  animation-delay: 0.3s; /* Stagger animation for second paragraph */
-}
-
-.about-bio p:nth-child(3) {
-  animation-delay: 0.6s; /* Stagger animation for third paragraph */
+  color: #fff;
+  
+  /* FIX 4: Set max-width to 100vw (or a high value) to ensure it fills the screen, 
+     but you may want to keep max-width: 800px for readability. */
+  max-width: 100vw; 
+  
+  /* FIX 5: Remove auto margin so it doesn't try to center */
+  margin: 0; 
+  
+  /* Use padding for spacing from the edge of the screen */
+  padding: 1rem; 
+  text-align: left; 
+  display: block; 
 }
 
 .pronouns {
   font-weight: 300;
   opacity: 0.8;
-  font-size: 1rem; /* Slightly smaller than paragraph */
+  font-size: 1rem;
+  display: inline; /* Ensures this stays on the same line as the name */
 }
 
-.about-tagline {
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  font-weight: 500;
-  opacity: 0.8;
-  margin-top: 4rem; /* Space above tagline */
-  color: #fff; /* Ensure text color is white */
+.line-wrapper {
+    overflow: hidden; /* THE KEY MASKING PROPERTY */
+    display: block; 
+    width: 100%; 
+    text-align: left; /* Ensures the line content inside aligns left */
 }
 
-/* Experience Section */
-.experience-section {
-  margin-top: 4rem; /* Space above experience section */
+/* The actual line of text split by SplitText (class name is "line-inner") */
+.bio-paragraph > .line-wrapper > .line-inner {
+    display: block; /* Ensures end-to-end flow and proper vertical animation */
+    will-change: transform; 
+    white-space: normal; 
+    width: auto;
+    margin: 0;
 }
 
+/* --- End Bio Section Styles --- */
+
+
+/* General Section Title */
 .section-title {
-  font-size: 2rem; /* Match projects section title */
+  font-size: 2.5rem;
   font-weight: 600;
-  margin-bottom: 2rem; /* Match projects section title */
-  position: relative;
-  display: inline-block;
-  color: #fff; /* Ensure title color is white */
+  margin-bottom: 2.5rem;
+  color: #fff;
 }
 
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -8px; /* Match projects section title after */
-  left: 0;
-  width: 40px; /* Match projects section title after */
-  height: 2px;
-  background: #fff; /* Match projects section title after */
-  opacity: 0.8;
+/* Experience & Tools Sections */
+.experience-section,
+.tools-section {
+  width: 100%; /* Ensure sections take full width of the container */
 }
 
 .timeline {
-  position: relative;
-  padding-left: 2rem; /* Match projects timeline padding */
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.1); /* Match projects timeline before */
-  /* Animation for timeline line */
-  transform: scaleY(0);
-  animation: growLine 1.5s ease-out forwards;
-  transform-origin: top;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Space between experience items */
 }
 
 .experience-item {
-  position: relative;
-  margin-bottom: 3rem; /* Match projects experience item margin */
-  padding-left: 2rem; /* Match projects experience item padding */
+  width: 100%;
 }
 
-.timeline-dot {
-  position: absolute;
-  left: -8px; /* Match projects timeline dot */
-  top: 0;
-  width: 16px; /* Match projects timeline dot */
-  height: 16px; /* Match projects timeline dot */
-  background: #fff; /* Match projects timeline dot */
-  border-radius: 50%;
-  z-index: 1;
-  /* Animation for timeline dots */
-  opacity: 0;
-  animation: popIn 0.5s ease forwards 1.5s; /* Apply pop-in animation after line grows */
+.experience-content {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  text-align: left; /* Keep text inside cards left-aligned for readability */
+}
+
+.experience-content:hover {
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.experience-header {
+  margin-bottom: 1rem;
 }
 
 .experience-company-info {
@@ -154,35 +161,19 @@
   gap: 1rem;
 }
 
-.experience-company-info .company-logo {
-  width: 40px; /* Default size for PC */
-  height: 40px; /* Default size for PC */
+.company-logo {
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  border-radius: 8px; /* Optional: if logos should have rounded corners */
-  padding: 0.5rem; /* Optional: add some padding if needed */
-  background-color: rgba(255, 255, 255, 0.05); /* Optional: subtle background */
-}
-
-.experience-content {
-  background: rgba(255, 255, 255, 0.03); /* Match projects project item background */
-  padding: 1.5rem; /* Match projects project item padding */
   border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.experience-content:hover {
-  background: rgba(255, 255, 255, 0.05); /* Match projects project item hover */
-  transform: translateX(4px); /* Slightly less aggressive hover effect */
-}
-
-.experience-header {
-  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .experience-header h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.25rem 0;
 }
 
 .experience-company {
@@ -201,27 +192,22 @@
   line-height: 1.6;
   opacity: 0.9;
   margin: 0;
-  color: #fff; /* Ensure text color is white */
+  color: #e0e0e0;
 }
 
 /* Skills Section */
-.tools-section {
-  margin-top: 4rem; /* Space above skills section */
-}
-
 .skills-toggle {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
   justify-content: center;
-  position: relative;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.03); /* Match projects style */
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
-  backdrop-filter: blur(8px); /* Match projects style */
+  backdrop-filter: blur(8px);
 }
 
 .toggle-btn {
@@ -233,93 +219,48 @@
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease; /* Simplified transition */
+  transition: all 0.3s ease;
   position: relative;
   z-index: 1;
   min-width: 120px;
   overflow: hidden;
 }
 
-.toggle-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1); /* Match projects style */
-  border-radius: 8px;
-  transform: scale(0.8); /* Match projects style */
-  opacity: 0;
-  transition: all 0.3s ease; /* Simplified transition */
-}
-
-.toggle-btn:hover::before {
-  transform: scale(1);
-  opacity: 1;
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .toggle-btn.active {
-  color: #fff;
-}
-
-.toggle-btn.active::before {
-  background: rgba(255, 255, 255, 0.15); /* Match projects style */
-  transform: scale(1);
-  opacity: 1;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Match projects style */
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .tools-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Three columns for larger screens */
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  position: relative;
-  /* Animation for grid container */
-  animation: fadeInScale 0.4s ease-out forwards; /* Reduced duration */
 }
 
 .tools-category {
-  background: rgba(255, 255, 255, 0.03); /* Match projects style */
+  background: rgba(255, 255, 255, 0.03);
   padding: 1.5rem;
   border-radius: 12px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Match projects style */
-  border: 1px solid rgba(255, 255, 255, 0.05); /* Match projects style */
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(8px); /* Match projects style */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  text-align: left;
 }
 
 .tools-category:hover {
-  transform: translateY(-4px); /* Match projects style */
-  border-color: rgba(255, 255, 255, 0.1); /* Match projects style */
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .tools-category h3 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1.25rem;
-  opacity: 0.95;
   color: #fff;
-  letter-spacing: 0.5px;
-  position: relative;
-  display: inline-block;
-}
-
-.tools-category h3::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 30px;
-  height: 2px;
-  background: linear-gradient(to right, #3b82f6, rgba(255, 255, 255, 0.3));
-  transition: width 0.3s ease;
-}
-
-.tools-category:hover h3::after {
-  width: 100%;
-  background: linear-gradient(to right, #3b82f6, rgba(255, 255, 255, 0.1));
 }
 
 .tools-list {
@@ -329,369 +270,51 @@
 }
 
 .tool-badge {
-  background: rgba(255, 255, 255, 0.08); /* Match projects style */
-  padding: 0.6rem 1.2rem; /* Match projects style */
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.3s ease; /* Simplified transition */
+  transition: all 0.3s ease;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Match projects style */
-  backdrop-filter: blur(4px); /* Match projects style */
-  /* Animation for skill badges */
-  opacity: 0;
-  transform: translateY(10px);
-  animation: slideUp 0.5s ease forwards;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
 }
 
-/* Staggered animation delays for skill badges */
-.tools-grid > *:nth-child(1) .tool-badge:nth-child(1) { animation-delay: 0.1s; }
-.tools-grid > *:nth-child(1) .tool-badge:nth-child(2) { animation-delay: 0.15s; }
-.tools-grid > *:nth-child(1) .tool-badge:nth-child(3) { animation-delay: 0.2s; }
-.tools-grid > *:nth-child(1) .tool-badge:nth-child(4) { animation-delay: 0.25s; }
-.tools-grid > *:nth-child(1) .tool-badge:nth-child(5) { animation-delay: 0.3s; }
-.tools-grid > *:nth-child(1) .tool-badge:nth-child(6) { animation-delay: 0.35s; }
-
-.tools-grid > *:nth-child(2) .tool-badge:nth-child(1) { animation-delay: 0.15s; }
-.tools-grid > *:nth-child(2) .tool-badge:nth-child(2) { animation-delay: 0.2s; }
-.tools-grid > *:nth-child(2) .tool-badge:nth-child(3) { animation-delay: 0.25s; }
-.tools-grid > *:nth-child(2) .tool-badge:nth-child(4) { animation-delay: 0.3s; }
-.tools-grid > *:nth-child(2) .tool-badge:nth-child(5) { animation-delay: 0.35s; }
-
-.tools-grid > *:nth-child(3) .tool-badge:nth-child(1) { animation-delay: 0.2s; }
-.tools-grid > *:nth-child(3) .tool-badge:nth-child(2) { animation-delay: 0.25s; }
-.tools-grid > *:nth-child(3) .tool-badge:nth-child(3) { animation-delay: 0.3s; }
-.tools-grid > *:nth-child(3) .tool-badge:nth-child(4) { animation-delay: 0.35s; }
-
 .tool-badge:hover {
-  transform: translateY(-2px); /* Match projects style */
-  border-color: rgba(255, 255, 255, 0.2); /* Match projects style */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Match projects style */
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive adjustments */
-@media (max-width: 1024px) {
-  .about-content {
-    grid-template-columns: 1fr 1.5fr;
-    gap: 2rem;
-  }
-
-  .about-title-column h1 {
-    font-size: 5rem;
-  }
-
-  .about-bio p {
-    font-size: 1.125rem;
-  }
-
-  .tools-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Adjust animation delays for 2 columns */
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(1) { animation-delay: 0.1s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(2) { animation-delay: 0.15s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(3) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(4) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(5) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(6) { animation-delay: 0.35s; }
-
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(1) { animation-delay: 0.15s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(2) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(3) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(4) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(5) { animation-delay: 0.35s; }
-
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(1) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(2) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(3) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(4) { animation-delay: 0.35s; }
-}
-
 @media (max-width: 768px) {
-  .about-container {
-    padding: 3rem 1rem; /* Adjusted padding for mobile */
+  .about-content h1 {
+    font-size: 4rem;
   }
-
-  .about-content {
-    grid-template-columns: 1fr; /* Single column on mobile */
-    gap: 3rem;
-  }
-
-  .about-title-column {
-    margin-bottom: 1rem;
-  }
-
-  .about-title-column h1 {
-    font-size: 4rem; /* Adjusted font size for mobile */
-    position: relative;
-    top: 0;
-  }
-
-  .about-text-column {
-    min-height: auto;
-  }
-
-  .about-bio {
-    margin-bottom: 3rem;
-  }
-
   .about-bio p {
-    font-size: 1rem; /* Adjusted font size for mobile */
-  }
-
-  .skills-toggle {
-    padding: 0.25rem;
-    gap: 0.25rem;
-  }
-
-  .toggle-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    min-width: 100px;
-  }
-
-  .tools-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .tools-category {
-    padding: 1.25rem;
-  }
-
-  .tools-category h3 {
     font-size: 1rem;
   }
-
-  .tool-badge {
-    padding: 0.5rem 1rem;
-    font-size: 0.8125rem;
-  }
-
-  .experience-content {
-    padding: 1.25rem;
-  }
-
-  .experience-header h3 {
-    font-size: 1.125rem;
-  }
-
   .section-title {
     font-size: 1.75rem;
   }
-
-  /* Adjust animation delays for 1 column */
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(1) { animation-delay: 0.1s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(2) { animation-delay: 0.15s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(3) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(4) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(5) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(6) { animation-delay: 0.35s; }
-
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(1) { animation-delay: 0.15s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(2) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(3) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(4) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(5) { animation-delay: 0.35s; }
-
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(1) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(2) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(3) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(4) { animation-delay: 0.35s; }
+  .experience-header h3 {
+    font-size: 1.125rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .about-container {
-    padding: 2rem 0.8rem; /* Further adjusted padding for small mobile */
+  .about-content h1 {
+    font-size: 3rem;
   }
-
-  .about-content {
-    gap: 2rem; /* Smaller gap */
-  }
-
-  .about-title-column h1 {
-    font-size: 3rem; /* Even smaller title */
-  }
-
   .about-bio p {
-    font-size: 0.9rem; /* Even smaller text */
-    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
   }
-
-  .about-bio p:nth-child(2) { animation-delay: 0.3s; }
-  .about-bio p:nth-child(3) { animation-delay: 0.6s; }
-
-  .pronouns {
-    font-size: 0.8rem;
-  }
-
-  .about-tagline {
-    margin-top: 2rem; /* Reduced space */
-  }
-
-  .experience-section,
-  .tools-section {
-    margin-top: 2.5rem; /* Reduced space */
-  }
-
   .section-title {
-    font-size: 1.5rem; /* Reduced section title size */
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
   }
-
-  .timeline {
-    padding-left: 1rem; /* Reduced timeline padding */
-  }
-
-  .experience-item {
-    margin-bottom: 1.5rem; /* Reduced space */
-    padding-left: 1rem;
-  }
-
-  .timeline-dot {
-    left: -5px; /* Adjusted position */
-    width: 10px; /* Reduced size */
-    height: 10px; /* Reduced size */
-  }
-
-  .experience-content {
-    padding: 1rem; /* Reduced padding */
-  }
-
-  .experience-header h3 {
-    font-size: 1rem; /* Reduced font size */
-  }
-
-  .experience-company,
-  .experience-duration {
-    font-size: 0.75rem; /* Reduced font size */
-  }
-
-  .experience-content p {
-    font-size: 0.8rem; /* Reduced font size */
-  }
-
-  .experience-company-info .company-logo {
-    width: 28px; /* Even smaller size for very small mobile */
-    height: 28px; /* Even smaller size for very small mobile */
-    padding: 0.2rem; /* Adjusted padding */
-  }
-
-  .skills-toggle {
-    padding: 0.3rem; /* Reduced padding */
-    gap: 0.4rem; /* Reduced gap */
-  }
-
-  .toggle-btn {
-    padding: 0.5rem 1rem; /* Reduced padding */
-    font-size: 0.8rem; /* Reduced font size */
-    min-width: 80px; /* Reduced min-width */
-  }
-
-  .tools-category {
-    padding: 1rem; /* Reduced padding */
-  }
-
-  .tools-category h3 {
-    font-size: 0.9rem; /* Reduced font size */
-    margin-bottom: 0.8rem;
-  }
-
-  .tools-category h3::after {
-    width: 20px; /* Reduced width */
-  }
-
-  .tools-list {
-    gap: 0.5rem; /* Reduced gap */
-  }
-
-  .tool-badge {
-    padding: 0.4rem 0.8rem; /* Reduced padding */
-    font-size: 0.75rem; /* Reduced font size */
-  }
-
-  /* Adjust animation delays for 1 column */
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(1) { animation-delay: 0.1s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(2) { animation-delay: 0.15s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(3) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(4) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(5) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(1) .tool-badge:nth-child(6) { animation-delay: 0.35s; }
-
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(1) { animation-delay: 0.15s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(2) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(3) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(4) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(2) .tool-badge:nth-child(5) { animation-delay: 0.35s; }
-
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(1) { animation-delay: 0.2s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(2) { animation-delay: 0.25s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(3) { animation-delay: 0.3s; }
-  .tools-grid > *:nth-child(3) .tool-badge:nth-child(4) { animation-delay: 0.35s; }
-}
-
-/* Keyframe Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .company-logo {
+    width: 28px;
+    height: 28px;
   }
 }
-
-@keyframes popIn {
-  from {
-    transform: scale(0);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-  }
-}
-
-@keyframes growLine {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-} 
