@@ -60,3 +60,6 @@ const Preloader = ({ loading = true, onComplete }) => {
 };
 
 export default Preloader;
+
+
+// nned to add a splash animation for preloader

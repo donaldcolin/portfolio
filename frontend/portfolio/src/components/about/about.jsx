@@ -3,10 +3,8 @@ import React, { useState, useRef } from 'react';
 // Removed: { gsap }
 // Removed: { ScrollTrigger }
 // Removed: { SplitText }
-import './About.css';
-
 // Removed: gsap.registerPlugin(ScrollTrigger, SplitText);
-
+import './about.css'
 const About = () => {
   const [activeTab, setActiveTab] = useState('tech');
   // Refs are kept, but the animation logic they supported is gone

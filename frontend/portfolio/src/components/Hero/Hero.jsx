@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { Github, Linkedin, Mail, Code, ArrowDown } from 'lucide-react';
-import { gsap } from 'gsap';
 import './Hero.css';
 
 const Hero = () => {
@@ -63,11 +62,13 @@ const Hero = () => {
     };
   }, [prefersReducedMotion]);
 
+  // 1. MODIFICATION HERE: Removed the gsap dependency and functionality.
+  // The function is now a no-op (No Operation) to keep the button's purpose intact.
   const handleScrollDown = useCallback(() => {
-    const target = document.getElementById('about');
-    const scrollTarget = target ? '#about' : windowHeight;
-    gsap.to(window, { duration: 1, scrollTo: { y: scrollTarget, offsetY: 0 }, ease: 'power2.out' });
-  }, [windowHeight]);
+    // Scroll functionality removed as requested.
+    // This button will now only be visual and will not scroll the page.
+    console.log("Scroll down function disabled.");
+  }, []); 
 
   const animations = useMemo(() => {
     if (prefersReducedMotion) {
@@ -101,11 +102,7 @@ const Hero = () => {
       linkedin: 'https://linkedin.com/in/donaldcolin',
       email: 'mailto:dcolin207@gmail.com' // Using mailto: for email clients
     };
-    if (platform === 'email') {
-      window.location.href = urls.email;
-    } else {
-      window.open(urls[platform], '_blank', 'noopener,noreferrer');
-    }
+    window.open(urls[platform], '_blank', 'noopener,noreferrer');
   }, []);
 
   const socialLinks = useMemo(() => [
@@ -141,18 +138,7 @@ const Hero = () => {
             }}
           />
 
-          {/* Subtle grid */}
-          <div
-            className="absolute inset-0 opacity-15"
-            style={{
-              zIndex: 3,
-              backgroundImage: `
-                linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px)
-              `,
-              backgroundSize: '140px 140px'
-            }}
-          />
+          
 
           {/* Main Content */}
           <div
@@ -167,7 +153,7 @@ const Hero = () => {
                 willChange: 'transform, opacity'
               }}
             >
-              <div className="relative w-80 h-106 md:w-96 md:h-[28rem]">
+              <div className="relative w-90 h-120 md:w-96 md:h-[28rem]">
                 <div
                   className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl border border-white/50 bg-white/90"
                 >
@@ -190,11 +176,8 @@ const Hero = () => {
               className="absolute top-6 left-6 md:top-8 md:left-8"
               style={{ opacity: animations.heroOpacity }}
             >
-              <div className="py-2 px-4 rounded-xl shadow-lg bg-white/90">
-                <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                  <Code className="w-8 h-8 text-slate-600" />
-                  Donald colin
-                </p>
+              <div>
+               <p className="text-2xl font-bold text-slate-700 flex items-center gap-2">Donald colin</p>
               </div>
             </div>
 
@@ -215,9 +198,9 @@ const Hero = () => {
               ))}
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Scroll Indicator (Button kept, but functionality removed via handleScrollDown change) */}
             <button
-              onClick={handleScrollDown}
+              onClick={handleScrollDown} 
               className="absolute bottom-8 left-8 flex items-center gap-3 transition-opacity duration-300"
               style={{ opacity: animations.heroOpacity * 0.9 }}
               aria-label="Scroll down"
