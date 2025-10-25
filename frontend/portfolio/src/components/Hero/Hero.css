@@ -15,7 +15,7 @@
 }
 
 /* Applying font specifically to the text in your component based on JSX usage */
-.text-slate-700 {
+.bbh-sans {
   font-family: "BBH Sans Bartle", sans-serif;
   font-weight: 100; /* As specified in the original file */
   font-style: normal;

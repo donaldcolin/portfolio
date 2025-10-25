@@ -177,7 +177,7 @@ const Hero = () => {
               style={{ opacity: animations.heroOpacity }}
             >
               <div>
-               <p className="text-2xl font-bold text-slate-700 flex items-center gap-2">Donald colin</p>
+               <p className="text-2xl font-bold bbh-sans flex items-center gap-2">Donald colin</p>
               </div>
             </div>
 
@@ -207,7 +207,7 @@ const Hero = () => {
             >
               <div className="flex items-center gap-2 py-2 px-3 rounded-full shadow-lg bg-white/90">
                 <ArrowDown size={16} className="text-slate-600" />
-                <span className="text-sm font-medium text-slate-700">Scroll</span>
+                <span className="text-sm font-medium bbh-sans">Scroll</span>
               </div>
             </button>
           </div>
