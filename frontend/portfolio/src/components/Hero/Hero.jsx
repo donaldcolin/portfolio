@@ -117,7 +117,7 @@ const Hero = () => {
 
   return (
     <div className="relative w-full">
-      <div id="hero" className="w-full relative overflow-hidden">
+      <div id="hero" className="hero-section w-full relative overflow-hidden">
         <div
           ref={heroRef}
           className="relative h-screen w-full overflow-hidden"

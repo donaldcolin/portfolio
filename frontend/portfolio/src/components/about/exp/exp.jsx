@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger, refreshScrollTrigger } from '../../../utils/gsapSetup';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+// Register only MotionPathPlugin (others are already registered)
+gsap.registerPlugin(MotionPathPlugin);
 
 // --- Your Life Event Data ---
 const lifeEvents = [
@@ -91,6 +90,7 @@ const LifeTimeline = () => {
           start: "top top",
           end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
           scrub: 1,
+          id: "exp-plane-animation", // Unique ID to prevent conflicts
         },
         motionPath: {
           path: pathRef.current,
@@ -108,6 +108,7 @@ const LifeTimeline = () => {
           start: "top top",
           end: () => `+=${horizontalRef.current.scrollWidth - window.innerHeight}`,
           scrub: 1,
+          id: "exp-path-reveal", // Unique ID to prevent conflicts
         },
         attr: {
           'stroke-dashoffset': function() {
@@ -127,6 +128,7 @@ const LifeTimeline = () => {
             start: "top top",
             end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
             scrub: 1,
+            id: `exp-card-${i}`, // Unique ID for each card
           },
           opacity: 0,
           y: 100,
@@ -136,7 +138,49 @@ const LifeTimeline = () => {
 
     }, mainContainerRef);
 
-    return () => ctx.revert();
+    // Refresh ScrollTrigger multiple times to ensure proper calculation
+    const refreshScrollTrigger = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    // Immediate refresh
+    refreshScrollTrigger();
+    
+    // Refresh after layout settles
+    setTimeout(refreshScrollTrigger, 50);
+    setTimeout(refreshScrollTrigger, 150);
+    setTimeout(refreshScrollTrigger, 300);
+    
+    // Final refresh after everything is settled
+    setTimeout(() => {
+      refreshScrollTrigger();
+      if (window.scrollY === 0) {
+        window.scrollTo(0, 0);
+        setTimeout(refreshScrollTrigger, 50);
+      }
+    }, 500);
+
+    // Handle window resize
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+    };
+    
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 200);
+    });
+
+    return () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', handleResize);
+      ctx.revert();
+    };
   }, []);
 
   return (
