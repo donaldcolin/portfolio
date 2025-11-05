@@ -124,20 +124,21 @@ const About = () => {
         // Add animations to timeline
         // Animation 1: Massive zoom of the background and blurring it 
         tl.to(background, {
-          scale: 4, 
-          filter: 'blur(8px)',
+          scale: 5, 
+          filter: 'blur(10px)',
           duration: 2,
+          ease: 'power3.inOut'
         }, 0); 
          
-        // Animation 2: Scale UP (Zoom In) and fade out the title text
+        // Animation 2: Centered immersive zoom on the title
         tl.to(title, {
           opacity: 0,
-          scale: 3,
-          y: -100,
-          duration: 1.5,
-          transformOrigin: "center center",
-          ease: "power2.out",
+          scale: 6,
+          duration: 2,
+          transformOrigin: 'center center',
+          ease: 'power3.inOut',
           force3D: true,
+          filter: 'blur(2px)'
         }, 0); 
          
         // Animation 3: Fade in the scrolling content

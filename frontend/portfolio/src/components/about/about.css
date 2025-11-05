@@ -21,6 +21,7 @@
     justify-content: center;
     z-index: 10; /* lower than hero */
     background: black;
+    perspective: 1000px; /* help 3D transforms perform better */
   }
   
   /* Background layer should be behind the title and below hero */
@@ -31,6 +32,7 @@
     transform-origin: center center;
     will-change: transform, filter;
     background: inherit;
+    backface-visibility: hidden;
   }
   
   /* Title layer sits above the background but below hero until pin */
@@ -44,19 +46,37 @@
     pointer-events: none;
   }
 
+  /* Glow pulse for immersive effect */
+  @keyframes glowPulse {
+    0% { text-shadow: 0 0 16px rgba(255,255,255,0.25), 0 0 40px rgba(102,126,234,0.25); }
+    50% { text-shadow: 0 0 28px rgba(255,255,255,0.45), 0 0 60px rgba(118,75,162,0.40); }
+    100% { text-shadow: 0 0 16px rgba(255,255,255,0.25), 0 0 40px rgba(102,126,234,0.25); }
+  }
+
   /* About page title styling */
   .about-page-title {
-    font-size: clamp(3rem, 10vw, 8rem);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    font-size: clamp(3rem, 12vw, 10rem);
     font-weight: 700;
     color: #fff;
     margin: 0;
     text-align: center;
     opacity: 1;
-    transform: scale(1);
     transform-origin: center center;
-    will-change: transform, opacity;
+    will-change: transform, opacity, text-shadow;
     display: block;
     visibility: visible;
+    text-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    animation: glowPulse 2.4s ease-in-out infinite;
+    backface-visibility: hidden;
+  }
+
+  /* When we animate, pause the glow for performance */
+  .about-page-title.glow-paused {
+    animation: none !important;
   }
   
   /* When pinned, ScrollTrigger adds inline styles; ensure content that follows sits above */
@@ -306,7 +326,7 @@ body {
     }
 
     .about-page-title {
-        font-size: clamp(2rem, 8vw, 4rem);
+        font-size: clamp(2rem, 10vw, 4rem);
     }
 
     .section-title {
