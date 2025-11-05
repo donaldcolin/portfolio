@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger, refreshScrollTrigger } from '../../../utils/gsapSetup';
+import { gsap, ScrollTrigger } from '../../../utils/gsapSetup';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
-// Register only MotionPathPlugin (others are already registered)
-gsap.registerPlugin(MotionPathPlugin);
+// Register plugin
+gsap.registerPlugin(MotionPathPlugin, ScrollTrigger);
 
-// --- Your Life Event Data ---
+// Life event data
 const lifeEvents = [
   {
     year: '2018',
@@ -34,7 +34,6 @@ const lifeEvents = [
   },
 ];
 
-// --- The Main Component ---
 const LifeTimeline = () => {
   const mainContainerRef = useRef(null);
   const horizontalRef = useRef(null);
@@ -44,7 +43,7 @@ const LifeTimeline = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Clone the path and add it to the mask for the reveal effect
+      // Create mask path for dotted line animation
       if (pathRef.current && maskPathRef.current) {
         const clone = pathRef.current.cloneNode(true);
         clone.removeAttribute('id');
@@ -58,141 +57,116 @@ const LifeTimeline = () => {
         });
       }
 
-      // Calculate total width
       const sections = gsap.utils.toArray('.timeline-card');
-      const totalWidth = sections.length * window.innerWidth;
 
-      // Horizontal scroll animation
-      const horizontalScroll = gsap.to(horizontalRef.current, {
-        x: () => -(horizontalRef.current.scrollWidth - window.innerWidth),
-        ease: "none",
+      // ✅ Horizontal scroll animation (Right ➜ Left)
+      gsap.to(horizontalRef.current, {
+        x: () => horizontalRef.current.scrollWidth - window.innerWidth,
+        ease: 'none',
         scrollTrigger: {
           trigger: mainContainerRef.current,
-          start: "top top",
+          start: 'top top',
           end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1,
-        }
+        },
       });
 
-      // Set initial transform origin for the plane
+      // Set initial plane origin
       gsap.set(planeRef.current, {
-        transformOrigin: "50% 50%",
+        transformOrigin: '50% 50%',
         xPercent: -50,
-        yPercent: -50
+        yPercent: -50,
       });
 
-      // Animate plane along the path
+      // ✅ Plane animation (Right ➜ Left direction)
       gsap.to(planeRef.current, {
         scrollTrigger: {
           trigger: mainContainerRef.current,
-          start: "top top",
+          start: 'top top',
           end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
           scrub: 1,
-          id: "exp-plane-animation", // Unique ID to prevent conflicts
+          id: 'plane-animation',
         },
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,
           alignOrigin: [0.5, 0.5],
           autoRotate: true,
+          start: 1,
+          end: 0, // Reverse direction
         },
-        ease: "none",
+        ease: 'none',
       });
 
-      // Animate the mask path reveal
+      // Path reveal animation
       gsap.to(maskPathRef.current.querySelector('path'), {
         scrollTrigger: {
           trigger: mainContainerRef.current,
-          start: "top top",
-          end: () => `+=${horizontalRef.current.scrollWidth - window.innerHeight}`,
+          start: 'top top',
+          end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
           scrub: 1,
-          id: "exp-path-reveal", // Unique ID to prevent conflicts
+          id: 'path-reveal',
         },
         attr: {
-          'stroke-dashoffset': function() {
+          'stroke-dashoffset': function () {
             const path = maskPathRef.current.querySelector('path');
-            const length = path.getTotalLength();
-            return -length * 2;
-          }
+            return -path.getTotalLength() * 2;
+          },
         },
-        ease: "none",
+        ease: 'none',
       });
 
-      // Animate cards
+      // Fade-in animation for cards
       sections.forEach((card, i) => {
         gsap.from(card, {
           scrollTrigger: {
             trigger: mainContainerRef.current,
-            start: "top top",
+            start: 'top top',
             end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
             scrub: 1,
-            id: `exp-card-${i}`, // Unique ID for each card
+            id: `card-${i}`,
           },
           opacity: 0,
           y: 100,
-          ease: "none",
+          ease: 'none',
         });
       });
 
+      // Smooth refresh after layout stabilization
+      setTimeout(() => ScrollTrigger.refresh(), 300);
     }, mainContainerRef);
 
-    // Refresh ScrollTrigger multiple times to ensure proper calculation
-    const refreshScrollTrigger = () => {
-      ScrollTrigger.refresh();
-    };
-    
-    // Immediate refresh
-    refreshScrollTrigger();
-    
-    // Refresh after layout settles
-    setTimeout(refreshScrollTrigger, 50);
-    setTimeout(refreshScrollTrigger, 150);
-    setTimeout(refreshScrollTrigger, 300);
-    
-    // Final refresh after everything is settled
-    setTimeout(() => {
-      refreshScrollTrigger();
-      if (window.scrollY === 0) {
-        window.scrollTo(0, 0);
-        setTimeout(refreshScrollTrigger, 50);
-      }
-    }, 500);
-
-    // Handle window resize
-    let resizeTimeout;
+    // Refresh on resize
     const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
+      clearTimeout(window._resizeTimeout);
+      window._resizeTimeout = setTimeout(() => ScrollTrigger.refresh(), 200);
     };
-    
+
     window.addEventListener('resize', handleResize, { passive: true });
-    window.addEventListener('orientationchange', () => {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 200);
-    });
 
     return () => {
-      if (resizeTimeout) clearTimeout(resizeTimeout);
       window.removeEventListener('resize', handleResize);
       ctx.revert();
     };
   }, []);
 
   return (
-    <section ref={mainContainerRef} className="relative bg-black text-white overflow-hidden min-h-screen">
-      
-      <div ref={horizontalRef} className="flex items-center h-screen relative" style={{ width: 'max-content' }}>
-        
-        {/* SVG Path Container - Fixed position */}
+    <section
+      ref={mainContainerRef}
+      className="relative bg-black text-white overflow-hidden min-h-screen"
+    >
+      <div
+        ref={horizontalRef}
+        className="flex items-center h-screen relative"
+        style={{ width: 'max-content' }}
+      >
+        {/* SVG Path Background */}
         <div className="fixed inset-0 pointer-events-none flex items-center justify-center z-0">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 5000 800" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 5000 800"
             className="w-full h-full"
             preserveAspectRatio="xMidYMid meet"
           >
@@ -202,8 +176,8 @@ const LifeTimeline = () => {
               </mask>
             </defs>
 
-            {/* Background path (gray/invisible) */}
-            <path 
+            {/* Base path */}
+            <path
               d="M 200 400 
                  C 400 400, 500 200, 700 200
                  C 900 200, 1000 600, 1200 600
@@ -221,11 +195,11 @@ const LifeTimeline = () => {
               opacity="0.2"
             />
 
-            {/* Revealed path with mask (dotted white line) */}
+            {/* Masked path */}
             <g mask="url(#pathMask)">
-              <path 
+              <path
                 ref={pathRef}
-                id="motionPath" 
+                id="motionPath"
                 d="M 200 400 
                    C 400 400, 500 200, 700 200
                    C 900 200, 1000 600, 1200 600
@@ -243,11 +217,11 @@ const LifeTimeline = () => {
                 strokeDasharray="10 10"
               />
             </g>
-            
-            {/* The Paper Airplane */}
+
+            {/* Plane */}
             <g ref={planeRef}>
               <svg x="-25" y="-25" width="50" height="50" viewBox="0 0 40 40">
-                <path 
+                <path
                   d="M 20 5 L 30 25 L 20 23 L 20 32 L 17 30 L 17 23 L 10 25 L 20 5 Z"
                   fill="#ffffff"
                   stroke="#ffffff"
@@ -259,14 +233,19 @@ const LifeTimeline = () => {
         </div>
 
         {/* Title Section */}
-        <div className="flex-shrink-0 h-screen flex flex-col items-center justify-center px-20 relative z-20" style={{ width: '100vw' }}>
-          <h2 className="text-7xl font-bold text-white mb-6">My Life's Journey</h2>
+        <div
+          className="flex-shrink-0 h-screen flex flex-col items-center justify-center px-20 relative z-20"
+          style={{ width: '100vw' }}
+        >
+          <h2 className="text-7xl font-bold text-white mb-6">
+            My Life's Journey
+          </h2>
         </div>
 
         {/* Timeline Cards */}
         {lifeEvents.map((event, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className="timeline-card flex-shrink-0 h-screen flex items-center justify-center px-10 relative z-20"
             style={{ width: '60vw' }}
           >
@@ -285,13 +264,17 @@ const LifeTimeline = () => {
         ))}
 
         {/* End Section */}
-        <div className="flex-shrink-0 h-screen flex items-center justify-center px-20" style={{ width: '100vw' }}>
+        <div
+          className="flex-shrink-0 h-screen flex items-center justify-center px-20"
+          style={{ width: '100vw' }}
+        >
           <div className="text-center">
-            <h3 className="text-6xl font-bold text-white mb-4">The Journey Continues...</h3>
+            <h3 className="text-6xl font-bold text-white mb-4">
+              The Journey Continues...
+            </h3>
             <p className="text-2xl text-zinc-400">More adventures ahead</p>
           </div>
         </div>
-
       </div>
     </section>
   );
