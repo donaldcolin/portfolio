@@ -1,6 +1,7 @@
 /* About Container */
 
 @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Monoton&display=swap');
 
 /* Ensure hero (previous section) can stay above the splash until it's time */
 .hero-section {
@@ -59,6 +60,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
+    font-family: 'Cinzel', serif;
     font-size: clamp(3rem, 12vw, 10rem);
     font-weight: 700;
     color: #fff;
@@ -122,10 +124,17 @@ body {
 }
 
 .about-bio p {
-    font-size: 1.25rem;
-    line-height: 1.8;
+    font-size: 1.4rem;
+    line-height: 1.9;
     color: white;
     margin: 0;
+    letter-spacing: 0.02em;
+}
+
+/* Ensure words have proper spacing in split text */
+.about-bio p .word {
+    margin-right: 0.25em;
+    display: inline-block;
 }
 
 .pronouns {
@@ -334,7 +343,7 @@ body {
     }
 
     .about-bio p {
-        font-size: 1.125rem;
+        font-size: 1.25rem;
     }
 
     .tools-grid {

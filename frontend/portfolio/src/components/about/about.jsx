@@ -4,7 +4,7 @@ import '../../utils/testGSAP'; // Import test to verify GSAP setup
 import './about.css';
 
 const About = () => {
-  const [activeTab, setActiveTab] = useState('tech');
+  
    
   // Refs for Animation
   const containerRef = useRef(null); 
@@ -15,33 +15,7 @@ const About = () => {
   const bioRef = useRef(null);
 
 
-  const technicalSkills = {
-    languages: ["Swift", "Dart", "JavaScript", "Python"],
-    frameworks: ["SwiftUI", "Flutter", "React", "Node.js", "Express"],
-    tools: ["Git", "Docker", "Firebase", "MongoDB", "PostgreSQL"]
-  };
-
-  const businessSkills = {
-    sales: [
-      "Lead Generation",
-      "Sales Pipeline Management",
-      "Client Relationship Management",
-      "Sales Strategy",
-      "Revenue Growth"
-    ],
-    marketing: [
-      "Content Strategy",
-      "Growth Hacking",
-      "Brand Development",
-      "Market Analysis"
-    ],
-    business: [
-      "Business Development",
-      "Strategic Planning",
-      "Project Management",
-      "Performance Analytics"
-    ]
-  };
+  
 
   useLayoutEffect(() => {
     // Wait for everything to be ready before initializing
@@ -152,7 +126,7 @@ const About = () => {
           }, 0.5);
         }
 
-        // Bio SplitText Animation
+        // Bio SplitText Animation - Word-by-word reveal with wave effect
         if (bioEl) {
           // Kill existing bio animation triggers
           ScrollTrigger.getAll().forEach(trigger => {
@@ -166,27 +140,21 @@ const About = () => {
           // Wait for fonts to load before splitting text
           const initBioAnimation = () => {
             try {
-              // Create a more sophisticated split text animation
+              // Create split text
               let split = createSplitText(bioEl);
               
-              // Debug: Check if elements were created
-              console.log('Split text created:', {
-                words: split.words.length,
-                chars: split.chars.length,
-                wordsArray: Array.from(split.words),
-                charsArray: Array.from(split.chars)
-              });
-
-              // Set initial state for all characters
-              if (split.chars && split.chars.length > 0) {
-                gsap.set(split.chars, {
+              // Set initial state for all words - different style
+              if (split.words && split.words.length > 0) {
+                gsap.set(split.words, {
                   opacity: 0,
-                  y: 20,
-                  rotationX: 90
+                  y: 30,
+                  scale: 0.8,
+                  rotationX: 0,
+                  filter: 'blur(4px)'
                 });
 
-                // Animate characters with scroll trigger
-                gsap.to(split.chars, {
+                // Animate words with scroll trigger - wave effect
+                gsap.to(split.words, {
                   scrollTrigger: {
                     trigger: bioEl,
                     start: "top 80%",
@@ -195,42 +163,49 @@ const About = () => {
                     markers: true,
                     invalidateOnRefresh: true,
                     refreshPriority: -1,
-                    id: "about-bio-animation", // Unique ID to prevent conflicts
+                    id: "about-bio-animation",
                   },
                   opacity: 1,
                   y: 0,
-                  rotationX: 0,
-                  duration: 0.8,
-                  ease: "back.out(1.7)",
+                  scale: 1,
+                  filter: 'blur(0px)',
+                  duration: 0.6,
+                  ease: "power3.out",
                   stagger: {
-                    amount: 0.5,
-                    from: "start"
+                    amount: 1.2,
+                    from: "start",
+                    ease: "power2.inOut"
                   }
                 });
 
-                // Add a subtle hover effect for individual words
-                if (split.words && split.words.length > 0) {
-                  split.words.forEach((word, index) => {
-                    word.addEventListener('mouseenter', () => {
-                      gsap.to(word, {
-                        scale: 1.05,
-                        duration: 0.3,
-                        ease: "power2.out"
-                      });
-                    });
-                    
-                    word.addEventListener('mouseleave', () => {
-                      gsap.to(word, {
-                        scale: 1,
-                        duration: 0.3,
-                        ease: "power2.out"
-                      });
+                // Add hover effect for individual words
+                split.words.forEach((word) => {
+                  word.style.cursor = 'default';
+                  word.addEventListener('mouseenter', () => {
+                    gsap.to(word, {
+                      scale: 1.08,
+                      y: -3,
+                      color: '#fff',
+                      textShadow: '0 0 10px rgba(102,126,234,0.5)',
+                      duration: 0.3,
+                      ease: "power2.out"
                     });
                   });
-                }
+                  
+                  word.addEventListener('mouseleave', () => {
+                    gsap.to(word, {
+                      scale: 1,
+                      y: 0,
+                      color: '#fff',
+                      textShadow: 'none',
+                      duration: 0.3,
+                      ease: "power2.out"
+                    });
+                  });
+                });
               } else {
-                console.warn('No characters found for animation');
-                throw new Error('No characters found');
+                console.warn('No words found for animation');
+                throw new Error('No words found');
               }
             } catch (error) {
               console.warn('SplitText animation failed:', error);
@@ -430,81 +405,7 @@ const About = () => {
           </div>
 
 
-          {/* Skills Section */}
-          <div className="tools-section">
-            <h2 className="section-title">Skills</h2>
-            <div className="skills-toggle">
-              <button
-                className={`toggle-btn ${activeTab === 'tech' ? 'active' : ''}`}
-                onClick={() => setActiveTab('tech')}
-              >
-                Technical
-              </button>
-              <button
-                className={`toggle-btn ${activeTab === 'business' ? 'active' : ''}`}
-                onClick={() => setActiveTab('business')}
-              >
-                Business
-              </button>
-            </div>
-            <div className="tools-grid">
-              {activeTab === 'tech' ? (
-                <>
-                  <div className="tools-category">
-                    <h3>Languages</h3>
-                    <div className="tools-list">
-                      {technicalSkills.languages.map((skill) => (
-                        <span key={skill} className="tool-badge">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="tools-category">
-                    <h3>Frameworks & Libraries</h3>
-                    <div className="tools-list">
-                      {technicalSkills.frameworks.map((skill) => (
-                        <span key={skill} className="tool-badge">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="tools-category">
-                    <h3>DevOps & Databases</h3>
-                    <div className="tools-list">
-                      {technicalSkills.tools.map((skill) => (
-                        <span key={skill} className="tool-badge">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="tools-category">
-                    <h3>Sales Expertise</h3>
-                    <div className="tools-list">
-                      {businessSkills.sales.map((skill) => (
-                        <span key={skill} className="tool-badge">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="tools-category">
-                    <h3>Marketing</h3>
-                    <div className="tools-list">
-                      {businessSkills.marketing.map((skill) => (
-                        <span key={skill} className="tool-badge">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="tools-category">
-                    <h3>Business Development</h3>
-                    <div className="tools-list">
-                      {businessSkills.business.map((skill) => (
-                        <span key={skill} className="tool-badge">{skill}</span>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div> 
+          
         </div>
       </div>
     </div>

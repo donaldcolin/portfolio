@@ -61,11 +61,12 @@ export const createSplitText = (element, options = {}) => {
   const allCharSpans = [];
   const allWordSpans = [];
   
-  words.forEach(word => {
+  words.forEach((word, index) => {
     // Create word container
     const wordSpan = document.createElement('span');
     wordSpan.style.display = 'inline-block';
     wordSpan.classList.add('word');
+    wordSpan.style.marginRight = '0.25em'; // Add space between words
     allWordSpans.push(wordSpan);
     
     // Create character spans for this word
@@ -81,13 +82,16 @@ export const createSplitText = (element, options = {}) => {
     // Add characters to word span
     wordChars.forEach(charSpan => wordSpan.appendChild(charSpan));
     
-    // Add space after word
-    const spaceSpan = document.createElement('span');
-    spaceSpan.textContent = ' ';
-    spaceSpan.style.display = 'inline-block';
-    spaceSpan.classList.add('char');
-    allCharSpans.push(spaceSpan);
-    wordSpan.appendChild(spaceSpan);
+    // Add space after word (except for last word)
+    if (index < words.length - 1) {
+      const spaceSpan = document.createElement('span');
+      spaceSpan.textContent = ' ';
+      spaceSpan.style.display = 'inline-block';
+      spaceSpan.style.width = '0.25em'; // Ensure space is visible
+      spaceSpan.classList.add('char');
+      allCharSpans.push(spaceSpan);
+      wordSpan.appendChild(spaceSpan);
+    }
     
     // Add word to element
     element.appendChild(wordSpan);
