@@ -1,225 +1,166 @@
-/* Preloader Overlay */
-.preloader-overlay {
+/* Minimal preloader overlay — transparent + subtle blur */
+.preloader-min-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(ellipse at center, #1a1a1a 0%, #000000 100%);
+  inset: 0;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
+
+  /* Transparent so hero is visible. Add subtle blur for focus. */
+  background: rgba(255,255,255,0.03); /* near-transparent overlay */
+  backdrop-filter: blur(4px) saturate(1.05);
+  -webkit-backdrop-filter: blur(4px);
+
+  pointer-events: all; /* block interactions while loading */
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1), visibility 500ms;
+  opacity: 1;
+  visibility: visible;
 }
 
-/* Ambient background lines */
-.preloader-overlay::before {
-  content: '';
+/* Fade-out state */
+.preloader-min-overlay.preloader-exit {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Inner box is small and subtle */
+.preloader-min-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.55); /* small dark pill behind text for contrast */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  transform: translateY(6px) scale(0.985);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms;
+}
+
+/* When exiting, shrink slightly */
+.preloader-min-overlay.preloader-exit .preloader-min-inner {
+  transform: translateY(0px) scale(0.98);
+  opacity: 0.85;
+}
+
+/* Greeting text style */
+.preloader-greet {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  white-space: nowrap;
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .preloader-greet {
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+  }
+
+  .preloader-min-inner {
+    padding: 10px 16px;
+    border-radius: 10px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .preloader-min-overlay,
+  .preloader-min-inner {
+    transition: none;
+  }
+}
+/* Fullscreen splash that opens into hero */
+.splash-container {
+  position: fixed;
+  inset: 0;
+  background: #000; /* solid black for cinematic feel */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1),
+              opacity 1s cubic-bezier(0.77, 0, 0.175, 1);
+  transform: scale(1);
+}
+
+/* On exit, splash scales up and fades out, revealing hero below */
+.splash-container.splash-exit {
+  transform: scale(1.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Greeting text */
+.splash-greeting {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #fff;
+  text-transform: none;
+  text-align: center;
+  animation: fadeInOut 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Subtle inner glow for text */
+.splash-greeting {
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.25),
+               0 0 35px rgba(255, 255, 255, 0.15);
+}
+
+/* Center inner wrapper */
+.splash-inner {
+  z-index: 2;
+  position: relative;
+}
+
+/* Optional white reveal bar that slides up during exit */
+.splash-reveal {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.01) 50%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.005) 50%, transparent 100%);
-  background-size: 100px 100px, 80px 80px;
-  animation: backgroundShift 20s linear infinite;
-  opacity: 0.3;
+  background: white;
+  transform: translateY(100%);
+  transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+  z-index: 1;
 }
 
-.preloader-hello {
-  color: #ffffff;
-  font-size: 2.8rem;
-  font-weight: 200;
-  letter-spacing: 0.15em;
-  text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
-  position: relative;
-  white-space: nowrap;
-  
-  /* Enhanced glow with layered shadows */
-  text-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.2),
-    0 0 20px rgba(255, 255, 255, 0.1),
-    0 0 40px rgba(255, 255, 255, 0.05);
-  
-  /* Smooth entrance animation */
-  animation: textReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  opacity: 0;
-  transform: translateY(30px) scale(0.95);
+/* Reveal animation triggered on exit */
+.splash-container.splash-exit .splash-reveal {
+  transform: translateY(0%);
 }
 
-/* Animated dot with breathing effect */
-.preloader-hello::before {
-  content: '';
-  position: absolute;
-  left: -50px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.8) 70%, transparent 100%);
-  border-radius: 50%;
-  opacity: 0;
-  animation: dotBreathe 1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-}
-
-/* Elegant underline with grow effect */
-.preloader-hello::after {
-  content: '';
-  position: absolute;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 80px;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255,255,255,0.3) 20%, 
-    rgba(255,255,255,0.8) 50%, 
-    rgba(255,255,255,0.3) 80%, 
-    transparent 100%
-  );
-  animation: underlineExpand 0.6s 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  filter: blur(0.5px);
-}
-
-/* Keyframe Animations */
-@keyframes textReveal {
+/* Greeting fade animation */
+@keyframes fadeInOut {
   0% {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
-    filter: blur(3px);
+    transform: translateY(10px);
   }
-  60% {
-    opacity: 0.8;
-    transform: translateY(-5px) scale(1.02);
-    filter: blur(0px);
+  40% {
+    opacity: 1;
+    transform: translateY(0);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0px);
-  }
-}
-
-@keyframes dotBreathe {
-  0% {
     opacity: 0;
-    transform: translateY(-50%) scale(0.3);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.3);
-  }
-  100% {
-    opacity: 0.9;
-    transform: translateY(-50%) scale(1);
+    transform: translateY(-10px);
   }
 }
 
-@keyframes underlineExpand {
-  0% {
-    transform: translateX(-50%) scaleX(0);
-    opacity: 0;
-  }
-  60% {
-    transform: translateX(-50%) scaleX(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) scaleX(1);
-    opacity: 0.8;
-  }
-}
-
-@keyframes backgroundShift {
-  0% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(-10px, -10px);
-  }
-  50% {
-    transform: translate(-20px, 0);
-  }
-  75% {
-    transform: translate(-10px, 10px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .preloader-hello {
-    font-size: 2.2rem;
-    letter-spacing: 0.12em;
-  }
-  
-  .preloader-hello::before {
-    left: -40px;
-    width: 6px;
-    height: 6px;
-  }
-  
-  .preloader-hello::after {
-    width: 60px;
-    bottom: -10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .preloader-hello {
-    font-size: 1.9rem;
-    letter-spacing: 0.1em;
-  }
-  
-  .preloader-hello::before {
-    left: -35px;
-    width: 5px;
-    height: 5px;
-  }
-  
-  .preloader-hello::after {
-    width: 50px;
-    bottom: -8px;
-  }
-}
-
-/* Smooth exit animation */
-.preloader-overlay.fade-out {
-  opacity: 0;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .preloader-hello {
-    text-shadow: none;
-    font-weight: 300;
-  }
-  
-  .preloader-hello::before {
-    box-shadow: none;
-    background: #ffffff;
-  }
-}
-
-/* Reduced motion support */
+/* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .preloader-overlay::before {
-    animation: none;
-  }
-  
-  .preloader-hello,
-  .preloader-hello::before,
-  .preloader-hello::after {
-    animation-duration: 0.2s;
+  .splash-container,
+  .splash-reveal {
+    transition: none;
   }
 }

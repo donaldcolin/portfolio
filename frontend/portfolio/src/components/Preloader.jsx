@@ -1,65 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import './Preloader.css';
+import React, { useEffect, useState } from "react";
+import "./Preloader.css";
 
 const greetings = [
-  'Hola',        // English
-  'வணக்கம்',      // Tamil
-  'Hello',       // Spanish
-  'Bonjour',      // French
-  'Hallo',        // German
-  'こんにちは',     // Japanese
-  'Привет',       // Russian
-  'مرحبا',        // Arabic
-  '你好',          // Chinese
-  'Ciao',         // Italian
+  "Hello",
+  "Hola",
+  "வணக்கம்",
+  "Bonjour",
+  "こんにちは",
+  "Ciao",
+  "مرحبا",
+  "Привет",
+  "你好",
+ 
 ];
 
-const Preloader = ({ loading = true, onComplete }) => {
+const Preloader = ({ onComplete }) => {
   const [index, setIndex] = useState(0);
-  const [show, setShow] = useState(loading);
-  const [isExiting, setIsExiting] = useState(false);
+  const [active, setActive] = useState(true);
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
-      handleExit();
-      return;
-    }
-
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % greetings.length);
-    }, 600); // Slower, more readable timing
+    }, 500);
 
-    // Start exit animation before hiding
+    // Duration before exit (cycles + reveal)
+    const totalDuration = greetings.length * 500 + 1000;
+
     const exitTimer = setTimeout(() => {
-      handleExit();
-    }, greetings.length * 600 + 1000); // Show each greeting + extra time
+      setExiting(true);
+      setTimeout(() => {
+        setActive(false);
+        onComplete?.();
+      }, 1200); // match CSS transition
+    }, totalDuration);
 
     return () => {
       clearInterval(interval);
       clearTimeout(exitTimer);
     };
-  }, [loading]);
+  }, [onComplete]);
 
-  const handleExit = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      setShow(false);
-      onComplete?.(); // Callback when preloader is complete
-    }, 800); // Match CSS transition duration
-  };
-
-  if (!show) return null;
+  if (!active) return null;
 
   return (
-    <div className={`preloader-overlay ${isExiting ? 'fade-out' : ''}`}>
-      <div className="preloader-hello" key={index}>
-        {greetings[index]}
+    <div className={`splash-container ${exiting ? "splash-exit" : ""}`}>
+      <div className="splash-inner">
+        <h1 className="splash-greeting" key={index}>
+          {greetings[index]}
+        </h1>
       </div>
+      <div className="splash-reveal" />
     </div>
   );
 };
 
 export default Preloader;
-
-
-// nned to add a splash animation for preloader

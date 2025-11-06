@@ -28,7 +28,7 @@ const App = () => {
             <Navbar/>
             <Hero/>
             <About/>
-<LifeTimeline/>
+            <LifeTimeline/>
             <SeparatorAlt/>
             <Projects/>
             <SeparatorAlt/>

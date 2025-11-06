@@ -160,7 +160,7 @@ const About = () => {
                     start: "top 80%",
                     end: "bottom 20%",
                     toggleActions: "play none none reverse",
-                    markers: true,
+                    markers: false,
                     invalidateOnRefresh: true,
                     refreshPriority: -1,
                     id: "about-bio-animation",
