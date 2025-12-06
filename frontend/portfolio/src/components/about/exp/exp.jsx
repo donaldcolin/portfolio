@@ -166,7 +166,7 @@ const Exp = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
           <div className="copy-block"> 
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscihjbhbbjbibubububu iomomojmojmi ioninininiininini nijninininin nininnininini    inininininin  ibedxrtygvcdtrexcghjnbvgdxr buihuycyghjng elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
           <div className="copy-block">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
