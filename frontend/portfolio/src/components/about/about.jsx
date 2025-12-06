@@ -57,6 +57,8 @@ const About = () => {
           });
         }
 
+       
+
         // Kill any existing ScrollTrigger with this ID to prevent duplicates
         ScrollTrigger.getAll().forEach(trigger => {
           if (trigger.vars && trigger.vars.id === 'about-title-animation') {
@@ -101,7 +103,7 @@ const About = () => {
           scale: 5, 
           filter: 'blur(10px)',
           duration: 2,
-          ease: 'power3.inOut'
+          ease: 'sine.out'
         }, 0); 
          
         // Animation 2: Centered immersive zoom on the title
@@ -110,7 +112,7 @@ const About = () => {
           scale: 6,
           duration: 2,
           transformOrigin: 'center center',
-          ease: 'power3.inOut',
+          ease: 'sine.out',
           force3D: true,
           filter: 'blur(2px)'
         }, 0); 

@@ -120,12 +120,12 @@ body {
     margin-bottom: 4rem;
     padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .about-bio p {
-    font-size: 1.4rem;
-    line-height: 1.9;
+    font-size: 1.6rem;
+    line-height: 2;
     color: white;
     margin: 0;
     letter-spacing: 0.02em;
@@ -133,13 +133,13 @@ body {
 
 /* Ensure words have proper spacing in split text */
 .about-bio p .word {
-    margin-right: 0.25em;
+    margin-right: 1 rem;
     display: inline-block;
 }
 
 .pronouns {
     font-size: 0.875rem;
-    color: #64748b;
+    color: #648b;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;

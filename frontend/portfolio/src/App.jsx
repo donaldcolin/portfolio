@@ -8,6 +8,12 @@ import SeparatorAlt from './components/seperator/seprator-alt'
 import Life from './components/life/life'
 import Preloader from './components/Preloader'
 import LifeTimeline from './components/about/exp/exp'
+import TestimonialSection from './components/testimonials/testimonial'
+
+
+// add smooth scrool animation to the website
+// fix the experience section animation
+// add tesitimonials section
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -29,7 +35,7 @@ const App = () => {
             <Hero/>
             <About/>
             <LifeTimeline/>
-            <SeparatorAlt/>
+            {/* <TestimonialSection/> */}
             <Projects/>
             <SeparatorAlt/>
             <Life/>

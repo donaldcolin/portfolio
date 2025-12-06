@@ -1,283 +1,180 @@
 import React, { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger } from '../../../utils/gsapSetup';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import './exp.css';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
+import Lenis from 'lenis';
 
-// Register plugin
-gsap.registerPlugin(MotionPathPlugin, ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
-// Life event data
-const lifeEvents = [
-  {
-    year: '2018',
-    title: 'Joined College',
-    description: 'Started my B.Tech in Computer Science at Example University.',
-  },
-  {
-    year: '2022',
-    title: 'Graduated',
-    description: 'Completed my degree with a specialization in web development.',
-  },
-  {
-    year: '2022',
-    title: 'First Job',
-    description: 'Joined XYZ Corp as a Junior Frontend Developer.',
-  },
-  {
-    year: '2024',
-    title: 'Changed Fields',
-    description: 'Pivoted to follow my passion for UI/UX and product design.',
-  },
-  {
-    year: 'Present',
-    title: 'Freelancing',
-    description: 'Building cool projects (like this portfolio!) for clients.',
-  },
-];
-
-const LifeTimeline = () => {
-  const mainContainerRef = useRef(null);
-  const horizontalRef = useRef(null);
-  const planeRef = useRef(null);
-  const pathRef = useRef(null);
-  const maskPathRef = useRef(null);
+const Exp = () => {
+  const containerRef = useRef(null);
+  const lenisRef = useRef(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Create mask path for dotted line animation
-      if (pathRef.current && maskPathRef.current) {
-        const clone = pathRef.current.cloneNode(true);
-        clone.removeAttribute('id');
-        clone.setAttribute('stroke', 'white');
-        clone.setAttribute('stroke-width', '6');
-        clone.removeAttribute('opacity');
-        maskPathRef.current.appendChild(clone);
+    if (!containerRef.current) return;
 
-        gsap.set(maskPathRef.current.querySelector('path'), {
-          attr: { 'stroke-dasharray': '10 10' },
-        });
+    let lenis = null;
+    let scrollTrigger = null;
+    let splitInstances = [];
+    let rafId = null;
+
+    // Wait for DOM to be ready
+    const initAnimation = () => {
+      // Initialize Lenis smooth scroll
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+      lenisRef.current = lenis;
+
+      lenis.on("scroll", () => {
+        ScrollTrigger.update();
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
+      rafId = requestAnimationFrame(raf);
+
+      // Split text into words
+      const textBlocks = gsap.utils.toArray(".copy-block p");
+      
+      if (textBlocks.length === 0) {
+        console.warn("No text blocks found");
+        return;
       }
 
-      const sections = gsap.utils.toArray('.timeline-card');
+      splitInstances = textBlocks.map((block) => {
+        try {
+          return SplitText.create(block, { type: "words", mask: "words" });
+        } catch (error) {
+          console.warn("SplitText creation failed:", error);
+          return null;
+        }
+      }).filter(instance => instance !== null);
 
-      // ✅ Horizontal scroll animation (Right ➜ Left)
-      gsap.to(horizontalRef.current, {
-        x: () => horizontalRef.current.scrollWidth - window.innerWidth,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: mainContainerRef.current,
-          start: 'top top',
-          end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-        },
-      });
+      if (splitInstances.length < 3) {
+        console.warn("Not enough split instances");
+        return;
+      }
 
-      // Set initial plane origin
-      gsap.set(planeRef.current, {
-        transformOrigin: '50% 50%',
-        xPercent: -50,
-        yPercent: -50,
-      });
+      // Set initial states
+      if (splitInstances[1] && splitInstances[1].words) {
+        gsap.set(splitInstances[1].words, { yPercent: 100 });
+      }
+      if (splitInstances[2] && splitInstances[2].words) {
+        gsap.set(splitInstances[2].words, { yPercent: 100 });
+      }
 
-      // ✅ Plane animation (Right ➜ Left direction)
-      gsap.to(planeRef.current, {
-        scrollTrigger: {
-          trigger: mainContainerRef.current,
-          start: 'top top',
-          end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
-          scrub: 1,
-          id: 'plane-animation',
-        },
-        motionPath: {
-          path: pathRef.current,
-          align: pathRef.current,
-          alignOrigin: [0.5, 0.5],
-          autoRotate: true,
-          start: 1,
-          end: 0, // Reverse direction
-        },
-        ease: 'none',
-      });
+      const overlapCount = 3;
 
-      // Path reveal animation
-      gsap.to(maskPathRef.current.querySelector('path'), {
-        scrollTrigger: {
-          trigger: mainContainerRef.current,
-          start: 'top top',
-          end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
-          scrub: 1,
-          id: 'path-reveal',
-        },
-        attr: {
-          'stroke-dashoffset': function () {
-            const path = maskPathRef.current.querySelector('path');
-            return -path.getTotalLength() * 2;
-          },
-        },
-        ease: 'none',
-      });
+      const getWordProgress = (phaseProgress, wordIndex, totalWords) => {
+        const totalLength = 1 + overlapCount / totalWords;
+        const scale = 1 / Math.min(
+          totalLength,
+          1 + (totalWords - 1) / totalWords + overlapCount / totalWords
+        );
+        const startTime = (wordIndex / totalWords) * scale;
+        const endTime = startTime + (overlapCount / totalWords) * scale;
+        const duration = endTime - startTime;
+        
+        if (phaseProgress <= startTime) return 0;
+        if (phaseProgress >= endTime) return 1;
+        return (phaseProgress - startTime) / duration;
+      };
 
-      // Fade-in animation for cards
-      sections.forEach((card, i) => {
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: mainContainerRef.current,
-            start: 'top top',
-            end: () => `+=${horizontalRef.current.scrollWidth - window.innerWidth}`,
-            scrub: 1,
-            id: `card-${i}`,
-          },
-          opacity: 0,
-          y: 100,
-          ease: 'none',
+      const animateBlock = (outBlock, inBlock, phaseProgress) => {
+        if (!outBlock || !outBlock.words || !inBlock || !inBlock.words) return;
+        
+        outBlock.words.forEach((word, i) => {
+          const progress = getWordProgress(phaseProgress, i, outBlock.words.length);
+          gsap.set(word, { yPercent: progress * 100 });
         });
+        
+        inBlock.words.forEach((word, i) => {
+          const progress = getWordProgress(phaseProgress, i, inBlock.words.length);
+          gsap.set(word, { yPercent: 100 - progress * 100 });
+        });
+      };
+
+      // Create ScrollTrigger animation
+      scrollTrigger = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: false,
+        onUpdate: (self) => {
+          const scrollProgress = self.progress;
+
+          if (scrollProgress <= 0.5) {
+            const phase1 = scrollProgress / 0.5;
+            animateBlock(splitInstances[0], splitInstances[1], phase1);
+          } else {
+            const phase2 = (scrollProgress - 0.5) / 0.5;
+            if (splitInstances[0] && splitInstances[0].words) {
+              gsap.set(splitInstances[0].words, { yPercent: 100 });
+            }
+            animateBlock(splitInstances[1], splitInstances[2], phase2);
+          }
+        }
       });
 
-      // Smooth refresh after layout stabilization
-      setTimeout(() => ScrollTrigger.refresh(), 300);
-    }, mainContainerRef);
-
-    // Refresh on resize
-    const handleResize = () => {
-      clearTimeout(window._resizeTimeout);
-      window._resizeTimeout = setTimeout(() => ScrollTrigger.refresh(), 200);
+      // Refresh ScrollTrigger after setup
+      ScrollTrigger.refresh();
     };
 
-    window.addEventListener('resize', handleResize, { passive: true });
+    // Wait for next frame to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(() => {
+        initAnimation();
+      });
+    }, 100);
 
+    // Cleanup
     return () => {
-      window.removeEventListener('resize', handleResize);
-      ctx.revert();
+      clearTimeout(timeoutId);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      if (lenis) {
+        lenis.destroy();
+      }
+      if (scrollTrigger) {
+        scrollTrigger.kill();
+      }
+      splitInstances.forEach(instance => {
+        if (instance && instance.revert) {
+          instance.revert();
+        }
+      });
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars && trigger.vars.trigger === containerRef.current) {
+          trigger.kill();
+        }
+      });
     };
   }, []);
 
   return (
-    <section
-      ref={mainContainerRef}
-      className="relative bg-black text-white overflow-hidden min-h-screen"
-    >
-      <div
-        ref={horizontalRef}
-        className="flex items-center h-screen relative"
-        style={{ width: 'max-content' }}
-      >
-        {/* SVG Path Background */}
-        <div className="fixed inset-0 pointer-events-none flex items-center justify-center z-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 5000 800"
-            className="w-full h-full"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <defs>
-              <mask id="pathMask" maskUnits="userSpaceOnUse">
-                <g ref={maskPathRef}></g>
-              </mask>
-            </defs>
-
-            {/* Base path */}
-            <path
-              d="M 200 400 
-                 C 400 400, 500 200, 700 200
-                 C 900 200, 1000 600, 1200 600
-                 C 1400 600, 1500 300, 1700 300
-                 C 1900 300, 2000 550, 2200 550
-                 C 2400 550, 2500 250, 2700 250
-                 C 2900 250, 3000 500, 3200 500
-                 C 3400 500, 3500 350, 3700 350
-                 C 3900 350, 4000 450, 4200 450
-                 C 4400 450, 4600 400, 4800 400"
-              fill="none"
-              stroke="#333333"
-              strokeWidth="2"
-              strokeLinecap="round"
-              opacity="0.2"
-            />
-
-            {/* Masked path */}
-            <g mask="url(#pathMask)">
-              <path
-                ref={pathRef}
-                id="motionPath"
-                d="M 200 400 
-                   C 400 400, 500 200, 700 200
-                   C 900 200, 1000 600, 1200 600
-                   C 1400 600, 1500 300, 1700 300
-                   C 1900 300, 2000 550, 2200 550
-                   C 2400 550, 2500 250, 2700 250
-                   C 2900 250, 3000 500, 3200 500
-                   C 3400 500, 3500 350, 3700 350
-                   C 3900 350, 4000 450, 4200 450
-                   C 4400 450, 4600 400, 4800 400"
-                fill="none"
-                stroke="#ffffff"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeDasharray="10 10"
-              />
-            </g>
-
-            {/* Plane */}
-            <g ref={planeRef}>
-              <svg x="-25" y="-25" width="50" height="50" viewBox="0 0 40 40">
-                <path
-                  d="M 20 5 L 30 25 L 20 23 L 20 32 L 17 30 L 17 23 L 10 25 L 20 5 Z"
-                  fill="#ffffff"
-                  stroke="#ffffff"
-                  strokeWidth="1"
-                />
-              </svg>
-            </g>
-          </svg>
-        </div>
-
-        {/* Title Section */}
-        <div
-          className="flex-shrink-0 h-screen flex flex-col items-center justify-center px-20 relative z-20"
-          style={{ width: '100vw' }}
-        >
-          <h2 className="text-7xl font-bold text-white mb-6">
-            My Life's Journey
-          </h2>
-        </div>
-
-        {/* Timeline Cards */}
-        {lifeEvents.map((event, index) => (
-          <div
-            key={index}
-            className="timeline-card flex-shrink-0 h-screen flex items-center justify-center px-10 relative z-20"
-            style={{ width: '60vw' }}
-          >
-            <div className="max-w-xl bg-zinc-900 p-12 rounded-2xl border border-zinc-800">
-              <span className="text-8xl font-bold text-white block mb-6">
-                {event.year}
-              </span>
-              <h3 className="text-5xl font-bold text-white mb-6">
-                {event.title}
-              </h3>
-              <p className="text-2xl text-zinc-400 leading-relaxed">
-                {event.description}
-              </p>
-            </div>
+    <div className="exp-container" ref={containerRef}>
+      <h1 className="exp-title">Experience</h1>
+      <section className="hero">
+        <div className="about-copy">
+          <div className="copy-block">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
-        ))}
-
-        {/* End Section */}
-        <div
-          className="flex-shrink-0 h-screen flex items-center justify-center px-20"
-          style={{ width: '100vw' }}
-        >
-          <div className="text-center">
-            <h3 className="text-6xl font-bold text-white mb-4">
-              The Journey Continues...
-            </h3>
-            <p className="text-2xl text-zinc-400">More adventures ahead</p>
+          <div className="copy-block"> 
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+          <div className="copy-block">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 
-export default LifeTimeline;
+export default Exp;
