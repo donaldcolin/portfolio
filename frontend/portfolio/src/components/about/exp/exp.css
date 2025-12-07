@@ -3,30 +3,38 @@
     min-height: 100vh;
     position: relative;
     background-color: #000;
-    padding-top: 8rem;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .exp-title {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     text-align: center;
     font-size: clamp(3rem, 8vw, 10rem);
     font-weight: 700;
     color: #fff;
     margin: 0;
-    padding: 2rem 1rem;
+    padding: 4rem 1rem 2rem 1rem;
     z-index: 10;
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .hero {
     position: relative;
     width: 100%;
-    min-height: calc(100vh - 12rem);
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: 4rem 0;
+    padding: 0;
+    flex: 1;
 }
 
 .about-copy {
@@ -37,7 +45,8 @@
     padding: 2rem clamp(1rem, 4vw, 4rem);
     display: flex;
     gap: clamp(2rem, 5vw, 4rem);
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -62,6 +71,49 @@
     will-change: transform, opacity;
     display: inline-block;
     transition: transform 0.1s ease-out;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.scroll-indicator-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.2) 100%);
+    border-radius: 2px;
+    animation: scrollLine 2s ease-in-out infinite;
+}
+
+.scroll-indicator-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+}
+
+@keyframes scrollLine {
+    0%, 100% {
+        transform: translateX(0);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateX(10px);
+        opacity: 0.4;
+    }
 }
 
 /* Responsive design */

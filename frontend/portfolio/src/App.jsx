@@ -29,8 +29,8 @@ const App = () => {
     <>
       <Preloader loading={loading} />
       <div style={{ display: loading ? 'none' : 'block' }}>
-        <div id="smooth-wrapper">
-          <div id="smooth-content">
+        
+
             <Navbar/>
             <Hero/>
             <About/>
@@ -41,8 +41,8 @@ const App = () => {
             <Life/>
             <Footer/>
           </div>
-        </div>
-      </div>
+   
+
     </>
   )
 }
