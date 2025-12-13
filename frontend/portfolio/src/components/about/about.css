@@ -105,41 +105,46 @@ body {
 /* General Content Styles */
 .about-content {
     width: 100%;
-    max-width: 900px;
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 4rem;
+    padding: 0 2rem;
 }
 
 /* Bio Section */
 .about-bio {
     margin-bottom: 4rem;
-    padding: 2rem;
+    padding: 4rem 5rem;
     border-radius: 1rem;
     box-shadow: 0 6px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 1200px;
 }
 
 .about-bio p {
-    font-size: 1.6rem;
-    line-height: 2;
+    font-size: 1.8rem;
+    line-height: 2.2;
     color: white;
     margin: 0;
     letter-spacing: 0.02em;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 /* Ensure words have proper spacing in split text */
 .about-bio p .word {
-    margin-right: 1 rem;
+    margin-right: 0.35em;
     display: inline-block;
+    transition: opacity 0.3s ease, color 0.3s ease;
 }
 
 .pronouns {
     font-size: 0.875rem;
-    color: #648b;
+    color: rgba(100, 139, 255, 0.8);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -332,6 +337,7 @@ body {
 @media (max-width: 768px) {
     .about-content {
         padding: 2rem 1rem;
+        max-width: 100%;
     }
 
     .about-page-title {
@@ -342,8 +348,14 @@ body {
         font-size: 2rem;
     }
 
+    .about-bio {
+        padding: 2rem 1.5rem;
+    }
+
     .about-bio p {
         font-size: 1.25rem;
+        line-height: 1.9;
+        text-align: left;
     }
 
     .tools-grid {

@@ -128,7 +128,7 @@ const About = () => {
           }, 0.5);
         }
 
-        // Bio SplitText Animation - Word-by-word reveal with wave effect
+        // Bio Background Reveal Animation - Words start at 50% opacity, reveal to 100%
         if (bioEl) {
           // Kill existing bio animation triggers
           ScrollTrigger.getAll().forEach(trigger => {
@@ -145,65 +145,34 @@ const About = () => {
               // Create split text
               let split = createSplitText(bioEl);
               
-              // Set initial state for all words - different style
+              // Set initial state for all words - 50% opacity (background state)
               if (split.words && split.words.length > 0) {
                 gsap.set(split.words, {
-                  opacity: 0,
-                  y: 30,
-                  scale: 0.8,
-                  rotationX: 0,
-                  filter: 'blur(4px)'
+                  opacity: 0.5,
+                  color: 'rgba(255, 255, 255, 0.5)'
                 });
 
-                // Animate words with scroll trigger - wave effect
+                // Animate words to 100% opacity with scroll trigger - SLOW reveal
                 gsap.to(split.words, {
                   scrollTrigger: {
                     trigger: bioEl,
                     start: "top 80%",
-                    end: "bottom 20%",
-                    toggleActions: "play none none reverse",
+                    end: "bottom 10%",
+                    scrub: 3,
                     markers: false,
                     invalidateOnRefresh: true,
                     refreshPriority: -1,
                     id: "about-bio-animation",
                   },
                   opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  filter: 'blur(0px)',
-                  duration: 0.6,
-                  ease: "power3.out",
+                  color: 'rgba(255, 255, 255, 1)',
+                  duration: 0.5,
+                  ease: "none",
                   stagger: {
-                    amount: 1.2,
+                    amount: 2.5,
                     from: "start",
-                    ease: "power2.inOut"
+                    ease: "none"
                   }
-                });
-
-                // Add hover effect for individual words
-                split.words.forEach((word) => {
-                  word.style.cursor = 'default';
-                  word.addEventListener('mouseenter', () => {
-                    gsap.to(word, {
-                      scale: 1.08,
-                      y: -3,
-                      color: '#fff',
-                      textShadow: '0 0 10px rgba(102,126,234,0.5)',
-                      duration: 0.3,
-                      ease: "power2.out"
-                    });
-                  });
-                  
-                  word.addEventListener('mouseleave', () => {
-                    gsap.to(word, {
-                      scale: 1,
-                      y: 0,
-                      color: '#fff',
-                      textShadow: 'none',
-                      duration: 0.3,
-                      ease: "power2.out"
-                    });
-                  });
                 });
               } else {
                 console.warn('No words found for animation');
