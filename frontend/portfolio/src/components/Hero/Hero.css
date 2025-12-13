@@ -13,6 +13,54 @@
   --radius-xl: 24px;
   --easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
+.hero-section {
+  position: relative;
+  background: radial-gradient(
+    rgba(255, 255, 255, 0.2) 1px, 
+    black 1px
+  ) 0 0 / 16px 16px;
+  /* Add other existing hero styles below */
+}
+
+/* Alternative: If you want it as a pseudo-element overlay */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    rgba(255, 255, 255, 0.2) 1px, 
+    transparent 1px
+  ) 0 0 / 16px 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Make sure content is above the dotted background */
+.hero-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* For light/dark mode support */
+:root {
+  --dot-color: rgba(255, 255, 255, 0.2);
+  --bg-color: black;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --dot-color: rgba(0, 0, 0, 0.2);
+    --bg-color: white;
+  }
+}
+
+/* Apply with CSS variables */
+.hero-section-with-dots {
+  background: radial-gradient(
+    var(--dot-color) 1px, 
+    var(--bg-color) 1px
+  ) 0 0 / 16px 16px;
+}
 
 /* Applying font specifically to the text in your component based on JSX usage */
 .bbh-sans {
