@@ -9,33 +9,30 @@ const ProjectShowcase = () => {
   const containerRef = useRef(null);
   const mobileSectionRef = useRef(null);
   const webSectionRef = useRef(null);
+  const phoneRef = useRef(null);
+  const browserRef = useRef(null);
 
   useLayoutEffect(() => {
-    // Create a GSAP context for cleanup
     const ctx = gsap.context(() => {
 
-      // Get elements
       const mobileScreens = gsap.utils.toArray('.mobile-section .screenshot');
       const mobileDescs = gsap.utils.toArray('.mobile-section .description');
       const webScreens = gsap.utils.toArray('.website-section .website-screenshot');
       const webDescs = gsap.utils.toArray('.website-section .description');
 
-      // Check if we're on desktop
       if (window.innerWidth > 968) {
 
-        // --- MOBILE APPS SECTION ---
+        // --- MOBILE APPS SECTION WITH ANIMATIONS ---
         if (mobileScreens.length > 0 && mobileDescs.length > 0) {
-          // Initial State - hide all
-          gsap.set(mobileScreens, { opacity: 0 });
-          gsap.set(mobileDescs, { opacity: 0, visibility: 'hidden' });
+          // Initial State
+          gsap.set(mobileScreens, { opacity: 0, yPercent: 100 });
+          gsap.set(mobileDescs, { opacity: 0, y: 40, visibility: 'hidden' });
 
-          // Show first item
-          gsap.set(mobileScreens[0], { opacity: 1 });
-          gsap.set(mobileDescs[0], { opacity: 1, visibility: 'visible' });
+          gsap.set(mobileScreens[0], { opacity: 1, yPercent: 0 });
+          gsap.set(mobileDescs[0], { opacity: 1, y: 0, visibility: 'visible' });
 
-          // Calculate pin duration based on number of items
           const numItems = mobileScreens.length;
-          const pinDuration = numItems * 100; // 100vh per item
+          const pinDuration = numItems * 60; // REDUCED from 120 - snappier!
 
           const tlMobile = gsap.timeline({
             scrollTrigger: {
@@ -43,38 +40,84 @@ const ProjectShowcase = () => {
               start: "top top",
               end: `+=${pinDuration}%`,
               pin: true,
-              scrub: 0.5,
-              // markers: true, // Uncomment for debugging
+              scrub: 0.3, // REDUCED from 1 - more responsive!
+              snap: {
+                snapTo: 1 / (numItems - 1), // Snap to each project
+                duration: 0.4,
+                ease: "power2.inOut"
+              }
             }
           });
 
-          // Create transitions between items
           for (let i = 0; i < mobileScreens.length - 1; i++) {
             const next = i + 1;
 
-            // Add hold time, then transition
             tlMobile
-              .to({}, { duration: 1 }) // Hold current
-              .to(mobileDescs[i], { opacity: 0, duration: 0.5 })
-              .to(mobileScreens[next], { opacity: 1, duration: 0.5 }, "<")
-              .to(mobileDescs[next], { opacity: 1, visibility: 'visible', duration: 0.5 });
+              // Short hold
+              .to({}, { duration: 0.3 })
+
+              // Phone does a quick bounce
+              .to(phoneRef.current, {
+                y: -30,
+                scale: 0.96,
+                rotateZ: -1,
+                duration: 0.2,
+                ease: "power3.out"
+              })
+
+              // Current screenshot flies up
+              .to(mobileScreens[i], {
+                yPercent: -120,
+                opacity: 0,
+                duration: 0.4,
+                ease: "power3.in"
+              }, "<")
+
+              // Description fades quickly
+              .to(mobileDescs[i], {
+                opacity: 0,
+                y: -30,
+                scale: 0.95,
+                duration: 0.25
+              }, "<")
+
+              // New screenshot flies in from below
+              .fromTo(mobileScreens[next],
+                { yPercent: 120, opacity: 0 },
+                { yPercent: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+                "<0.1"
+              )
+
+              // Phone snaps back with a bounce
+              .to(phoneRef.current, {
+                y: 0,
+                scale: 1,
+                rotateZ: 0,
+                duration: 0.25,
+                ease: "elastic.out(1, 0.5)"
+              })
+
+              // New description slides in with punch
+              .fromTo(mobileDescs[next],
+                { opacity: 0, y: 40, scale: 0.95, visibility: 'hidden' },
+                { opacity: 1, y: 0, scale: 1, visibility: 'visible', duration: 0.35, ease: "power3.out" },
+                "<"
+              );
           }
-          // Final hold
-          tlMobile.to({}, { duration: 1 });
+
+          tlMobile.to({}, { duration: 0.5 });
         }
 
-        // --- WEBSITES SECTION ---
+        // --- WEBSITES SECTION WITH ANIMATIONS ---
         if (webScreens.length > 0 && webDescs.length > 0) {
-          // Initial State
-          gsap.set(webScreens, { opacity: 0 });
-          gsap.set(webDescs, { opacity: 0, visibility: 'hidden' });
+          gsap.set(webScreens, { opacity: 0, scale: 1.15 });
+          gsap.set(webDescs, { opacity: 0, x: 60, visibility: 'hidden' });
 
-          // Show first item
-          gsap.set(webScreens[0], { opacity: 1 });
-          gsap.set(webDescs[0], { opacity: 1, visibility: 'visible' });
+          gsap.set(webScreens[0], { opacity: 1, scale: 1 });
+          gsap.set(webDescs[0], { opacity: 1, x: 0, visibility: 'visible' });
 
           const numItems = webScreens.length;
-          const pinDuration = numItems * 100;
+          const pinDuration = numItems * 60; // REDUCED
 
           const tlWeb = gsap.timeline({
             scrollTrigger: {
@@ -82,8 +125,12 @@ const ProjectShowcase = () => {
               start: "top top",
               end: `+=${pinDuration}%`,
               pin: true,
-              scrub: 0.5,
-              // markers: true,
+              scrub: 0.3,
+              snap: {
+                snapTo: 1 / (numItems - 1),
+                duration: 0.4,
+                ease: "power2.inOut"
+              }
             }
           });
 
@@ -91,23 +138,66 @@ const ProjectShowcase = () => {
             const next = i + 1;
 
             tlWeb
-              .to({}, { duration: 1 })
-              .to(webDescs[i], { opacity: 0, duration: 0.5 })
-              .to(webScreens[next], { opacity: 1, duration: 0.5 }, "<")
-              .to(webDescs[next], { opacity: 1, visibility: 'visible', duration: 0.5 });
+              .to({}, { duration: 0.3 })
+
+              // Browser does a quick scale/tilt
+              .to(browserRef.current, {
+                scale: 0.94,
+                rotateX: 3,
+                duration: 0.2,
+                ease: "power3.out"
+              })
+
+              // Current screenshot zooms out fast
+              .to(webScreens[i], {
+                scale: 0.85,
+                opacity: 0,
+                duration: 0.35,
+                ease: "power3.in"
+              }, "<")
+
+              // Description slides out
+              .to(webDescs[i], {
+                opacity: 0,
+                x: -40,
+                scale: 0.95,
+                duration: 0.25
+              }, "<")
+
+              // New screenshot zooms in
+              .fromTo(webScreens[next],
+                { scale: 1.15, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" },
+                "<0.1"
+              )
+
+              // Browser returns with a smooth settle
+              .to(browserRef.current, {
+                scale: 1,
+                rotateX: 0,
+                duration: 0.25,
+                ease: "power2.out"
+              })
+
+              // Description punches in from right
+              .fromTo(webDescs[next],
+                { opacity: 0, x: 60, scale: 0.95, visibility: 'hidden' },
+                { opacity: 1, x: 0, scale: 1, visibility: 'visible', duration: 0.35, ease: "power3.out" },
+                "<"
+              );
           }
-          tlWeb.to({}, { duration: 1 });
+
+          tlWeb.to({}, { duration: 0.5 });
         }
 
       } else {
-        // Mobile fallback - show all content stacked
-        gsap.set([mobileScreens, webScreens], { opacity: 1 });
-        gsap.set([mobileDescs, webDescs], { opacity: 1, visibility: 'visible' });
+        // Mobile fallback
+        gsap.set([mobileScreens, webScreens], { opacity: 1, yPercent: 0, scale: 1 });
+        gsap.set([mobileDescs, webDescs], { opacity: 1, visibility: 'visible', y: 0, x: 0 });
       }
 
     }, containerRef);
 
-    // Cleanup
     return () => ctx.revert();
   }, []);
 
@@ -118,11 +208,10 @@ const ProjectShowcase = () => {
       <h1 className="work-title">work</h1>
 
       {/* Mobile Apps Section */}
-      <div className="section-label">mobile applications</div>
       <div className="scroll-container mobile-section" ref={mobileSectionRef}>
         <div className="sticky-section">
           <div className="content-wrapper">
-            <div className="phone-container">
+            <div className="phone-container" ref={phoneRef}>
               <div className="iphone-frame">
                 <div className="dynamic-island"></div>
                 <div className="screen">
@@ -207,11 +296,10 @@ const ProjectShowcase = () => {
       <div className="transition-spacer"></div>
 
       {/* Websites Section */}
-      <div className="section-label">web applications</div>
       <div className="scroll-container website-section" ref={webSectionRef}>
         <div className="sticky-section">
           <div className="content-wrapper">
-            <div className="browser-container">
+            <div className="browser-container" ref={browserRef}>
               <div className="browser-frame">
                 <div className="browser-header">
                   <div className="browser-dots">
