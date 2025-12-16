@@ -1,367 +1,289 @@
-import React, { useState, useRef, useEffect, useCallback, memo } from 'react';
-import { X, ExternalLink, Play, Pause } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger
-} from '../ui/dialog';
-import MobileCase from './mobliecase';
+import React, { useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './projects.css';
 
-// Memoized project card component for better performance
-const ProjectCard = memo(({ project, onClick, type }) => (
-  <div 
-    className={`project-item ${type}-project`}
-    onClick={() => onClick(project)}
-    role="button"
-    tabIndex={0}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        onClick(project);
-      }
-    }}
+gsap.registerPlugin(ScrollTrigger);
 
-  >
-    <div className="project-item-content">
-      {type === 'mobile' ? (
-        <MobileCase project={project} />
-      ) : (
-        <div className="project-image">
-          <img 
-            src={project.image} 
-            loading="lazy"
-          />
-          <div className="project-overlay">
-            <Play className="play-icon" size={24} />
-          </div>
-        </div>
-      )}
-      <div className="project-info">
-        <h2>{project.title}</h2>
-        <div className="project-tech">
-          {project.tech.join(' · ')}
-        </div>
-      </div>
-    </div>
-  </div>
-));
+const ProjectShowcase = () => {
+  const containerRef = useRef(null);
+  const mobileSectionRef = useRef(null);
+  const webSectionRef = useRef(null);
 
-ProjectCard.displayName = 'ProjectCard';
+  useLayoutEffect(() => {
+    // Create a GSAP context for cleanup
+    const ctx = gsap.context(() => {
 
-const Projects = () => {
-  const [open, setOpen] = useState(false);
-  const [activeProject, setActiveProject] = useState(null);
-  const [isVideoLoading, setIsVideoLoading] = useState(true);
-  const [isMobileVideoLoading, setIsMobileVideoLoading] = useState(true);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
-  const videoRef = useRef(null);
-  const mobileVideoRef = useRef(null);
-  
-  const mobileProjects = [
-    {
-      id: 1,
-      title: 'FurSpace',
-      description: 'Pet care and tracking application for pet owners. Helps users monitor health, activities.', 
-      icon: 'https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749558/furspace_logo_yrsc42.jpg',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4',
-      tech: ['Swift', 'SwiftUI', 'CoreData','Firebase', 'HealthKit'],
-      type: 'Mobile',
-      year: '2024',
-      features: ['Pet Care','Vet Appointments', 'Photo Gallery']
-    },
-    {
-      id: 3,
-      title: 'Wave',
-      description: 'Minimal and elegant productivity application for organizing tasks,and deadlines with customizable workflows and team collaboration features.',
-      icon: 'https://cdn-icons-png.flaticon.com/512/5832/5832887.png',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-mother-with-her-little-daughter-eating-a-marshmallow-in-nature-39764-large.mp4',
-      tech: ['Swift', 'SwiftUI', 'CloudKit'],
-      type: 'Mobile',
-      year: '2023',
-      features: ['Task Management', 'Custom Workflows',, 'Analytics']
-    },
-    {
-      id: 4,
-      title: 'Weather App',
-      description: 'Beautiful and intuitive weather application with detailed forecasts, interactive maps, and personalized weather insights for multiple locations.',
-      icon: 'https://cdn-icons-png.flaticon.com/512/7133/7133364.png',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
-      tech: ['Flutter', 'Dart', 'Firebase', 'Weather API'],
-      type: 'Mobile',
-      year: '2023',
-      features: ['Live Weather', 'Forecasts', 'Location-based']
-    }
-  ];
-  
-  const webProjects = [
-    {
-      id: 5,
-      title: 'Travellicious',
-      description: 'A comprehensive travel agency website that allows users to discover, book, and experience amazing tours and treks in and around Bengaluru with real-time booking and payment processing.',
-      video: 'https://res.cloudinary.com/dt9apeyvy/video/upload/v1748806790/Screen_Recording_2025-06-02_at_1.07.53_AM_ce40fa.mov',
-      tech: ['React', 'Node.js', 'MongoDB','Tailwind CSS','Express', 'Stripe'],
-      type: 'web',
-      year: '2023',
-      image: 'https://res.cloudinary.com/dt9apeyvy/image/upload/v1748749303/Screenshot_2025-06-01_at_9.10.43_AM_xwatsv.png',
-      url: 'https://travellicious.co.in',
-      features: ['Online Booking', 'Payment Integration', 'Tour Management', 'User Reviews']
-    }
-  ];
-  
-  const handleProjectClick = useCallback((project) => {
-    setActiveProject(project);
-    setOpen(true);
-    setIsVideoLoading(true);
-    setIsMobileVideoLoading(true);
-    setIsVideoPlaying(true);
-  }, []);
+      // Get elements
+      const mobileScreens = gsap.utils.toArray('.mobile-section .screenshot');
+      const mobileDescs = gsap.utils.toArray('.mobile-section .description');
+      const webScreens = gsap.utils.toArray('.website-section .website-screenshot');
+      const webDescs = gsap.utils.toArray('.website-section .description');
 
-  const handleVideoLoad = useCallback(() => {
-    setIsVideoLoading(false);
-  }, []);
+      // Check if we're on desktop
+      if (window.innerWidth > 968) {
 
-  const handleMobileVideoLoad = useCallback(() => {
-    setIsMobileVideoLoading(false);
-  }, []);
+        // --- MOBILE APPS SECTION ---
+        if (mobileScreens.length > 0 && mobileDescs.length > 0) {
+          // Initial State - hide all
+          gsap.set(mobileScreens, { opacity: 0 });
+          gsap.set(mobileDescs, { opacity: 0, visibility: 'hidden' });
 
-  const toggleVideoPlayback = useCallback(() => {
-    const video = activeProject?.type === 'Mobile' ? mobileVideoRef.current : videoRef.current;
-    if (video) {
-      if (isVideoPlaying) {
-        video.pause();
+          // Show first item
+          gsap.set(mobileScreens[0], { opacity: 1 });
+          gsap.set(mobileDescs[0], { opacity: 1, visibility: 'visible' });
+
+          // Calculate pin duration based on number of items
+          const numItems = mobileScreens.length;
+          const pinDuration = numItems * 100; // 100vh per item
+
+          const tlMobile = gsap.timeline({
+            scrollTrigger: {
+              trigger: mobileSectionRef.current,
+              start: "top top",
+              end: `+=${pinDuration}%`,
+              pin: true,
+              scrub: 0.5,
+              // markers: true, // Uncomment for debugging
+            }
+          });
+
+          // Create transitions between items
+          for (let i = 0; i < mobileScreens.length - 1; i++) {
+            const next = i + 1;
+
+            // Add hold time, then transition
+            tlMobile
+              .to({}, { duration: 1 }) // Hold current
+              .to(mobileDescs[i], { opacity: 0, duration: 0.5 })
+              .to(mobileScreens[next], { opacity: 1, duration: 0.5 }, "<")
+              .to(mobileDescs[next], { opacity: 1, visibility: 'visible', duration: 0.5 });
+          }
+          // Final hold
+          tlMobile.to({}, { duration: 1 });
+        }
+
+        // --- WEBSITES SECTION ---
+        if (webScreens.length > 0 && webDescs.length > 0) {
+          // Initial State
+          gsap.set(webScreens, { opacity: 0 });
+          gsap.set(webDescs, { opacity: 0, visibility: 'hidden' });
+
+          // Show first item
+          gsap.set(webScreens[0], { opacity: 1 });
+          gsap.set(webDescs[0], { opacity: 1, visibility: 'visible' });
+
+          const numItems = webScreens.length;
+          const pinDuration = numItems * 100;
+
+          const tlWeb = gsap.timeline({
+            scrollTrigger: {
+              trigger: webSectionRef.current,
+              start: "top top",
+              end: `+=${pinDuration}%`,
+              pin: true,
+              scrub: 0.5,
+              // markers: true,
+            }
+          });
+
+          for (let i = 0; i < webScreens.length - 1; i++) {
+            const next = i + 1;
+
+            tlWeb
+              .to({}, { duration: 1 })
+              .to(webDescs[i], { opacity: 0, duration: 0.5 })
+              .to(webScreens[next], { opacity: 1, duration: 0.5 }, "<")
+              .to(webDescs[next], { opacity: 1, visibility: 'visible', duration: 0.5 });
+          }
+          tlWeb.to({}, { duration: 1 });
+        }
+
       } else {
-        video.play();
+        // Mobile fallback - show all content stacked
+        gsap.set([mobileScreens, webScreens], { opacity: 1 });
+        gsap.set([mobileDescs, webDescs], { opacity: 1, visibility: 'visible' });
       }
-      setIsVideoPlaying(!isVideoPlaying);
-    }
-  }, [isVideoPlaying, activeProject?.type]);
 
-  const handleDialogClose = useCallback(() => {
-    setOpen(false);
-    // Reset video state when closing
-    setTimeout(() => {
-      setActiveProject(null);
-      setIsVideoPlaying(true);
-    }, 200);
+    }, containerRef);
+
+    // Cleanup
+    return () => ctx.revert();
   }, []);
-
-  // Keyboard navigation for dialog
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (open && e.key === 'Escape') {
-        handleDialogClose();
-      }
-      if (open && e.key === ' ') {
-        e.preventDefault();
-        toggleVideoPlayback();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [open, handleDialogClose, toggleVideoPlayback]);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-    }
-    if (mobileVideoRef.current) {
-      mobileVideoRef.current.load();
-    }
-  }, [activeProject]);
 
   return (
-    <div id="projects" className="projects-container" style={{ marginTop: '-12vh', paddingTop: '12vh' }}>
-      <div className="projects-content">
-        <div className="projects-title-column">
-          <h1>Work</h1>
-          {/* <div className="projects-stats">
-            <div className="stat">
-              <span className="stat-number">{mobileProjects.length + webProjects.length}</span>
-              <span className="stat-label">Projects</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">1</span>
-              <span className="stat-label">Years Experience</span>
-            </div>
-          </div> */}
-        </div>
-        
-        <div className="projects-grid-column">
-          <div className="projects-intro">
-            <p>Selected projects Donald has created throughout his career. Each piece represents a unique challenge and solution in mobile development and web applications, showcasing expertise in modern technologies and user-centered design.</p>
-          </div>
-          
-          {/* Mobile Projects */}
-          <section className="project-category">
-            <h2>Mobile Applications</h2>
-            <p className="category-description">Native iOS and cross-platform mobile applications built with modern frameworks</p>
-            
-            <div className="mobile-projects-grid">
-              {mobileProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onClick={handleProjectClick}
-                  type="mobile"
-                />
-              ))}
-            </div>
-          </section>
-          
-          {/* Web Projects */}
-          <section className="project-category">
-            <h2>Web Applications</h2>
-            <p className="category-description">Full-stack web applications with responsive design and modern architecture</p>
-            
-            <div className="web-projects-grid">
-              {webProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onClick={handleProjectClick}
-                  type="web"
-                />
-              ))}
-            </div>
-          </section>
-        </div>
-      </div>
-      
-      {/* Enhanced Project Detail Modal */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="project-dialog" hideClose>
-          <button 
-            className="dialog-close-btn"
-            onClick={handleDialogClose}
-            aria-label="Close project details"
-          >
-            <X className="h-6 w-6" />
-          </button>
-          
-          <div className="project-dialog-content">
-            <div className="project-dialog-left">
-              <div className="project-dialog-header">
-                <div className="project-meta">
-                  <div className="project-year-tag">{activeProject?.year}</div>
-                  <div className="project-type-badge">{activeProject?.type}</div>
-                </div>
-                <h2>{activeProject?.title}</h2>
-                <p className="project-dialog-description">{activeProject?.description}</p>
-                
-                {activeProject?.features && (
-                  <div className="project-features">
-                    <h4>Key Features</h4>
-                    <ul className="features-list">
-                      {activeProject.features.map((feature, index) => (
-                        <li key={index}>{feature}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-              
-              <div className="project-dialog-footer">
-                <div className="project-tech-list">
-                  {activeProject?.tech.map((tech, index) => (
-                    <span key={index} className="tech-tag">{tech}</span>
-                  ))}
-                </div>
-                
-                <div className="project-actions">
-                  {activeProject?.type === 'web' && activeProject?.url && (
-                    <a 
-                      href={activeProject.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="visit-button"
-                    >
-                      <ExternalLink size={16} />
-                      Visit Website
-                    </a>
-                  )}
-                  
-                  <button 
-                    className="video-control-btn"
-                    onClick={toggleVideoPlayback}
-                    aria-label={isVideoPlaying ? 'Pause video' : 'Play video'}
-                  >
-                    {isVideoPlaying ? <Pause size={16} /> : <Play size={16} />}
-                    {isVideoPlaying ? 'Pause' : 'Play'}
-                  </button>
+    <div className="project-container" ref={containerRef}>
+
+      {/* Work Title */}
+      <h1 className="work-title">work</h1>
+
+      {/* Mobile Apps Section */}
+      <div className="section-label">mobile applications</div>
+      <div className="scroll-container mobile-section" ref={mobileSectionRef}>
+        <div className="sticky-section">
+          <div className="content-wrapper">
+            <div className="phone-container">
+              <div className="iphone-frame">
+                <div className="dynamic-island"></div>
+                <div className="screen">
+                  <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=800&fit=crop" alt="App 1" className="screenshot" id="mobile1" />
+                  <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=800&fit=crop" alt="App 2" className="screenshot" id="mobile2" />
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=800&fit=crop" alt="App 3" className="screenshot" id="mobile3" />
+                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=800&fit=crop" alt="App 4" className="screenshot" id="mobile4" />
                 </div>
               </div>
             </div>
 
-            <div className="project-dialog-media">
-              {activeProject?.type === 'Mobile' ? (
-                <div className="iphone-frame">
-                  <div className="iphone-notch"></div>
-                  {isMobileVideoLoading && (
-                    <div className="video-preloader">
-                      <div className="preloader-spinner"></div>
-                      <span>Loading preview...</span>
-                    </div>
-                  )}
-                  <video 
-                    ref={mobileVideoRef}
-                    className="app-video" 
-                    src={activeProject?.video} 
-                    autoPlay 
-                    muted 
-                    loop
-                    playsInline
-                    onLoadedData={handleMobileVideoLoad}
-                    poster={activeProject?.thumbnail}
-                  />
-                  <div className="iphone-home-indicator"></div>
+            <div className="description-container">
+              <div className="description" id="mobileDesc1">
+                <span className="project-number">01</span>
+                <h2>vehicle expense tracker</h2>
+                <p>a comprehensive mobile application for tracking all vehicle-related expenses. monitor fuel costs, maintenance, FASTag transactions, and generate detailed reports.</p>
+                <div className="tech-stack">
+                  <span>react native</span>
+                  <span>firebase</span>
+                  <span>chart.js</span>
                 </div>
-              ) : (
-                <div className="browser-frame">
-                  <div className="browser-header">
-                    <div className="browser-controls">
-                      <span className="browser-dot red"></span>
-                      <span className="browser-dot yellow"></span>
-                      <span className="browser-dot green"></span>
-                    </div>
-                    <div className="browser-address-bar">
-                      <span>{activeProject?.url || 'https://myproject.com'}</span>
-                    </div>
-                    <div className="browser-refresh">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="23 4 23 10 17 10"></polyline>
-                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="browser-content">
-                    {isVideoLoading && (
-                      <div className="video-preloader">
-                        <div className="preloader-spinner"></div>
-                        <span>Loading preview...</span>
-                      </div>
-                    )}
-                    <video 
-                      ref={videoRef}
-                      className="browser-video" 
-                      src={activeProject?.video} 
-                      autoPlay 
-                      muted 
-                      loop
-                      playsInline
-                      onLoadedData={handleVideoLoad}
-                      poster={activeProject?.thumbnail}
-                    />
-                  </div>
+                <ul className="feature-list">
+                  <li>real-time expense tracking</li>
+                  <li>monthly analytics dashboard</li>
+                  <li>export to PDF reports</li>
+                </ul>
+              </div>
+
+              <div className="description" id="mobileDesc2">
+                <span className="project-number">02</span>
+                <h2>fitness companion</h2>
+                <p>personal fitness tracking app with workout plans, calorie counter, and progress visualization. helps users achieve their health goals.</p>
+                <div className="tech-stack">
+                  <span>flutter</span>
+                  <span>sqlite</span>
+                  <span>health kit</span>
                 </div>
-              )}
+                <ul className="feature-list">
+                  <li>custom workout plans</li>
+                  <li>nutrition tracking</li>
+                  <li>progress photos timeline</li>
+                </ul>
+              </div>
+
+              <div className="description" id="mobileDesc3">
+                <span className="project-number">03</span>
+                <h2>task management pro</h2>
+                <p>intuitive task manager with smart scheduling, team collaboration features, and productivity insights to boost efficiency.</p>
+                <div className="tech-stack">
+                  <span>react native</span>
+                  <span>mongodb</span>
+                  <span>websocket</span>
+                </div>
+                <ul className="feature-list">
+                  <li>team collaboration</li>
+                  <li>smart notifications</li>
+                  <li>productivity analytics</li>
+                </ul>
+              </div>
+
+              <div className="description" id="mobileDesc4">
+                <span className="project-number">04</span>
+                <h2>meditation & mindfulness</h2>
+                <p>guided meditation app with breathing exercises, sleep stories, and mood tracking to improve mental wellness.</p>
+                <div className="tech-stack">
+                  <span>swift</span>
+                  <span>core audio</span>
+                  <span>healthkit</span>
+                </div>
+                <ul className="feature-list">
+                  <li>guided meditations</li>
+                  <li>sleep tracking</li>
+                  <li>mood journal</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </div>
+
+      {/* Transition Spacer */}
+      <div className="transition-spacer"></div>
+
+      {/* Websites Section */}
+      <div className="section-label">web applications</div>
+      <div className="scroll-container website-section" ref={webSectionRef}>
+        <div className="sticky-section">
+          <div className="content-wrapper">
+            <div className="browser-container">
+              <div className="browser-frame">
+                <div className="browser-header">
+                  <div className="browser-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div className="browser-url">www.myproject.com</div>
+                </div>
+                <div className="browser-screen">
+                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=800&fit=crop" alt="Website 1" className="website-screenshot" id="web1" />
+                  <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&h=800&fit=crop" alt="Website 2" className="website-screenshot" id="web2" />
+                  <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=800&fit=crop" alt="Website 3" className="website-screenshot" id="web3" />
+                </div>
+              </div>
+            </div>
+
+            <div className="description-container">
+              <div className="description" id="webDesc1">
+                <span className="project-number">01</span>
+                <h2>portfolio website</h2>
+                <p>modern portfolio website with smooth animations, dark mode support, and responsive design. showcases projects with an elegant grid layout.</p>
+                <div className="tech-stack">
+                  <span>react</span>
+                  <span>gsap</span>
+                  <span>tailwind css</span>
+                </div>
+                <ul className="feature-list">
+                  <li>smooth scroll animations</li>
+                  <li>project case studies</li>
+                  <li>contact form integration</li>
+                </ul>
+              </div>
+
+              <div className="description" id="webDesc2">
+                <span className="project-number">02</span>
+                <h2>e-commerce platform</h2>
+                <p>full-featured online store with cart management, payment integration, and admin dashboard for inventory management.</p>
+                <div className="tech-stack">
+                  <span>next.js</span>
+                  <span>stripe</span>
+                  <span>postgresql</span>
+                </div>
+                <ul className="feature-list">
+                  <li>secure payment processing</li>
+                  <li>inventory management</li>
+                  <li>order tracking system</li>
+                </ul>
+              </div>
+
+              <div className="description" id="webDesc3">
+                <span className="project-number">03</span>
+                <h2>analytics dashboard</h2>
+                <p>real-time analytics platform with interactive charts, data visualization, and customizable reports for business intelligence.</p>
+                <div className="tech-stack">
+                  <span>react</span>
+                  <span>d3.js</span>
+                  <span>node.js</span>
+                </div>
+                <ul className="feature-list">
+                  <li>real-time data updates</li>
+                  <li>custom report builder</li>
+                  <li>export to multiple formats</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
 
-export default Projects;
+export default ProjectShowcase;

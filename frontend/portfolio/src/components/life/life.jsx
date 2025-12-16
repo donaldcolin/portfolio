@@ -9,11 +9,12 @@ const HoverEffect = () => {
   const currentItemRef = useRef(null);
   
   const projects = [
-    { id: 1, title: "The Space Between Notes", image: "https://assets.codepen.io/7558/bw-blurry-001.webp" },
-    { id: 2, title: "Love as the Fourth Dimension", image: "https://assets.codepen.io/7558/bw-blurry-004.webp" },
-    { id: 3, title: "The Art of Letting Go", image: "https://assets.codepen.io/7558/bw-blurry-007.webp" },
-    { id: 4, title: "Creativity as Prayer", image: "https://assets.codepen.io/7558/bw-blurry-010.webp" },
-    { id: 5, title: "The Universe Conspires", image: "https://assets.codepen.io/7558/bw-blurry-001.webp" }
+    { id: 1, title: "Bangalore", image: "https://assets.codepen.io/7558/bw-blurry-001.webp" },
+    { id: 2, title: "New job", image: "https://assets.codepen.io/7558/bw-blurry-004.webp" },
+    { id: 3, title: "Onsite", image: "https://assets.codepen.io/7558/bw-blurry-007.webp" },
+    { id: 4, title: "New client", image: "https://assets.codepen.io/7558/bw-blurry-010.webp" },
+    { id: 4, title: "Social work", image: "https://assets.codepen.io/7558/bw-blurry-012.webp" },
+    { id: 5, title: "EOL- END OF LORE", image: "https://assets.codepen.io/7558/bw-blurry-001.webp" }
   ];
 
   const defaultBg = "https://assets.codepen.io/7558/bw-blurry-005.webp";
@@ -66,15 +67,6 @@ const HoverEffect = () => {
       bgImageRef.current.style.opacity = '0.8';
     }
 
-    const pos = getEventPos(e);
-    if (cursorImgRef.current) {
-      const img = cursorImgRef.current.querySelector('img');
-      if (img) img.src = imgSrc;
-      cursorImgRef.current.style.left = pos.x + 'px';
-      cursorImgRef.current.style.top = pos.y + 'px';
-      cursorImgRef.current.classList.add('visible');
-    }
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (bgImageRef.current) {
@@ -90,9 +82,6 @@ const HoverEffect = () => {
     setTimeout(() => {
       if (currentItemRef.current === itemElement) {
         currentItemRef.current = null;
-        if (cursorImgRef.current) {
-          cursorImgRef.current.classList.remove('visible');
-        }
         setDefaultBg();
       }
     }, 30);
@@ -118,12 +107,6 @@ const HoverEffect = () => {
 
     const updateCursor = (e) => {
       const pos = getEventPos(e);
-      if (cursorImgRef.current?.classList.contains('visible')) {
-        cursorImgRef.current.classList.add('moving');
-        cursorImgRef.current.style.left = pos.x + 'px';
-        cursorImgRef.current.style.top = pos.y + 'px';
-        setTimeout(() => cursorImgRef.current?.classList.remove('moving'), 150);
-      }
       updateContainerPos(pos.y);
     };
 
@@ -185,11 +168,6 @@ const HoverEffect = () => {
       {/* Gradients - scoped to this section */}
       <div className="gradient-top absolute top-0 left-0 w-full h-20 z-[200] pointer-events-none"></div>
       <div className="gradient-bottom absolute bottom-0 left-0 w-full h-20 z-[200] pointer-events-none"></div>
-
-      {/* Cursor image - only visible within this section */}
-      <div ref={cursorImgRef} className="cursor-image absolute w-[280px] h-[210px] z-[150] pointer-events-none -translate-x-1/2 -translate-y-1/2 overflow-hidden origin-bottom-right">
-        <img src="" alt="" className="w-full h-full object-cover scale-0 origin-bottom-right transition-transform duration-400" />
-      </div>
 
       <style jsx>{`
         .hover-effect-section {
@@ -254,14 +232,6 @@ const HoverEffect = () => {
           background: linear-gradient(0deg, rgba(26, 25, 23, 0.8) 0%, transparent 100%);
         }
 
-        .cursor-image.moving {
-          transition: left 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .cursor-image.visible img {
-          transform: scale(1);
-        }
-
         @media (max-width: 768px) {
           h1 {
             font-size: 2.5rem;
@@ -308,4 +278,4 @@ const HoverEffect = () => {
   );
 };
 
-export default HoverEffect;
+export default HoverEffect; 
