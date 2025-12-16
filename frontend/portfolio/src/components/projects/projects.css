@@ -1,9 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Projects Section - Redesigned Layout */
 .project-container {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: #0a0a0a;
@@ -13,7 +8,7 @@
   position: relative;
 }
 
-/* Work Title - Top Left (within projects section only) */
+/* Work Title */
 .work-title {
   position: absolute;
   top: 2rem;
@@ -24,19 +19,6 @@
   text-transform: lowercase;
   letter-spacing: -2px;
   z-index: 100;
-}
-
-.section-label {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #505050;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  padding: 4rem 0 2rem;
-  font-weight: 400;
-  background: #0a0a0a;
-  position: relative;
-  z-index: 2;
 }
 
 .scroll-container {
@@ -58,38 +40,32 @@
 
 .content-wrapper {
   display: flex;
-  align-items: flex-start;
-  /* Changed from center to flex-start */
-  justify-content: center;
-  gap: 6rem;
-  max-width: 1600px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  max-width: 1400px;
   width: 100%;
   padding: 0 4rem;
-  padding-top: 8rem;
-  /* Add padding at top for work title clearance */
+  padding-top: 4rem;
   position: relative;
-  height: 100%;
 }
 
 /* Mobile Phone Styling - iPhone 16 Style */
 .phone-container {
-  position: absolute;
-  bottom: -15%;
-  left: 20%;
-  transform: translateX(-50%);
   flex-shrink: 0;
   z-index: 10;
 }
 
 .iphone-frame {
-  width: 340px;
-  height: 700px;
+  width: 300px;
+  height: 620px;
   background: #000;
-  border-radius: 55px;
+  border-radius: 50px;
   padding: 10px;
-  box-shadow: 0 0 0 2px #333,
+  box-shadow:
+    0 0 0 2px #333,
     0 0 0 4px #1a1a1a,
-    0 30px 80px rgba(0, 0, 0, 0.8);
+    0 25px 60px rgba(0, 0, 0, 0.8);
   position: relative;
   overflow: hidden;
 }
@@ -97,22 +73,21 @@
 /* Dynamic Island */
 .dynamic-island {
   position: absolute;
-  top: 20px;
+  top: 18px;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
-  height: 35px;
+  width: 100px;
+  height: 30px;
   background: #000;
-  border-radius: 20px;
+  border-radius: 18px;
   z-index: 20;
-  transition: all 0.3s ease;
 }
 
 .screen {
   width: 100%;
   height: 100%;
   background: #000;
-  border-radius: 48px;
+  border-radius: 42px;
   overflow: hidden;
   position: relative;
 }
@@ -122,25 +97,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  filter: none;
+  will-change: transform, opacity;
 }
 
 /* Browser Window Styling */
 .browser-container {
-  position: absolute;
-  bottom: -10%;
-  left: 10%;
   flex-shrink: 0;
   z-index: 10;
 }
 
 .browser-frame {
-  width: 750px;
-  height: 480px;
+  width: 650px;
+  height: 420px;
   background: #1a1a1a;
   border-radius: 12px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.5),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   border: 1px solid #2a2a2a;
   overflow: hidden;
@@ -168,6 +140,18 @@
   background: #2a2a2a;
 }
 
+.browser-dots span:first-child {
+  background: #ff5f57;
+}
+
+.browser-dots span:nth-child(2) {
+  background: #ffbd2e;
+}
+
+.browser-dots span:last-child {
+  background: #28c840;
+}
+
 .browser-url {
   flex: 1;
   text-align: center;
@@ -190,19 +174,16 @@
   height: 100%;
   object-fit: cover;
   object-position: top;
-  opacity: 0;
-  filter: none;
+  will-change: transform, opacity;
 }
 
 /* Description Styling */
 .description-container {
-  position: absolute;
-  right: 8%;
-  top: 10%;
-  /* Changed from 30% to 10% - starts from top */
-  width: 35%;
+  flex: 1;
   max-width: 450px;
   z-index: 20;
+  position: relative;
+  min-height: 400px;
 }
 
 .description {
@@ -210,8 +191,24 @@
   top: 0;
   left: 0;
   width: 100%;
-  opacity: 0;
-  visibility: hidden;
+  will-change: opacity, transform;
+}
+
+/* Project Header with App Logo */
+.project-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.app-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
 }
 
 .project-number {
@@ -219,29 +216,26 @@
   font-size: 0.85rem;
   color: #505050;
   letter-spacing: 2px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   font-weight: 400;
 }
 
 .description h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  /* Slightly smaller */
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   margin-bottom: 1rem;
   color: #ffffff;
   font-weight: 300;
   text-transform: lowercase;
   letter-spacing: -1px;
-  line-height: 1.1;
+  line-height: 1.2;
 }
 
 .description p {
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
-  /* Slightly smaller */
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
   line-height: 1.7;
   color: #a0a0a0;
   margin-bottom: 1.5rem;
   font-weight: 300;
-  text-transform: lowercase;
 }
 
 .tech-stack {
@@ -270,7 +264,7 @@
 .feature-list li {
   padding: 0.5rem 0;
   color: #c0c0c0;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -280,10 +274,9 @@
 }
 
 .feature-list li:before {
-  content: "—";
+  content: "→";
   color: #ffffff;
   font-weight: 300;
-  font-size: 1.2rem;
 }
 
 .transition-spacer {
@@ -291,31 +284,51 @@
   background: #0a0a0a;
 }
 
-/* Responsive */
-@media (max-width: 1400px) {
-  .browser-frame {
-    width: 600px;
-    height: 400px;
-  }
-
-  .phone-container {
-    left: 15%;
-  }
-
-  .description-container {
-    width: 40%;
-    right: 5%;
-  }
+/* Dot Navigation - Right Side */
+.nav-dots {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 100;
 }
 
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.nav-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.2);
+}
+
+.nav-dot.active {
+  background: #ffffff;
+  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive - Tablet */
 @media (max-width: 1200px) {
-  .phone-container {
-    left: 10%;
-    bottom: -20%;
+  .content-wrapper {
+    padding: 0 2rem;
+    padding-top: 4rem;
+    gap: 3rem;
   }
 
-  .browser-container {
-    left: 5%;
+  .iphone-frame {
+    width: 260px;
+    height: 540px;
   }
 
   .browser-frame {
@@ -324,8 +337,7 @@
   }
 
   .description-container {
-    right: 3%;
-    width: 42%;
+    max-width: 380px;
   }
 
   .work-title {
@@ -333,6 +345,7 @@
   }
 }
 
+/* Responsive - Mobile */
 @media (max-width: 968px) {
   .work-title {
     position: relative;
@@ -340,81 +353,104 @@
     left: auto;
     text-align: center;
     padding: 2rem 1rem;
-    mix-blend-mode: normal;
   }
 
   .sticky-section {
     height: auto;
-    min-height: 100vh;
-    padding: 4rem 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    min-height: auto;
+    padding: 2rem 1rem;
+    display: block;
   }
 
   .content-wrapper {
     flex-direction: column;
-    padding: 0;
+    padding: 0 1rem;
     padding-top: 0;
-    height: auto;
-    gap: 3rem;
+    gap: 2rem;
+    align-items: center;
   }
 
-  .phone-container {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    margin-bottom: 2rem;
-  }
-
+  .phone-container,
   .browser-container {
     position: relative;
-    bottom: auto;
-    left: auto;
-    margin-bottom: 2rem;
   }
 
   .iphone-frame {
-    width: 280px;
-    height: 580px;
+    width: 240px;
+    height: 500px;
+    border-radius: 40px;
+  }
+
+  .screen {
+    border-radius: 35px;
+  }
+
+  .dynamic-island {
+    width: 80px;
+    height: 25px;
+    top: 14px;
   }
 
   .browser-frame {
     width: 90vw;
-    height: 55vw;
-    max-width: 600px;
+    max-width: 400px;
+    height: 260px;
   }
 
   .description-container {
     position: relative;
-    right: auto;
-    top: auto;
     width: 100%;
     max-width: none;
-    padding: 0 1rem;
+    min-height: auto;
     text-align: center;
   }
 
   .description {
     position: relative;
-    transform: none !important;
-    top: auto;
-    left: auto;
     opacity: 1 !important;
     visibility: visible !important;
-    margin-bottom: 4rem;
+    transform: none !important;
+    margin-bottom: 3rem;
+  }
+
+  .screenshot,
+  .website-screenshot {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .description h2 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .description p {
+    font-size: 0.9rem;
   }
 
   .tech-stack {
     justify-content: center;
   }
 
-  .feature-list li {
-    justify-content: center;
+  .feature-list {
+    text-align: left;
+    max-width: 280px;
+    margin: 1rem auto 0;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .iphone-frame {
+    width: 200px;
+    height: 420px;
+    border-radius: 35px;
+  }
+
+  .screen {
+    border-radius: 30px;
+  }
+
+  .work-title {
+    font-size: 2.5rem;
   }
 }
