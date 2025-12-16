@@ -22,15 +22,21 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Scroll to top on initial load
+    window.scrollTo(0, 0);
+
     const timer = setTimeout(() => setLoading(false), 4000);
     return () => {
       clearTimeout(timer)
     }
   }, []);
 
-  // Refresh ScrollTrigger after preloader finishes to recalculate positions
+  // Refresh ScrollTrigger and scroll to top after preloader finishes
   useEffect(() => {
     if (!loading) {
+      // Scroll to top when content becomes visible
+      window.scrollTo(0, 0);
+
       // Small delay to ensure DOM has rendered
       const refreshTimer = setTimeout(() => {
         ScrollTrigger.refresh();

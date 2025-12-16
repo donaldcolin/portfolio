@@ -68,7 +68,7 @@ const Hero = () => {
     // Scroll functionality removed as requested.
     // This button will now only be visual and will not scroll the page.
     console.log("Scroll down function disabled.");
-  }, []); 
+  }, []);
 
   const animations = useMemo(() => {
     if (prefersReducedMotion) {
@@ -138,7 +138,7 @@ const Hero = () => {
             }}
           />
 
-          
+
 
           {/* Main Content */}
           <div
@@ -177,7 +177,7 @@ const Hero = () => {
               style={{ opacity: animations.heroOpacity }}
             >
               <div>
-               <p className="text-2xl font-bold bbh-sans flex items-center gap-2">Donald colin</p>
+                <p className="text-2xl font-bold bbh-sans flex items-center gap-2">Donald colin</p>
               </div>
             </div>
 
@@ -200,7 +200,7 @@ const Hero = () => {
 
             {/* Scroll Indicator (Button kept, but functionality removed via handleScrollDown change) */}
             <button
-              onClick={handleScrollDown} 
+              onClick={handleScrollDown}
               className="absolute bottom-8 left-8 flex items-center gap-3 transition-opacity duration-300"
               style={{ opacity: animations.heroOpacity * 0.9 }}
               aria-label="Scroll down"
