@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
-import { Github, Linkedin, Mail, Code, ArrowDown } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowDown, Menu, X } from 'lucide-react';
 import './Hero.css';
 
 const Hero = () => {
@@ -8,6 +8,7 @@ const Hero = () => {
   const [windowHeight, setWindowHeight] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const heroRef = useRef(null);
   const imageRef = useRef(null);
@@ -181,9 +182,9 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Social Links */}
+            {/* Social Links - Desktop */}
             <div
-              className="absolute top-6 right-6 md:top-8 md:right-8 flex gap-2"
+              className="absolute top-6 right-6 md:top-8 md:right-8 hidden md:flex gap-2"
               style={{ opacity: animations.heroOpacity }}
             >
               {socialLinks.map(({ platform, icon: Icon, label }) => (
@@ -196,6 +197,43 @@ const Hero = () => {
                   <Icon className="w-4 h-4 text-slate-600 group-hover:text-slate-800" />
                 </button>
               ))}
+            </div>
+
+            {/* Hamburger Menu - Mobile */}
+            <div
+              className="absolute top-6 right-6 md:hidden"
+              style={{ opacity: animations.heroOpacity }}
+            >
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="p-2.5 rounded-lg shadow-lg transition-all duration-200 bg-white/90"
+                aria-label="Toggle menu"
+              >
+                {menuOpen ? (
+                  <X className="w-5 h-5 text-slate-600" />
+                ) : (
+                  <Menu className="w-5 h-5 text-slate-600" />
+                )}
+              </button>
+
+              {/* Mobile Menu Dropdown */}
+              {menuOpen && (
+                <div className="absolute top-14 right-0 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-3 flex flex-col gap-2 min-w-[140px] animate-fadeIn">
+                  {socialLinks.map(({ platform, icon: Icon, label }) => (
+                    <button
+                      key={platform}
+                      onClick={() => {
+                        handleSocialClick(platform);
+                        setMenuOpen(false);
+                      }}
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                    >
+                      <Icon className="w-4 h-4 text-slate-600" />
+                      <span className="text-sm font-medium text-slate-700">{label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Scroll Indicator (Button kept, but functionality removed via handleScrollDown change) */}

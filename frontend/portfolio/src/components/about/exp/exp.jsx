@@ -11,6 +11,7 @@ const Exp = () => {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const scrollIndicatorRef = useRef(null);
+  const progressRef = useRef(null);
 
   useEffect(() => {
     // Wait for container to be ready
@@ -25,13 +26,13 @@ const Exp = () => {
     const textBlocks = gsap.utils.toArray(
       containerRef.current.querySelectorAll(".copy-block p")
     );
-    
+
     if (textBlocks.length === 0) {
       console.warn('Exp: No text blocks found');
       return;
     }
 
-    const splitInstances = textBlocks.map((block) => 
+    const splitInstances = textBlocks.map((block) =>
       SplitText.create(block, { type: "words", mask: "words" })
     );
 
@@ -49,7 +50,7 @@ const Exp = () => {
       const startTime = (wordIndex / totalWords) * scale;
       const endTime = startTime + (overlapCount / totalWords) * scale;
       const duration = endTime - startTime;
-      
+
       if (phaseProgress <= startTime) return 0;
       if (phaseProgress >= endTime) return 1;
       return (phaseProgress - startTime) / duration;
@@ -60,7 +61,7 @@ const Exp = () => {
         const progress = getWordProgress(phaseProgress, i, outBlock.words.length);
         gsap.set(word, { yPercent: progress * 100 });
       });
-      
+
       inBlock.words.forEach((word, i) => {
         const progress = getWordProgress(phaseProgress, i, inBlock.words.length);
         gsap.set(word, { yPercent: 100 - progress * 100 });
@@ -69,8 +70,8 @@ const Exp = () => {
 
     // Initially hide scroll indicator
     if (scrollIndicatorRef.current) {
-      gsap.set(scrollIndicatorRef.current, { 
-        opacity: 0, 
+      gsap.set(scrollIndicatorRef.current, {
+        opacity: 0,
         x: -20,
         visibility: 'hidden'
       });
@@ -135,6 +136,11 @@ const Exp = () => {
       onUpdate: (self) => {
         const scrollProgress = self.progress;
 
+        // Update progress bar width
+        if (progressRef.current) {
+          gsap.set(progressRef.current, { width: `${scrollProgress * 100}%` });
+        }
+
         if (scrollProgress <= 0.5) {
           const phase1 = scrollProgress / 0.5;
           animateBlock(splitInstances[0], splitInstances[1], phase1);
@@ -165,19 +171,20 @@ const Exp = () => {
     <div className="exp-container" ref={containerRef}>
       <h1 className="exp-title" ref={titleRef}>Experience</h1>
       <div className="scroll-indicator" ref={scrollIndicatorRef}>
-        <div className="scroll-indicator-line"></div>
-        <div className="scroll-indicator-text">Scroll</div>
+        <div className="scroll-progress-track">
+          <div className="scroll-progress-fill" ref={progressRef}></div>
+        </div>
       </div>
       <section className="hero">
         <div className="about-copy">
           <div className="copy-block">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
-          <div className="copy-block"> 
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Started my journey as a Freelance Software Developer, building custom web applications and digital solutions for clients across various industries.</p>
           </div>
           <div className="copy-block">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Transitioned into a full-time role as Business Development Executive, driving growth strategies and building meaningful client relationships.</p>
+          </div>
+          <div className="copy-block">
+            <p>Currently serving as a Relationship Manager, combining technical expertise with business acumen to deliver exceptional client experiences.</p>
           </div>
         </div>
       </section>
