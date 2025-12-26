@@ -11,6 +11,7 @@ import Life from './components/life/life'
 import Preloader from './components/Preloader'
 import LifeTimeline from './components/about/exp/exp'
 import TestimonialSection from './components/testimonials/testimonial'
+import Processes from './components/processes/processes'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,6 +57,7 @@ const App = () => {
         <About />
         <LifeTimeline />
         {/* <TestimonialSection/> */}
+        <Processes />
         <Projects />
         <SeparatorAlt />
         <Life />
