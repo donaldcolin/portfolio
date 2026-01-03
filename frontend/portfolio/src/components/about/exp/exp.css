@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap');
+
 .exp-container {
     width: 100%;
     min-height: 100vh;
@@ -11,17 +13,22 @@
 }
 
 .exp-title {
+    font-family: "BBH Sans Bartle", sans-serif;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     text-align: center;
-    font-size: clamp(3rem, 8vw, 10rem);
-    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 100;
+    font-style: normal;
+    text-transform: lowercase;
+    letter-spacing: -0.02em;
     color: #fff;
     margin: 0;
     padding: 4rem 1rem 2rem 1rem;
     z-index: 10;
+    line-height: 0.95;
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -147,6 +154,7 @@
     .exp-title {
         font-size: clamp(2.5rem, 10vw, 4rem);
         padding: 1rem;
+        letter-spacing: -0.02em;
     }
 
     .hero {
@@ -180,6 +188,7 @@
 
     .exp-title {
         font-size: clamp(2rem, 12vw, 3rem);
+        letter-spacing: -0.02em;
     }
 
     .about-copy {

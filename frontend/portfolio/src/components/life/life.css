@@ -1,12 +1,15 @@
 /* Mobile-first styles for Life section */
 
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap');
+
 /* Ensure photo viewer takes full width and uses flexbox for vertical layout */
 .photo-viewer {
   width: 100%;
   display: flex;
   flex-direction: column;
   background: #000;
-  overflow-y: auto; /* Allow scrolling if content overflows */
+  overflow-y: auto;
+  /* Allow scrolling if content overflows */
   /* Add padding to the container */
   padding: 1.5rem 1rem;
   box-sizing: border-box;
@@ -16,7 +19,7 @@
 .photo-viewer-image {
   width: 100%;
   /* Set a max-height to leave space for the caption */
-  max-height: 65vh; 
+  max-height: 65vh;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -32,8 +35,10 @@
 /* Caption styles for mobile */
 .photo-caption {
   width: 100%;
-  background: #000; /* Ensure background is dark */
-  padding: 1.5rem 0 0 0; /* Add padding above caption */
+  background: #000;
+  /* Ensure background is dark */
+  padding: 1.5rem 0 0 0;
+  /* Add padding above caption */
   color: #fff;
   box-sizing: border-box;
 }
@@ -50,10 +55,14 @@
 }
 
 .photo-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-family: "BBH Sans Bartle", sans-serif;
+  font-size: clamp(1.25rem, 4vw, 2rem);
+  font-weight: 100;
+  font-style: normal;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
   margin: 0 0 0.75rem 0;
-  line-height: 1.2;
+  line-height: 1;
   color: #fff;
 }
 
@@ -76,9 +85,11 @@
 .photo-navigation {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Distribute items */
+  justify-content: space-between;
+  /* Distribute items */
   width: 100%;
-  margin-top: 1.5rem; /* Space above navigation */
+  margin-top: 1.5rem;
+  /* Space above navigation */
 }
 
 .nav-btn {
@@ -107,7 +118,8 @@
 /* --- Tablet and Desktop Styles --- */
 @media (min-width: 769px) {
   .photo-viewer {
-    max-width: 800px; /* Max width for larger screens */
+    max-width: 800px;
+    /* Max width for larger screens */
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 12px;
@@ -124,20 +136,20 @@
     /* Reset mobile height constraints */
     max-height: none;
     min-height: auto;
-    aspect-ratio: 16/10; /* Preferred aspect ratio for web */
+    aspect-ratio: 16/10;
+    /* Preferred aspect ratio for web */
   }
 
   .photo-caption {
-    position: absolute; /* Overlay on desktop */
+    position: absolute;
+    /* Overlay on desktop */
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.9) 0%,
-      rgba(0, 0, 0, 0.7) 60%,
-      transparent 100%
-    );
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.7) 60%,
+        transparent 100%);
     padding: 3rem 2rem 2rem;
     z-index: 2;
     /* Reset mobile width/padding */
@@ -146,21 +158,23 @@
   }
 
   .photo-title {
-    font-size: 1.75rem; /* Larger title on desktop */
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     background: linear-gradient(45deg, #fff, #ccc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    color: #fff; /* Fallback */
+    color: #fff;
+    /* Fallback */
   }
 
   .photo-description {
-     font-size: 1rem;
-     max-width: 600px;
+    font-size: 1rem;
+    max-width: 600px;
   }
 
   .photo-navigation {
-    position: absolute; /* Position over image on desktop */
+    position: absolute;
+    /* Position over image on desktop */
     bottom: 1.5rem;
     right: 2rem;
     background: rgba(0, 0, 0, 0.6);
@@ -169,13 +183,17 @@
     backdrop-filter: blur(10px);
     z-index: 3;
     width: auto;
-    margin-top: 0; /* Reset margin */
-    justify-content: initial; /* Reset justify */
-    gap: 1rem; /* Reset gap */
+    margin-top: 0;
+    /* Reset margin */
+    justify-content: initial;
+    /* Reset justify */
+    gap: 1rem;
+    /* Reset gap */
   }
 
   .nav-btn {
-    width: 36px; /* Smaller buttons on desktop */
+    width: 36px;
+    /* Smaller buttons on desktop */
     height: 36px;
     font-size: 1.125rem;
     background: rgba(255, 255, 255, 0.1);
@@ -193,4 +211,4 @@
   .photo-counter {
     font-size: 0.875rem;
   }
-} 
+}

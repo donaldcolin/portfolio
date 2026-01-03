@@ -17,7 +17,8 @@ const projects = [
     description: "Comprehensive expense tracking for all vehicle-related costs",
     techStack: ["React Native", "Firebase", "Chart.js"],
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop",
-    size: "large"
+    size: "large",
+    url: "#" // Replace with actual project URL
   },
   {
     id: 2,
@@ -26,7 +27,8 @@ const projects = [
     description: "Modern portfolio with smooth animations and dark mode",
     techStack: ["React", "GSAP", "Tailwind CSS"],
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    size: "medium"
+    size: "medium",
+    url: "#" // Replace with actual project URL
   },
   {
     id: 3,
@@ -35,7 +37,8 @@ const projects = [
     description: "Personal fitness tracking with workout plans",
     techStack: ["Flutter", "SQLite", "HealthKit"],
     image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop",
-    size: "medium"
+    size: "medium",
+    url: "#" // Replace with actual project URL
   },
   {
     id: 4,
@@ -44,7 +47,8 @@ const projects = [
     description: "Full-featured online store with payment integration",
     techStack: ["Next.js", "Stripe", "PostgreSQL"],
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-    size: "large"
+    size: "large",
+    url: "#" // Replace with actual project URL
   },
   {
     id: 5,
@@ -53,7 +57,8 @@ const projects = [
     description: "Real-time analytics with interactive visualizations",
     techStack: ["React", "D3.js", "Node.js"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    size: "medium"
+    size: "medium",
+    url: "#" // Replace with actual project URL
   },
   {
     id: 6,
@@ -62,7 +67,8 @@ const projects = [
     description: "Smart scheduling with team collaboration",
     techStack: ["React Native", "MongoDB", "WebSocket"],
     image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=600&fit=crop",
-    size: "medium"
+    size: "medium",
+    url: "#" // Replace with actual project URL
   }
 ];
 
@@ -71,81 +77,27 @@ const projects = [
 // ==========================================
 
 const ProjectCard = ({ project, index }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef(null);
-  const imageRef = useRef(null);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    gsap.to(imageRef.current, {
-      scale: 1.08,
-      duration: 0.6,
-      ease: "power2.out"
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    gsap.to(imageRef.current, {
-      scale: 1,
-      duration: 0.6,
-      ease: "power2.out"
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current || !imageRef.current) return;
-
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-    gsap.to(imageRef.current, {
-      x: x * 20,
-      y: y * 20,
-      duration: 0.3,
-      ease: "power2.out"
-    });
-  };
-
   return (
-    <article
-      ref={cardRef}
+    <a
+      href={project.url}
+      target="_blank"
+      rel="noopener noreferrer"
       className={`project-card project-card--${project.size}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onMouseMove={handleMouseMove}
     >
       <div className="project-card__image-wrapper">
         <img
-          ref={imageRef}
           src={project.image}
           alt={project.title}
           className="project-card__image"
         />
-        <div className={`project-card__overlay ${isHovered ? 'active' : ''}`} />
+        <div className="project-card__overlay" />
       </div>
 
       <div className="project-card__content">
+        <h3 className="project-card__title">{project.title}</h3>
         <span className="project-card__category">{project.category}</span>
-
-        <div className="project-card__info">
-          <h3 className="project-card__title">{project.title}</h3>
-
-          <div className={`project-card__tech ${isHovered ? 'visible' : ''}`}>
-            {project.techStack.map((tech, i) => (
-              <span key={i} className="project-card__tech-tag">{tech}</span>
-            ))}
-          </div>
-        </div>
       </div>
-
-      <div className={`project-card__arrow ${isHovered ? 'visible' : ''}`}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M7 17L17 7M17 7H7M17 7V17" />
-        </svg>
-      </div>
-    </article>
+    </a>
   );
 };
 
@@ -214,7 +166,7 @@ const ProjectShowcase = () => {
     <section className="projects-section" ref={sectionRef}>
       <div className="projects-header">
         <h1 className="projects-title" ref={titleRef}>
-          <span className="projects-title__label">Selected</span>
+
           <span className="projects-title__main">Work</span>
         </h1>
       </div>

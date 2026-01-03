@@ -5,14 +5,17 @@
 
 /* Ensure hero (previous section) can stay above the splash until it's time */
 .hero-section {
-    position: relative; /* make sure hero has positioning */
-    z-index: 20;        /* higher than splash so it appears first */
+    position: relative;
+    /* make sure hero has positioning */
+    z-index: 20;
+    /* higher than splash so it appears first */
     width: 100%;
-    min-height: 100vh;   /* Ensure hero takes full viewport height */
-  }
-  
-  /* Splash wrapper should be lower than hero initially */
-  .splash-pin-wrapper {
+    min-height: 100vh;
+    /* Ensure hero takes full viewport height */
+}
+
+/* Splash wrapper should be lower than hero initially */
+.splash-pin-wrapper {
     position: relative;
     height: 100vh;
     width: 100%;
@@ -20,13 +23,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10; /* lower than hero */
+    z-index: 10;
+    /* lower than hero */
     background: black;
-    perspective: 1000px; /* help 3D transforms perform better */
-  }
-  
-  /* Background layer should be behind the title and below hero */
-  .zooming-bg-layer {
+    perspective: 1000px;
+    /* help 3D transforms perform better */
+}
+
+/* Background layer should be behind the title and below hero */
+.zooming-bg-layer {
     position: absolute;
     inset: 0;
     z-index: 0;
@@ -34,28 +39,37 @@
     will-change: transform, filter;
     background: inherit;
     backface-visibility: hidden;
-  }
-  
-  /* Title layer sits above the background but below hero until pin */
-  .splash-title-layer {
+}
+
+/* Title layer sits above the background but below hero until pin */
+.splash-title-layer {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5; /* above background, below hero */
+    z-index: 5;
+    /* above background, below hero */
     pointer-events: none;
-  }
+}
 
-  /* Glow pulse for immersive effect */
-  @keyframes glowPulse {
-    0% { text-shadow: 0 0 16px rgba(255,255,255,0.25), 0 0 40px rgba(102,126,234,0.25); }
-    50% { text-shadow: 0 0 28px rgba(255,255,255,0.45), 0 0 60px rgba(118,75,162,0.40); }
-    100% { text-shadow: 0 0 16px rgba(255,255,255,0.25), 0 0 40px rgba(102,126,234,0.25); }
-  }
+/* Glow pulse for immersive effect */
+@keyframes glowPulse {
+    0% {
+        text-shadow: 0 0 16px rgba(255, 255, 255, 0.25), 0 0 40px rgba(102, 126, 234, 0.25);
+    }
 
-  /* About page title styling */
-  .about-page-title {
+    50% {
+        text-shadow: 0 0 28px rgba(255, 255, 255, 0.45), 0 0 60px rgba(118, 75, 162, 0.40);
+    }
+
+    100% {
+        text-shadow: 0 0 16px rgba(255, 255, 255, 0.25), 0 0 40px rgba(102, 126, 234, 0.25);
+    }
+}
+
+/* About page title styling */
+.about-page-title {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -71,23 +85,23 @@
     will-change: transform, opacity, text-shadow;
     display: block;
     visibility: visible;
-    text-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
     animation: glowPulse 2.4s ease-in-out infinite;
     backface-visibility: hidden;
-  }
+}
 
-  /* When we animate, pause the glow for performance */
-  .about-page-title.glow-paused {
+/* When we animate, pause the glow for performance */
+.about-page-title.glow-paused {
     animation: none !important;
-  }
-  
-  /* When pinned, ScrollTrigger adds inline styles; ensure content that follows sits above */
-  .about-content-wrapper {
+}
+
+/* When pinned, ScrollTrigger adds inline styles; ensure content that follows sits above */
+.about-content-wrapper {
     position: relative;
     z-index: 30;
     background-color: #000;
-  }
-  
+}
+
 body {
     margin: 0;
     overflow-x: hidden;
@@ -152,11 +166,15 @@ body {
 
 /* Section Title */
 .section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 2rem;
+    font-family: "BBH Sans Bartle", sans-serif;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 100;
+    font-style: normal;
+    text-transform: lowercase;
     letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 2rem;
+    line-height: 0.95;
 }
 
 /* Experience Section */
@@ -174,12 +192,15 @@ body {
     position: relative;
     padding-left: 2rem;
 
-  }
-  .bbh {
+}
+
+.bbh {
     font-family: "BBH Sans Bartle", sans-serif;
-    font-weight: 100; /* As specified in the original file */
+    font-weight: 100;
+    /* As specified in the original file */
     font-style: normal;
-  }
+}
+
 .experience-item::before {
     content: '';
     position: absolute;

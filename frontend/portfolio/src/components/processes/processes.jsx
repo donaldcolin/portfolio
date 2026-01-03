@@ -113,23 +113,22 @@ export default function ServicesPage() {
     return (
         <div className="processes-container">
             <div className="processes-content">
-                <header className="processes-header">
-                    <h1 className="processes-title">Services</h1>
-                    <p className="processes-subtitle">Hover to explore the process</p>
-                    <a
-                        href="https://cal.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cta-button"
-                    >
-                        <span className="cta-icon">📞</span>
-                        Book a 5 min call
-                    </a>
-                </header>
-
                 <div className="processes-split-layout">
-                    {/* Left Column: Service Titles */}
-                    <div className="services-list">
+                    {/* Left Column: Title, CTA, and Service Titles */}
+                    <div className="processes-left-column">
+                        <header className="processes-header">
+                            <h1 className="processes-title">Services</h1>
+                            <a
+                                href="https://cal.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="cta-button"
+                            >
+                                <span className="cta-icon">📞</span>
+                                Book a 5 min call
+                            </a>
+                        </header>
+
                         <nav className="services-nav">
                             <ul>
                                 {services.map((service, index) => (
