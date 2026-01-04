@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 .projects-section {
-  background: #0a0a0a;
+  background: #000000;
   color: #ffffff;
   padding: 8rem 4rem;
   min-height: 100vh;
@@ -305,57 +305,25 @@
 
   .project-card:nth-child(3n) {
     grid-column: span 1;
+    aspect-ratio: 1 / 1;
   }
 
   .project-card {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     border-radius: 16px;
   }
 
   .project-card__content {
-    padding: 1.25rem;
+    padding: 1.5rem;
   }
 
   .project-card__category {
-    font-size: 0.6rem;
-    padding: 0.4rem 0.85rem;
-    letter-spacing: 0.12em;
+    font-size: 0.8rem;
   }
 
   .project-card__title {
-    font-size: 1.4rem;
-    letter-spacing: -0.02em;
-    font-weight: 400;
-  }
-
-  .project-card__description {
-    font-size: 0.8rem;
-    max-width: 100%;
-    line-height: 1.55;
-  }
-
-  .project-card__tech-tag {
-    font-size: 0.6rem;
-    padding: 0.35rem 0.7rem;
-  }
-
-  .project-card__arrow {
-    width: 40px;
-    height: 40px;
-    top: 1.25rem;
-    right: 1.25rem;
-  }
-
-  .project-card__arrow svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* Show description and tech by default on mobile */
-  .project-card__description,
-  .project-card__tech {
-    opacity: 1;
-    transform: translateY(0);
+    font-size: 1.75rem;
+    margin-bottom: 0.35rem;
   }
 }
 
@@ -365,22 +333,16 @@
     padding: 3rem 1rem;
   }
 
-  .projects-title__label {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-  }
-
   .projects-title__main {
     font-size: 3.5rem;
-    letter-spacing: -0.03em;
   }
 
   .project-card {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 4 / 5;
   }
 
   .project-card__title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 }
 

@@ -45,6 +45,19 @@ export default function ServicesPage() {
                 'Prototyping and user testing iterations',
                 'Cross-functional team coordination and delivery management'
             ]
+        },
+        {
+            id: 4,
+            title: 'SaaS Product Engineering',
+            icon: '🚀',
+            process: [
+                'Long-term roadmap planning & architecture design (6-12 months)',
+                'Dedicated cross-functional team assembly',
+                'Agile development cycles with continuous delivery',
+                'Scalable cloud infrastructure & database optimization',
+                'MVP launch, metric analysis & user feedback integration',
+                'Ongoing feature scaling & security maintenance'
+            ]
         }
     ];
 

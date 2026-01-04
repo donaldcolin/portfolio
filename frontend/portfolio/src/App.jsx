@@ -52,14 +52,13 @@ const App = () => {
       <div style={{ display: loading ? 'none' : 'block' }}>
 
 
-        <Navbar />
+
         <Hero />
         <About />
         <LifeTimeline />
         {/* <TestimonialSection/> */}
         <Processes />
         <Projects />
-        <SeparatorAlt />
         <Life />
         <Footer />
       </div>

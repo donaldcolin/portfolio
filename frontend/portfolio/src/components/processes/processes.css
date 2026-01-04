@@ -17,7 +17,7 @@
     margin: 0 auto;
     padding: 8rem 5rem;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: transparent;
+    background-color: #000;
 }
 
 /* Split Text Animation Styles */
@@ -27,17 +27,7 @@
 }
 
 /* Light Mode Override */
-@media (prefers-color-scheme: light) {
-    .processes-container {
-        --accent: hsl(0 0% 0%);
-        --text-primary: hsl(0 0% 8%);
-        --text-secondary: hsl(0 0% 35%);
-        --text-muted: hsl(0 0% 50%);
-        --border-color: hsl(0 0% 85%);
-        --card-bg: hsl(0 0% 97%);
-        --hover-glow: hsl(0 0% 0% / 0.04);
-    }
-}
+/* Light Mode Override REMOVED to enforce dark theme */
 
 .processes-content {
     display: flex;
